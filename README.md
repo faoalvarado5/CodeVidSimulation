@@ -1,2 +1,2 @@
 # proyecto2
-Simulación de distribucíon de CODE-VID.
+Simulación de distribución de CODE-VID.
