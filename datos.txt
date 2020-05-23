@@ -1,0 +1,55 @@
+Clases:
+
+    Agente
+
+        1. Rectos: viajan en l´ınea recta, hasta chocar con pared y rebotar de forma sim´etrica con respecto a la normal que llevaban. (Representando
+        2 personas que viajan sin punto deﬁnido). N´otese que dado un punto en que se encuentran en el mapa, se van a mover hacia un vector, que puede no ser uno 
+        de los 8 puntos cardinales de los cuadrados que lo rodean, sino que se debe mover en l´ınea recta hacia un punto ﬁjo, y rebotar acorde al topar con un muro. 
+        N´otese que la normal, es la recta perpendicular a la recta del obst´aculo y que el rebote debe ser sim´etrico con esta.
+        2. Estacionales: Viajan siguiendo rutas preﬁjadas y luego, regresando al punto de origen (Representando rutas de transporte pu´blico)
+        3. Aleatorios: Se mueven aleatoriamente hacia puntos relativamente cercanos en el mapa. (Representando servicios de transporte privado)
+        4. Est´aticos: No se mueven de donde se encuentran. (Equivalente a quienes guardan una cuarentena).
+
+
+    Atributos:
+	Tipo
+        Estado
+	Velocida_maxima
+	Velocidad_minima
+	Tiempo_enfermo
+	
+
+    Mapa
+	
+	El mapa debe de ser una malla, donde se mueven los agentes, los cuales
+	deben dispersarse aletoreamente y en principio, no habr´ıa problema con que
+	dos agentes coincidan en una casilla particular.
+	El mapa debe ser matricial y por ende tener un largo y ancho definidos.
+	Puede que en el mapa hayan paredes u obst´aculos que agentes no pueden
+	cruzar (simulando pol´ıticas de restricci´on o confinamiento).
+	A continuaci´on se describe lo que ocurre cuando un agente se encuentra
+	con una pared en su ruta, dependiendo de su tipo:
+	1. Rectos: se comportan tal cual se encontraran con el fin de la matriz,
+	rebotando de forma sim´etrica a la normal de la pared.
+	2. Estacionales: Se regresan en su ruta, dejando la otra parte de su ruta
+	sin completar.
+	3. Aleatorios: Vuelven a buscar un punto aleatorio hasta que ´este no
+	implique volver a toparse con un muro.
+	4. Est´aticos: Estos no deber´ıan de verse afectados por una pared en el ´
+	mapa (dado que no se mueven).
+
+	
+   Atributos:
+
+	Largo
+	Ancho
+	Dias_conrriendo
+	Cantidad_enfermos_actuales
+	Cantidad_sanos_actuales
+	Cantidad_recuperados_actuales
+	Probabilidad_de_muerte
+	Dias_de_muerte
+	Dias_de_recuperacion
+	Matriz_de_contagio
+	Reinfeccion
+	Dias_totales
