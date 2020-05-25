@@ -10,7 +10,6 @@ public class GuiMenu {
     String ruta_mapa;
     String ruta_enfermedad;
 
-
     GuiMenu() {
 
         f = new JFrame();//creating instance of JFrame
@@ -64,6 +63,7 @@ public class GuiMenu {
             if(archivo != null){
                  ruta_mapa = archivo.getAbsolutePath();
             }
+
         }
     }
 
@@ -86,7 +86,7 @@ public class GuiMenu {
             System.out.println(ruta_mapa);
             System.out.println(ruta_enfermedad);
             if(ruta_agentes == null || ruta_mapa == null || ruta_enfermedad == null){
-                JOptionPane.showMessageDialog(null, "Las rutas no pueden ser vacías, revíselas nuevamente");
+                JOptionPane.showMessageDialog(null, "Error al cargar archivos, intentelo nuevamente.");
             }else{
                 new GuiMapa(ruta_agentes,ruta_mapa,ruta_enfermedad);
             }
