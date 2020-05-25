@@ -2,6 +2,8 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GuiMenu {
 
@@ -88,7 +90,9 @@ public class GuiMenu {
             if(ruta_agentes == null || ruta_mapa == null || ruta_enfermedad == null){
                 JOptionPane.showMessageDialog(null, "Error al cargar archivos, intentelo nuevamente.");
             }else{
+
                 new GuiMapa(ruta_agentes,ruta_mapa,ruta_enfermedad);
+
             }
         }
     }
