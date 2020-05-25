@@ -25,12 +25,22 @@ public class GuiMapa {
         for (int i = 0; i < 20; i++) {
             arreglo_de_curados.add(i);
         }
+        for (int i = 0; i < 20; i++) {
+            arreglo_de_enfermos.add(i*2);
+        }
+        for (int i = 0; i < 20; i++) {
+            arreglo_de_sanos.add(i+5);
+        }
 
-        tabbedPane.add("graphic", new Grafica(arreglo_de_curados,arreglo_de_enfermos,arreglo_de_sanos));
+        tabbedPane.add("Grafica para total", new GraficaMultiple(arreglo_de_enfermos,arreglo_de_curados,arreglo_de_sanos));
+        tabbedPane.add("Grafica para curados", new GraficaIndividual(arreglo_de_enfermos,0));
+        tabbedPane.add("Grafica para enfermos", new GraficaIndividual(arreglo_de_curados,1));
+        tabbedPane.add("Grafica para sanos", new GraficaIndividual(arreglo_de_sanos,2));
         frame.add( tabbedPane );
-        frame.setSize( 400, 400 );
+        frame.setSize( 1000, 1000 );
         frame.setLocation( 200, 200 );
         frame.setVisible( true );
+
 
 
     }
