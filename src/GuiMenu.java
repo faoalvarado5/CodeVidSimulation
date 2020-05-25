@@ -16,8 +16,8 @@ public class GuiMenu {
         f = new JFrame();//creating instance of JFrame
 
         JButton boton_agentes = new JButton("Cargar agentes");//creating instance of JButton
-        JButton boton_mapa = new JButton("Cargar agentes");//creating instance of JButton
-        JButton boton_enferdad = new JButton("Cargar agentes");//creating instance of JButton
+        JButton boton_mapa = new JButton("Cargar mapa");//creating instance of JButton
+        JButton boton_enferdad = new JButton("Cargar enfermedad");//creating instance of JButton
         JButton boton_comenzar = new JButton("Comenzar");//creating instance of JButton
 
         boton_agentes.setBounds(70, 100, 150, 40);

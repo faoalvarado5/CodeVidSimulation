@@ -20,11 +20,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3baf9ccf-c343-43d2-9bc8-2134073e8779" name="Default Changelist" comment="">
+<<<<<<< HEAD
       <change afterPath="$PROJECT_DIR$/.idea/libraries/chartcat_limited.xml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/controlador.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/grafica.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/proyecto2.iml" beforeDir="false" afterPath="$PROJECT_DIR$/proyecto2.iml" afterDir="false" />
+=======
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/GuiMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GuiMenu.java" afterDir="false" />
+>>>>>>> 21fc8d807fdd343dd682e5e80e4d5b359aa96ed8
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,16 +45,6 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-  </component>
-  <component name="GroovyConsoleState">
-    <option name="list">
-      <list>
-        <Entry>
-          <option name="moduleName" value="proyecto2" />
-          <option name="url" value="file://$APPLICATION_CONFIG_DIR$/consoles/groovy/groovy_console.groovy" />
-        </Entry>
-      </list>
-    </option>
   </component>
   <component name="ProjectId" id="1cIK5govqX8oYN0b8k0Kq9IyL6F" />
   <component name="ProjectViewState">
@@ -100,8 +95,14 @@
       <option name="presentableId" value="Default" />
       <updated>1590210486085</updated>
       <workItem from="1590210494129" duration="946000" />
+<<<<<<< HEAD
       <workItem from="1590294407834" duration="3189000" />
       <workItem from="1590374238479" duration="5952000" />
+=======
+      <workItem from="1590294407834" duration="2396000" />
+      <workItem from="1590356182935" duration="670000" />
+      <workItem from="1590359614345" duration="230000" />
+>>>>>>> 21fc8d807fdd343dd682e5e80e4d5b359aa96ed8
     </task>
     <servers />
   </component>
@@ -121,6 +122,7 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
+<<<<<<< HEAD
     <state x="141" y="5" key="#Project_Structure" timestamp="1590376398916">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
@@ -165,5 +167,27 @@
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state width="1397" height="291" key="GridCell.Tab.1.right/0.0.1440.900@0.0.1440.900" timestamp="1590378247040" />
+=======
+    <state width="1877" height="282" key="GridCell.Tab.0.bottom" timestamp="1590359844202">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1397" height="220" key="GridCell.Tab.0.bottom/0.0.1440.900@0.0.1440.900" timestamp="1590296800558" />
+    <state width="1877" height="282" key="GridCell.Tab.0.bottom/1920.89.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1590359844202" />
+    <state width="1877" height="282" key="GridCell.Tab.0.center" timestamp="1590359844202">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1397" height="220" key="GridCell.Tab.0.center/0.0.1440.900@0.0.1440.900" timestamp="1590296800558" />
+    <state width="1877" height="282" key="GridCell.Tab.0.center/1920.89.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1590359844202" />
+    <state width="1877" height="282" key="GridCell.Tab.0.left" timestamp="1590359844202">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1397" height="220" key="GridCell.Tab.0.left/0.0.1440.900@0.0.1440.900" timestamp="1590296800558" />
+    <state width="1877" height="282" key="GridCell.Tab.0.left/1920.89.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1590359844202" />
+    <state width="1877" height="282" key="GridCell.Tab.0.right" timestamp="1590359844202">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1397" height="220" key="GridCell.Tab.0.right/0.0.1440.900@0.0.1440.900" timestamp="1590296800558" />
+    <state width="1877" height="282" key="GridCell.Tab.0.right/1920.89.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1590359844202" />
+>>>>>>> 21fc8d807fdd343dd682e5e80e4d5b359aa96ed8
   </component>
 </project>
