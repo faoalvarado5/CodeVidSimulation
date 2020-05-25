@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class enfermedad {
@@ -6,15 +7,17 @@ public class enfermedad {
     private int cantidad_enfermos_actuales;
     private int cantidad_sanos_actuales;
     private int cantidad_recuperados_actuales;
-    private int probabilidad_muerte;
+    private float probabilidad_muerte;
     private int dias_de_muerte;
     private int dias_de_recuperacion;
-    private float[][] matriz_de_cotagio;
+    private ArrayList<ArrayList<Float>> matriz_de_cotagio;
     private int reinfeccion;
     private int dias_totales;
 
+    public enfermedad() {
+    }
 
-    public enfermedad(int dias_corriendo, int cantidad_enfermos_actuales, int cantidad_sanos_actuales, int cantidad_recuperados_actuales, int probabilidad_muerte, int dias_de_muerte, int dias_de_recuperacion, float[][] matriz_de_cotagio, int reinfeccion, int dias_totales) {
+    public enfermedad(int dias_corriendo, int cantidad_enfermos_actuales, int cantidad_sanos_actuales, int cantidad_recuperados_actuales, float probabilidad_muerte, int dias_de_muerte, int dias_de_recuperacion, ArrayList<ArrayList<Float>> matriz_de_cotagio, int reinfeccion, int dias_totales) {
         this.dias_corriendo = dias_corriendo;
         this.cantidad_enfermos_actuales = cantidad_enfermos_actuales;
         this.cantidad_sanos_actuales = cantidad_sanos_actuales;
@@ -59,11 +62,11 @@ public class enfermedad {
         this.cantidad_recuperados_actuales = cantidad_recuperados_actuales;
     }
 
-    public int getProbabilidad_muerte() {
+    public float getProbabilidad_muerte() {
         return probabilidad_muerte;
     }
 
-    public void setProbabilidad_muerte(int probabilidad_muerte) {
+    public void setProbabilidad_muerte(float probabilidad_muerte) {
         this.probabilidad_muerte = probabilidad_muerte;
     }
 
@@ -83,11 +86,11 @@ public class enfermedad {
         this.dias_de_recuperacion = dias_de_recuperacion;
     }
 
-    public float[][] getMatriz_de_cotagio() {
+    public ArrayList<ArrayList<Float>> getMatriz_de_cotagio() {
         return matriz_de_cotagio;
     }
 
-    public void setMatriz_de_cotagio(float[][] matriz_de_cotagio) {
+    public void setMatriz_de_cotagio(ArrayList<ArrayList<Float>> matriz_de_cotagio) {
         this.matriz_de_cotagio = matriz_de_cotagio;
     }
 
@@ -117,7 +120,7 @@ public class enfermedad {
                 ", probabilidad_muerte=" + probabilidad_muerte +
                 ", dias_de_muerte=" + dias_de_muerte +
                 ", dias_de_recuperacion=" + dias_de_recuperacion +
-                ", matriz_de_cotagio=" + Arrays.toString(matriz_de_cotagio) +
+                ", matriz_de_cotagio=" + matriz_de_cotagio +
                 ", reinfeccion=" + reinfeccion +
                 ", dias_totales=" + dias_totales +
                 '}';

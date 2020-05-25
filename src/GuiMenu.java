@@ -98,7 +98,7 @@ public class GuiMenu {
                          System.out.println(mapa.toString());
                      }
 
-                 } catch(FileNotFoundException err) {
+                 } catch(Exception err) {
                      JOptionPane.showMessageDialog(null, err);
                  }
             }
@@ -113,6 +113,56 @@ public class GuiMenu {
             File archivo = fileChooser.getSelectedFile();
             if(archivo != null){
                 ruta_enfermedad = archivo.getAbsolutePath();
+                enfermedad enfermedad = new enfermedad();
+
+                try{
+
+                    Scanner myReader = new Scanner(archivo);
+
+                    //Aqui leo la primera linea donde viene la probabilidad de muerte.
+                    String line1 = myReader.nextLine();
+                    enfermedad.setProbabilidad_muerte(Float.parseFloat(line1));
+
+                    //Aqui leo la segunda linea donde viene la cantidad de segundos para morir.
+                    String line2 = myReader.nextLine();
+                    enfermedad.setDias_de_muerte(Integer.parseInt(line2));
+
+                    //Aqui leo la tercera linea donde viene la cantidad de segundos para curarse.
+                    String line3 = myReader.nextLine();
+                    enfermedad.setDias_de_recuperacion(Integer.parseInt(line3));
+
+                    ArrayList<ArrayList<Float>> matriz = new ArrayList<ArrayList<Float>>();
+
+                    for (int x=0; x<4; x++) {
+
+                        //Aqui leo y asigno las probabilidades de contagio segun cada individuo.
+                        String linex = myReader.nextLine();
+                        String[] probabilidadesx = linex.split(" ");
+                        ArrayList<Float> arrayList = new ArrayList<Float>();
+
+                        arrayList.add(Float.parseFloat(probabilidadesx[0]));
+                        arrayList.add(Float.parseFloat(probabilidadesx[1]));
+                        arrayList.add(Float.parseFloat(probabilidadesx[2]));
+                        arrayList.add(Float.parseFloat(probabilidadesx[3]));
+                        matriz.add(arrayList);
+                    }
+                    enfermedad.setMatriz_de_cotagio(matriz);
+
+                    //Aqui leo la ultima linea donde indica si hay posibilidad de reinfeccion.
+                    String lastLine = myReader.nextLine();
+                    enfermedad.setReinfeccion(Integer.parseInt(lastLine));
+
+                    enfermedad.setDias_corriendo(0);
+                    enfermedad.setCantidad_enfermos_actuales(0);
+                    enfermedad.setCantidad_recuperados_actuales(0);
+                    enfermedad.setCantidad_sanos_actuales(0);
+                    enfermedad.setDias_totales(Integer.MAX_VALUE);
+
+                    System.out.println(enfermedad.toString());
+
+                } catch (Exception err) {
+                    JOptionPane.showMessageDialog(null, err);
+                }
             }
         }
     }
