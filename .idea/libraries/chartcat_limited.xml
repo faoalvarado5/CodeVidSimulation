@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="chartcat_limited">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/libraries/lib/chartcat_limited.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libraries/lib/reportcat_limited.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libraries/lib/smartsync_limited.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
