@@ -1,30 +1,14 @@
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FontMetrics;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Point;
-import java.awt.RenderingHints;
-import java.awt.Stroke;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 
-/**
- *
- * @author "Hovercraft Full of Eels", "Rodrigo Azevedo"
- *
- * This is an improved version of Hovercraft Full of Eels (https://stackoverflow.com/users/522444/hovercraft-full-of-eels)
- * answer on StackOverflow: https://stackoverflow.com/a/8693635/753012
- *
- * GitHub user @maritaria has made some performance improvements which can be found in the comment section of this Gist.
- */
-public class grafica extends JPanel {
-    private int width = 800;
+
+public class Grafica extends JPanel {
+
+    JFrame f;
+
+    private int width = 700;
     private int height = 400;
     private int padding_de_la_grafica = 25;
     private int padding_del_label = 25;
@@ -36,30 +20,39 @@ public class grafica extends JPanel {
     private int cantidad_de_personas_en_la_prueba = 20;
     //Esta es la cantidad de divisiones que tendrá la gráfica en el eje X, dependera mucho de los dias
     private int numberYDivisions = 20;
-    private List<Integer> scores;
+    private List<Integer> arreglo_de_curados;
+    private List<Integer> arreglo_de_enfermos;
+    private List<Integer> arreglo_de_sanos;
+    private Graphics2D grafi = null;
 
-    public grafica(List<Integer> scores) {
-        this.scores = scores;
+    public Grafica(List<Integer> arreglo_de_curados,List<Integer> arreglo_de_enfermos,List<Integer> arreglo_de_sanos) {
+
+        this.arreglo_de_curados = arreglo_de_curados;
+        this.arreglo_de_enfermos = arreglo_de_enfermos;
+        this.arreglo_de_sanos = arreglo_de_sanos;
+
     }
 
-    @Override
     protected void paintComponent(Graphics g) {
 
-
+        super.paintComponent( g );
         Graphics2D grafica = (Graphics2D) g;
+
+        grafica.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                RenderingHints.VALUE_ANTIALIAS_ON);
 
         // Esto viene siendo tamaño de la ventana - 2 (padding de la gráfica) - padding del texto / tamaño de puntos que
         // hay en la grafica - 1. Esto viene siendo para el ancho
-        double xScale = ((double) getWidth() - (2 * padding_de_la_grafica) - padding_del_label) / (scores.size() - 1);
+        double xScale = ((double) getWidth() - (2 * padding_de_la_grafica) - padding_del_label) / (arreglo_de_curados.size() - 1);
         // Se divide por el max y min score porque limita el largo de la gráfica
         double yScale = ((double) getHeight() - 2 * padding_de_la_grafica - padding_del_label) / (getMaxScore() - getMinScore());
 
         // Este loop lo que permite es meter los puntos de la gráfica
         // En este caso [1,2,6,8] existira una linea que vaya del (1,2) al (6,8)
         List<Point> puntos_en_la_grafica = new ArrayList<>();
-        for (int i = 0; i < scores.size(); i++) {
+        for (int i = 0; i < arreglo_de_curados.size(); i++) {
             int x1 = (int) (i * xScale + padding_de_la_grafica + padding_del_label);
-            int y1 = (int) ((getMaxScore() - scores.get(i)) * yScale + padding_de_la_grafica);
+            int y1 = (int) ((getMaxScore() - arreglo_de_curados.get(i)) * yScale + padding_de_la_grafica);
             puntos_en_la_grafica.add(new Point(x1, y1));
         }
 
@@ -72,7 +65,7 @@ public class grafica extends JPanel {
             int x1 = tamaño_del_punto + padding_de_la_grafica + padding_del_label;
             int y0 = getHeight() - ((i * (getHeight() - padding_de_la_grafica * 2 - padding_del_label)) / cantidad_de_personas_en_la_prueba + padding_de_la_grafica + padding_del_label);
             int y1 = y0;
-            if (scores.size() > 0) {
+            if (arreglo_de_curados.size() > 0) {
                 grafica.setColor(gridColor);
                 grafica.drawLine(padding_de_la_grafica + padding_del_label + 1 + tamaño_del_punto, y0, getWidth() - padding_de_la_grafica, y1);
                 grafica.setColor(Color.BLACK);
@@ -87,13 +80,13 @@ public class grafica extends JPanel {
         }
 
         // En esta se ponen los labels en el eje Y
-        for (int i = 0; i < scores.size(); i++) {
-            if (scores.size() > 1) {
-                int x0 = i * (getWidth() - padding_de_la_grafica * 2 - padding_del_label) / (scores.size() - 1) + padding_de_la_grafica + padding_del_label;
+        for (int i = 0; i < arreglo_de_curados.size(); i++) {
+            if (arreglo_de_curados.size() > 1) {
+                int x0 = i * (getWidth() - padding_de_la_grafica * 2 - padding_del_label) / (arreglo_de_curados.size() - 1) + padding_de_la_grafica + padding_del_label;
                 int x1 = x0;
                 int y0 = getHeight() - padding_de_la_grafica - padding_del_label;
                 int y1 = y0 - tamaño_del_punto;
-                if ((i % ((int) ((scores.size() / 20.0)) + 1)) == 0) {
+                if ((i % ((int) ((arreglo_de_curados.size() / 20.0)) + 1)) == 0) {
                     grafica.setColor(gridColor);
                     grafica.drawLine(x0, getHeight() - padding_de_la_grafica - padding_del_label - 1 - tamaño_del_punto, x1, padding_de_la_grafica);
                     grafica.setColor(Color.BLACK);
@@ -125,16 +118,14 @@ public class grafica extends JPanel {
             int ovalH = tamaño_del_punto;
             grafica.fillOval(x, y, ovalW, ovalH);
         }
-    }
 
-//    @Override
-//    public Dimension getPreferredSize() {
-//        return new Dimension(width, height);
-//    }
+        grafi = grafica;
+
+    }
 
     private double getMinScore() {
         double minScore = Double.MAX_VALUE;
-        for (Integer score : scores) {
+        for (Integer score : arreglo_de_curados) {
             minScore = Math.min(minScore, score);
         }
         return minScore;
@@ -142,36 +133,9 @@ public class grafica extends JPanel {
 
     private double getMaxScore() {
         double maxScore = Double.MIN_VALUE;
-        for (Integer score : scores) {
+        for (Integer score : arreglo_de_curados) {
             maxScore = Math.max(maxScore, score);
         }
         return maxScore;
-    }
-
-    private static void createAndShowGui() {
-
-        // Este debería ser la cantidad de dias
-        List<Integer> dias_del_virus_para_la_prueba = new ArrayList<>();
-        // Aqui van los puntos en el eje X
-        for (int i = 0; i < 20; i++) {
-            dias_del_virus_para_la_prueba.add(i);
-        }
-
-        grafica mainPanel = new grafica(dias_del_virus_para_la_prueba);
-        mainPanel.setPreferredSize(new Dimension(800, 600));
-        JFrame frame = new JFrame("DrawGraph");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.getContentPane().add(mainPanel);
-        frame.pack();
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
-    }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                createAndShowGui();
-            }
-        });
     }
 }
