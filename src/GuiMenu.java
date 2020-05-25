@@ -2,8 +2,10 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class GuiMenu {
 
@@ -11,6 +13,9 @@ public class GuiMenu {
     String ruta_agentes;
     String ruta_mapa;
     String ruta_enfermedad;
+    agente agentes[][];
+    mapa mapa;
+    enfermedad enfermedad;
 
     GuiMenu() {
 
@@ -64,8 +69,39 @@ public class GuiMenu {
             File archivo = fileChooser.getSelectedFile();
             if(archivo != null){
                  ruta_mapa = archivo.getAbsolutePath();
-            }
+                 mapa mapa = new mapa();
+                 try {
 
+                     Scanner myReader = new Scanner(archivo);
+
+                     //Aqui leo la primera linea donde vienen las dimenciones del mapa
+                     String line1 = myReader.nextLine();
+                     String[] dimenciones = line1.split(" ");
+                     mapa.setAncho(Integer.parseInt(dimenciones[0]));
+                     mapa.setLargo(Integer.parseInt(dimenciones[1]));
+
+                     if(myReader.hasNextLine()) {
+
+                         //Aqui leo la cantidad de paredes que tiene el mapa.
+                         String line2 = myReader.nextLine();
+                         int paredes = Integer.parseInt(line2);
+
+                         while (paredes != 0) {
+
+                             //Aqui leo y asigno las dimenciones de las paredes hasta que ya no hayan mas.
+                             String linex = myReader.nextLine();
+                             String[] dimenciones2 = linex.split(" ");
+                             pared pared = new pared(Integer.parseInt(dimenciones2[0]), Integer.parseInt(dimenciones2[1]), Integer.parseInt(dimenciones2[2]), Integer.parseInt(dimenciones2[3]));
+                             mapa.addPared(pared);
+                             paredes -= 1;
+                         }
+                         System.out.println(mapa.toString());
+                     }
+
+                 } catch(FileNotFoundException err) {
+                     JOptionPane.showMessageDialog(null, err);
+                 }
+            }
         }
     }
 
@@ -84,9 +120,6 @@ public class GuiMenu {
     class comenzar_prueba implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            System.out.println(ruta_agentes);
-            System.out.println(ruta_mapa);
-            System.out.println(ruta_enfermedad);
             if(ruta_agentes == null || ruta_mapa == null || ruta_enfermedad == null){
                 JOptionPane.showMessageDialog(null, "Error al cargar archivos, intentelo nuevamente.");
             }else{
