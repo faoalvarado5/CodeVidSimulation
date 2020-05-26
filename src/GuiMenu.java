@@ -13,9 +13,6 @@ public class GuiMenu {
     String ruta_agentes;
     String ruta_mapa;
     String ruta_enfermedad;
-    ArrayList<agente> agentes;
-    mapa mapa;
-    enfermedad enfermedad;
 
     GuiMenu() {
 
@@ -57,7 +54,7 @@ public class GuiMenu {
             File archivo = fileChooser.getSelectedFile();
             if(archivo != null){
                 ruta_agentes = archivo.getAbsolutePath();
-
+                ArrayList<agente> agentes = new ArrayList<agente>();
                 try {
 
                     Scanner myReader = new Scanner(archivo);
@@ -66,28 +63,32 @@ public class GuiMenu {
                     String line1 = myReader.nextLine();
                     int x = Integer.parseInt(line1);
 
+                    //Aqui recorro la cantidad de agentes que vienen en el documento.
                     for (int i=0; i<x; i++) {
 
                         int cantidad = Integer.parseInt(myReader.nextLine());
 
+                        int tipo = Integer.parseInt(myReader.nextLine());
+                        String velocidades = myReader.nextLine();
+                        String[] velocidades2 = velocidades.split(" ");
+                        String estado = myReader.nextLine();
+
+                        agente agente = new agente();
+
+                        //Aqui hago la lista de cada uno de los agentes segun su tipo especificado en el documento.
                         for (int y=0; y<cantidad; y++) {
 
-                            agente agente = new agente();
-                            int tipo = Integer.parseInt(myReader.nextLine());
-                            String velocidades = myReader.nextLine();
-                            String[] velocidades2 = velocidades.split(" ");
-                            String estado = myReader.nextLine();
                             agente.setVelocidad_maxima(Integer.parseInt(velocidades2[0]));
                             agente.setVelocidad_minima(Integer.parseInt(velocidades2[1]));
                             agente.setTipo(tipo);
                             agente.setEstado(estado);
                             agente.setPosicion_en_eje_x(0);
                             agente.setPosicion_en_eje_y(0);
+                            agente.setTiempo_enfermo(0);
                             agentes.add(agente);
-
                         }
-                        System.out.println(agentes.toString());
                     }
+                    System.out.println(agentes.toString());
 
                 } catch(Exception err) {
                     JOptionPane.showMessageDialog(null, err);
