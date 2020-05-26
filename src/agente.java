@@ -30,8 +30,8 @@ public class agente {
         this.posicion_en_eje_x = -this.posicion_en_eje_x;
     }
 
-    public void invertir_posicion_y(){
-        this.posicion_en_eje_y = -this.posicion_en_eje_y;
+    public void invertir_velocidad_y(){
+        this.velocidad_y = -this.velocidad_y;
     }
 
     public int getTipo() {

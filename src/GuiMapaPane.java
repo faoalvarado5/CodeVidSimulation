@@ -17,20 +17,21 @@ public class GuiMapaPane extends JPanel implements ActionListener {
         personas = new agente[cantidad_de_personas];
 
         for(int i = 0; i < cantidad_de_personas; i++){
-            for (int j = 0; j < cantidad_de_curados; j++) {
-                personas[i] = new agente(0,"c",Math.random()*velocidad_maxima[0] + velocidad_minima[0],
-                        Math.random()*velocidad_maxima[0] + velocidad_minima[0],0,Math.random()*390,
-                        Math.random()*660);
-            }
-            for (int j = 0; j < cantidad_de_enfermos; j++) {
-                personas[i] = new agente(0,"e",Math.random()*velocidad_maxima[0] + velocidad_minima[0],
-                        Math.random()*velocidad_maxima[0] + velocidad_minima[0],0,Math.random()*390,
-                        Math.random()*660);
-            }
-            for (int j = 0; j < cantidad_de_sanos; j++) {
-                personas[i] = new agente(0,"s",Math.random()*velocidad_maxima[0] + velocidad_minima[0],
-                        Math.random()*velocidad_maxima[0] + velocidad_minima[0],0,Math.random()*390,
-                        Math.random()*660);
+
+            if(cantidad_de_curados > 0) {
+                personas[i] = new agente(0, "c", Math.random() * velocidad_maxima[i] + velocidad_minima[i],
+                        Math.random() * velocidad_maxima[i] + velocidad_minima[i], 0, Math.random() * 390,
+                        Math.random() * 660);
+                cantidad_de_curados--;
+            }else if(cantidad_de_enfermos > 0) {
+                personas[i] = new agente(0, "e", Math.random() * velocidad_maxima[i] + velocidad_minima[i],
+                        Math.random() * velocidad_maxima[i] + velocidad_minima[i], 0, Math.random() * 390,
+                        Math.random() * 660);
+                cantidad_de_enfermos--;
+            }else {
+                personas[i] = new agente(0, "s", Math.random() * velocidad_maxima[i] + velocidad_minima[i],
+                        Math.random() * velocidad_maxima[i] + velocidad_minima[i], 0, Math.random() * 390,
+                        Math.random() * 660);
             }
         }
 
@@ -46,8 +47,17 @@ public class GuiMapaPane extends JPanel implements ActionListener {
         Ellipse2D[] persona = new Ellipse2D.Double[cantidad_de_personas];
 
         for(int i = 0; i < cantidad_de_personas; i++){
-             persona[i] = new Ellipse2D.Double(personas[i].getVelocidad_x(),personas[i].getVelocidad_y(),10,10);
-             mapa.setPaint(Color.BLUE);
+             persona[i] = new Ellipse2D.Double(personas[i].getPosicion_en_eje_x(),personas[i].getPosicion_en_eje_y(),10,10);
+
+             if(personas[i].getEstado().equals("e")){
+                 mapa.setPaint(Color.RED);
+             }else if(personas[i].getEstado().equals("c")){
+                 mapa.setPaint(Color.BLUE);
+             }else{
+                 mapa.setPaint(Color.GREEN);
+             }
+
+
              mapa.fill(persona[i]);
         }
 
@@ -56,11 +66,11 @@ public class GuiMapaPane extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e){
 
         for(int i = 0; i < cantidad_de_personas;i++){
-            if(personas[i].getPosicion_en_eje_x() < 0 || personas[i].getPosicion_en_eje_x() > 390) personas[i].invertir_posicion_x();
-            if(personas[i].getPosicion_en_eje_y() < 0 || personas[i].getPosicion_en_eje_y() > 660) personas[i].invertir_posicion_y();
+            if(personas[i].getPosicion_en_eje_x() < 0 || personas[i].getPosicion_en_eje_x() > 390) personas[i].invertir_velocidad_x();
+            if(personas[i].getPosicion_en_eje_y() < 0 || personas[i].getPosicion_en_eje_y() > 660) personas[i].invertir_velocidad_y();
 
             personas[i].setPosicion_en_eje_x(personas[i].getVelocidad_x());
-            personas[i].setPosicion_en_eje_y(personas[i].getPosicion_en_eje_y());
+            personas[i].setPosicion_en_eje_y(personas[i].getVelocidad_y());
             repaint();
         }
     }
