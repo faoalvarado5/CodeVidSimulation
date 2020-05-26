@@ -13,7 +13,7 @@ public class GuiMenu {
     String ruta_agentes;
     String ruta_mapa;
     String ruta_enfermedad;
-    agente agentes[][];
+    ArrayList<agente> agentes;
     mapa mapa;
     enfermedad enfermedad;
 
@@ -57,6 +57,41 @@ public class GuiMenu {
             File archivo = fileChooser.getSelectedFile();
             if(archivo != null){
                 ruta_agentes = archivo.getAbsolutePath();
+
+                try {
+
+                    Scanner myReader = new Scanner(archivo);
+
+                    //Aqui leo la primera linea donde vienen la cantidad de agentes.
+                    String line1 = myReader.nextLine();
+                    int x = Integer.parseInt(line1);
+
+                    for (int i=0; i<x; i++) {
+
+                        int cantidad = Integer.parseInt(myReader.nextLine());
+
+                        for (int y=0; y<cantidad; y++) {
+
+                            agente agente = new agente();
+                            int tipo = Integer.parseInt(myReader.nextLine());
+                            String velocidades = myReader.nextLine();
+                            String[] velocidades2 = velocidades.split(" ");
+                            String estado = myReader.nextLine();
+                            agente.setVelocidad_maxima(Integer.parseInt(velocidades2[0]));
+                            agente.setVelocidad_minima(Integer.parseInt(velocidades2[1]));
+                            agente.setTipo(tipo);
+                            agente.setEstado(estado);
+                            agente.setPosicion_en_eje_x(0);
+                            agente.setPosicion_en_eje_y(0);
+                            agentes.add(agente);
+
+                        }
+                        System.out.println(agentes.toString());
+                    }
+
+                } catch(Exception err) {
+                    JOptionPane.showMessageDialog(null, err);
+                }
             }
         }
     }
