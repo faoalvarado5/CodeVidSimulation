@@ -27,10 +27,10 @@ public class agente {
     }
 
     public void invertir_posicion_x(){
-        this.posicion_en_eje_x = -this.posicion_en_eje_x;
+        this.velocidad_x = -this.velocidad_x;
     }
 
-    public void invertir_velocidad_y(){
+    public void invertir_posicion_y(){
         this.velocidad_y = -this.velocidad_y;
     }
 
@@ -87,7 +87,7 @@ public class agente {
     }
 
     public void setPosicion_en_eje_x(double posicion_en_eje_x) {
-        this.posicion_en_eje_x = posicion_en_eje_x;
+        this.posicion_en_eje_x += posicion_en_eje_x;
     }
 
     public double getPosicion_en_eje_y() {
@@ -95,7 +95,7 @@ public class agente {
     }
 
     public void setPosicion_en_eje_y(double posicion_en_eje_y) {
-        this.posicion_en_eje_y = posicion_en_eje_y;
+        this.posicion_en_eje_y += posicion_en_eje_y;
     }
 
     public int getTiempo_enfermo() {
