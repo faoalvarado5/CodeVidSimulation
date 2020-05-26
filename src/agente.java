@@ -43,7 +43,7 @@ public class agente {
     }
 
     public String getEstado() {
-        return estado;
+        return this.estado;
     }
 
     public void setEstado(String estado) {

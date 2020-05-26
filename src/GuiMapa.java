@@ -40,15 +40,15 @@ public class GuiMapa {
         graficas.add("Grafica para enfermos", new GraficaIndividual(arreglo_de_curados,1));
         graficas.add("Grafica para sanos", new GraficaIndividual(arreglo_de_sanos,2));
 
-        int[] velocidad_minima = new int[20];
-        int[] velocidad_maxima = new int[20];
+        int[] velocidad_minima = new int[40];
+        int[] velocidad_maxima = new int[40];
 
-        for(int i = 0; i < 20;i++){
+        for(int i = 0; i < 40;i++){
             velocidad_maxima[i] = 6;
             velocidad_minima[i] = 3;
         }
 
-        mapas.add("Costa Rica",  new GuiMapaPane(20,3,7,10,velocidad_minima,velocidad_maxima));
+        mapas.add("Costa Rica",  new GuiMapaPane(40,20,15,4,velocidad_minima,velocidad_maxima));
 
         mapas.setPreferredSize( new Dimension(400, 700));
         graficas.setPreferredSize( new Dimension(400, 700));
