@@ -2,17 +2,47 @@ public class agente {
 
     private int tipo;
     private String estado;
-    private float velocidad_maxima;
-    private float velocidad_minima;
+    private double velocidad_x;
+    private double velocidad_y;
+    private double posicion_en_eje_x;
+    private double posicion_en_eje_y;
     private int tiempo_enfermo;
 
-    public agente(int tipo, String estado, float velocidad_maxima, float velocidad_minima, int tiempo_enfermo) {
+
+    public agente(int tipo, String estado, double velocidad_x, double velocidad_y, int tiempo_enfermo,
+                  double posicion_en_eje_x, double posicion_en_eje_y) {
         this.tipo = tipo;
         this.estado = estado;
-        this.velocidad_maxima = velocidad_maxima;
-        this.velocidad_minima = velocidad_minima;
+        this.velocidad_x = velocidad_x;
+        this.velocidad_y = velocidad_y;
         this.tiempo_enfermo = tiempo_enfermo;
+        this.posicion_en_eje_x = posicion_en_eje_x;
+        this.posicion_en_eje_y = posicion_en_eje_y;
     }
+
+    public void invertir_posicion_x(){
+        this.posicion_en_eje_x = -this.posicion_en_eje_x;
+    }
+
+    public void invertir_posicion_y(){
+        this.posicion_en_eje_y = -this.posicion_en_eje_y;
+    }
+
+    public void setPosicion_en_eje_x(double posicion){
+        this.posicion_en_eje_x += posicion;
+    }
+
+    public void setPosicion_en_eje_y(double posicion){
+        this.posicion_en_eje_y += posicion;
+    }
+
+    public double getVelocidad_x(){ return this.velocidad_x; }
+
+    public double getVelocidad_y(){ return this.velocidad_y; }
+
+    public double getPosicion_en_eje_x(){ return this.posicion_en_eje_x; }
+
+    public double getPosicion_en_eje_y(){ return this.posicion_en_eje_y; }
 
     public int getTipo() {
         return tipo;
@@ -30,37 +60,13 @@ public class agente {
         this.estado = estado;
     }
 
-    public float isVelocidad_maxima() {
-        return velocidad_maxima;
-    }
-
-    public void setVelocidad_maxima(float velocidad_maxima) {
-        this.velocidad_maxima = velocidad_maxima;
-    }
-
-    public float isVelocidad_minima() {
-        return velocidad_minima;
-    }
-
-    public void setVelocidad_minima(float velocidad_minima) {
-        this.velocidad_minima = velocidad_minima;
-    }
-
-    public int getTiempo_enfermo() {
-        return tiempo_enfermo;
-    }
-
-    public void setTiempo_enfermo(int tiempo_enfermo) {
-        this.tiempo_enfermo = tiempo_enfermo;
-    }
-
     @Override
     public String toString() {
         return "agente{" +
                 "tipo=" + tipo +
                 ", estado='" + estado + '\'' +
-                ", velocidad_maxima=" + velocidad_maxima +
-                ", velocidad_minima=" + velocidad_minima +
+                ", velocidad_x=" + velocidad_x +
+                ", velocidad_y=" + velocidad_y +
                 ", tiempo_enfermo=" + tiempo_enfermo +
                 '}';
     }
