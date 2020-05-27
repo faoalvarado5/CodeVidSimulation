@@ -23,23 +23,27 @@ public class GuiMapa {
         datos_progresivos_de_la_enfermedad.agregar_datos_de_enfermos(configuracion_enfermedad.getCantidad_enfermos_actuales());
         datos_progresivos_de_la_enfermedad.agregar_datos_de_sanos(configuracion_enfermedad.getCantidad_sanos_actuales());
 
-        datos_progresivos_de_la_enfermedad.agregar_datos_de_curados(3);
-        datos_progresivos_de_la_enfermedad.agregar_datos_de_enfermos(4);
-        datos_progresivos_de_la_enfermedad.agregar_datos_de_sanos(5);
+        datos_progresivos_de_la_enfermedad.agregar_datos_de_curados(0);
+        datos_progresivos_de_la_enfermedad.agregar_datos_de_enfermos(0);
+        datos_progresivos_de_la_enfermedad.agregar_datos_de_sanos(81);
+
+        datos_progresivos_de_la_enfermedad.agregar_datos_de_curados(0);
+        datos_progresivos_de_la_enfermedad.agregar_datos_de_enfermos(20);
+        datos_progresivos_de_la_enfermedad.agregar_datos_de_sanos(60);
+
+        datos_progresivos_de_la_enfermedad.agregar_datos_de_curados(0);
+        datos_progresivos_de_la_enfermedad.agregar_datos_de_enfermos(45);
+        datos_progresivos_de_la_enfermedad.agregar_datos_de_sanos(36);
 
         datos_progresivos_de_la_enfermedad.agregar_datos_de_curados(10);
-        datos_progresivos_de_la_enfermedad.agregar_datos_de_enfermos(11);
-        datos_progresivos_de_la_enfermedad.agregar_datos_de_sanos(15);
-
-        datos_progresivos_de_la_enfermedad.agregar_datos_de_curados(15);
-        datos_progresivos_de_la_enfermedad.agregar_datos_de_enfermos(16);
-        datos_progresivos_de_la_enfermedad.agregar_datos_de_sanos(21);
+        datos_progresivos_de_la_enfermedad.agregar_datos_de_enfermos(35);
+        datos_progresivos_de_la_enfermedad.agregar_datos_de_sanos(36);
 
         graficas.add("Grafica para total", new GraficaMultiple(datos_progresivos_de_la_enfermedad.getCantidad_de_curados(), datos_progresivos_de_la_enfermedad.getCantidad_de_enfermos(),
-                datos_progresivos_de_la_enfermedad.getCantidad_de_sanos()));
-        graficas.add("Grafica para curados", new GraficaIndividual(datos_progresivos_de_la_enfermedad.getCantidad_de_curados(),0));
-        graficas.add("Grafica para enfermos", new GraficaIndividual(datos_progresivos_de_la_enfermedad.getCantidad_de_enfermos(),1));
-        graficas.add("Grafica para sanos", new GraficaIndividual(datos_progresivos_de_la_enfermedad.getCantidad_de_sanos(),2));
+                datos_progresivos_de_la_enfermedad.getCantidad_de_sanos(), arreglo_de_agentes.size()));
+        graficas.add("Grafica para curados", new GraficaIndividual(datos_progresivos_de_la_enfermedad.getCantidad_de_curados(),0, arreglo_de_agentes.size()));
+        graficas.add("Grafica para enfermos", new GraficaIndividual(datos_progresivos_de_la_enfermedad.getCantidad_de_enfermos(),1, arreglo_de_agentes.size()));
+        graficas.add("Grafica para sanos", new GraficaIndividual(datos_progresivos_de_la_enfermedad.getCantidad_de_sanos(),2, arreglo_de_agentes.size()));
 
         mapas.add("Costa Rica",  new GuiMapaPane(configuracion_enfermedad, arreglo_de_agentes, configuracion_mapa));
 

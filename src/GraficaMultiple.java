@@ -1,8 +1,9 @@
 import java.awt.*;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.*;
-
 
 public class GraficaMultiple extends JPanel {
 
@@ -14,18 +15,18 @@ public class GraficaMultiple extends JPanel {
     private Color color_del_punto_sanos = new Color(21, 161, 0, 180);
     private Color gridColor = new Color(200, 200, 200, 200);
     private int tamaño_del_punto = 10;
-    private int cantidad_de_personas_en_la_prueba = 20;
+    private int cantidad_de_personas_en_la_prueba;
     //Esta es la cantidad de divisiones que tendrá la gráfica en el eje X, dependera mucho de los dias
     private ArrayList<Integer> arreglo_de_curados = new ArrayList<>();;
     private ArrayList<Integer> arreglo_de_enfermos = new ArrayList<>();;
     private ArrayList<Integer> arreglo_de_sanos = new ArrayList<>();;
 
-    public GraficaMultiple(ArrayList<Integer> arreglo_de_curados,ArrayList<Integer> arreglo_de_enfermos,ArrayList<Integer> arreglo_de_sanos) {
+    public GraficaMultiple(ArrayList<Integer> arreglo_de_curados,ArrayList<Integer> arreglo_de_enfermos,ArrayList<Integer> arreglo_de_sanos, int cantidad_de_personas_en_la_prueba) {
 
         this.arreglo_de_curados = arreglo_de_curados;
         this.arreglo_de_enfermos = arreglo_de_enfermos;
         this.arreglo_de_sanos = arreglo_de_sanos;
-
+        this.cantidad_de_personas_en_la_prueba = cantidad_de_personas_en_la_prueba;
     }
 
     protected void paintComponent(Graphics g) {
@@ -37,31 +38,37 @@ public class GraficaMultiple extends JPanel {
         grafica.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                 RenderingHints.VALUE_ANTIALIAS_ON);
 
-
         // Este loop lo que permite es meter los puntos de la gráfica
         // En este caso [1,2,6,8] existira una linea que vaya del (1,2) al (6,8)
         List<Point> puntos_en_la_grafica_curados = agregarPuntos(arreglo_de_curados);
         List<Point> puntos_en_la_grafica_enfermos = agregarPuntos(arreglo_de_enfermos);
         List<Point> puntos_en_la_grafica_sanos = agregarPuntos(arreglo_de_sanos);
 
-        // En esta se ponen los labels en el eje Y
-        for (int i = 0; i < cantidad_de_personas_en_la_prueba + 1; i++) {
+        double cantidad_de_lineas = (double)obtenerMaximoValor() / 20;
+        int residuo = (int)obtenerMaximoValor() % 20;
+        double temp = cantidad_de_lineas;
+
+        for (int i = 0; i <= 20; i++){
             int x0 = padding_de_la_grafica + padding_del_label;
             int x1 = tamaño_del_punto + padding_de_la_grafica + padding_del_label;
-            int y0 = getHeight() - ((i * (getHeight() - padding_de_la_grafica * 2 - padding_del_label)) / cantidad_de_personas_en_la_prueba + padding_de_la_grafica + padding_del_label);
+            int y0 = getHeight() - ((i * (int)cantidad_de_personas_en_la_prueba / 20 * (getHeight() - padding_de_la_grafica * 2 - padding_del_label)) / cantidad_de_personas_en_la_prueba + padding_de_la_grafica + padding_del_label);
             int y1 = y0;
-            if (arreglo_de_curados.size() > 0) {
-                grafica.setColor(gridColor);
-                grafica.drawLine(padding_de_la_grafica + padding_del_label + 1 + tamaño_del_punto, y0, getWidth() - padding_de_la_grafica, y1);
-                grafica.setColor(Color.BLACK);
-                // Aqui es donde se imprimen la cantidad de personas en la pantalla, eje Y
-                String yLabel =  i + "";
-                FontMetrics metrics = grafica.getFontMetrics();
-                int labelWidth = metrics.stringWidth(yLabel);
-                //Pone los labels en la pantalla
-                grafica.drawString(yLabel, x0 - labelWidth - 5, y0 + (metrics.getHeight() / 2) - 3);
-            }
+
+            grafica.setColor(gridColor);
+            grafica.drawLine(padding_de_la_grafica + padding_del_label + 1 + tamaño_del_punto, y0, getWidth() - padding_de_la_grafica, y1);
+            grafica.setColor(Color.BLACK);
+            // Aqui es donde se imprimen la cantidad de personas en la pantalla, eje Y
+
+            double valor_del_label = i * temp;
+            valor_del_label = new BigDecimal(valor_del_label).setScale(2, RoundingMode.HALF_UP).doubleValue();
+            String yLabel = valor_del_label + "";
+
+            FontMetrics metrics = grafica.getFontMetrics();
+            int labelWidth = metrics.stringWidth(yLabel);
+            //Pone los labels en la pantalla
+            grafica.drawString(yLabel, x0 - labelWidth - 5, y0 + (metrics.getHeight() / 2) - 3);
             grafica.drawLine(x0, y0, x1, y1);
+
         }
 
 
@@ -104,6 +111,7 @@ public class GraficaMultiple extends JPanel {
             int ovalW = tamaño_del_punto;
             int ovalH = tamaño_del_punto;
             grafica.fillOval(x, y, ovalW, ovalH);
+
         }
     }
 

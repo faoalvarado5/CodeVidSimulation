@@ -16,15 +16,18 @@ public class GuiMenu {
     mapa configuracion_de_mapa;
     enfermedad configuracion_de_enfermedad;
     int archivosCargados;
+    JButton boton_agentes = new JButton("Cargar agentes");//creating instance of JButton
+    JButton boton_mapa = new JButton("Cargar mapa");//creating instance of JButton
+    JButton boton_enferdad = new JButton("Cargar enfermedad");//creating instance of JButton
+    JButton boton_comenzar = new JButton("Comenzar");//creating instance of JButton
 
     GuiMenu() {
 
         f = new JFrame("Simulacion de propagacion de COVID-19");//creating instance of JFrame
         JLabel label1 = new JLabel("Favor ingresar los archivos en su orden.");
-        JButton boton_agentes = new JButton("Cargar agentes");//creating instance of JButton
-        JButton boton_mapa = new JButton("Cargar mapa");//creating instance of JButton
-        JButton boton_enferdad = new JButton("Cargar enfermedad");//creating instance of JButton
-        JButton boton_comenzar = new JButton("Comenzar");//creating instance of JButton
+
+
+        boton_agentes.setEnabled(false);
 
         boton_agentes.setBounds(70, 200, 150, 40);
         label1.setBounds(30, 50, 250, 40);
@@ -145,6 +148,7 @@ public class GuiMenu {
                          }
                          configuracion_de_mapa = mapa;
                          archivosCargados += 1;
+                         boton_agentes.setEnabled(true);
                      }
 
                  } catch(Exception err) {
@@ -208,6 +212,7 @@ public class GuiMenu {
 
                     configuracion_de_enfermedad = enfermedad;
                     archivosCargados += 1;
+
                 } catch (Exception err) {
                     JOptionPane.showMessageDialog(null, err);
                 }
@@ -218,10 +223,7 @@ public class GuiMenu {
     class comenzar_prueba implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-<<<<<<< HEAD
 
-=======
->>>>>>> master
                 new GuiMapa(arreglo_de_agentes, configuracion_de_mapa, configuracion_de_enfermedad);
         }
     }
