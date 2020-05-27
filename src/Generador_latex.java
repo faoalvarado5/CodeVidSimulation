@@ -1,25 +1,27 @@
 import javax.swing.*;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
+import java.io.*;
 
 public class Generador_latex {
 
-    public static void main(String []args) throws FileNotFoundException {
+    public static void main(String []args) throws IOException {
 
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.showOpenDialog(null);
         File archivo = fileChooser.getSelectedFile();
-        String ruta = archivo.getAbsolutePath();
 
-        JOptionPane.showMessageDialog(null, ruta);
+        FileWriter fileWriter = new FileWriter(archivo, false);
 
-        PrintWriter printWriter = new PrintWriter(archivo);
-        printWriter.println("hola");
-        printWriter.println("hola2");
-        printWriter.println(" ");
-        printWriter.println("hola2");
-        printWriter.close();
+        String uno = "\"" + "t" + "hispagestyle{empty}";
+        uno = uno.replaceAll("\"","\\\\");
+        fileWriter.write(uno);
+
+        fileWriter.write(System.getProperty( "line.separator" ));
+
+        String dos = "\"" + "b" + "egin{center}";
+        dos = dos.replaceAll("\"","\\\\");
+        fileWriter.write(dos);
+
+        fileWriter.close();
     }
 
 }
