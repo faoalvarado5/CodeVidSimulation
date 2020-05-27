@@ -8,16 +8,16 @@ public class agente {
     private int velocidad_minima;
     private double posicion_en_eje_x;
     private double posicion_en_eje_y;
-    private int tiempo_enfermo;
+    private double tiempo_enfermo;
 
 
-    public agente(int tipo, String estado, double velocidad_x, double velocidad_y, int velocidad_maxima, int velocidad_minima, double posicion_en_eje_x, double posicion_en_eje_y, int tiempo_enfermo) {
+    public agente(int tipo, String estado, double velocidad_x, double velocidad_y, int velocidad_maxima, int velocidad_minima, double posicion_en_eje_x, double posicion_en_eje_y, double tiempo_enfermo) {
         this.tipo = tipo;
         this.estado = estado;
-        this.velocidad_x = velocidad_x;
-        this.velocidad_y = velocidad_y;
         this.velocidad_maxima = velocidad_maxima;
         this.velocidad_minima = velocidad_minima;
+        this.velocidad_x = Math.random() * velocidad_maxima + velocidad_minima;
+        this.velocidad_y = Math.random() * velocidad_maxima + velocidad_minima;
         this.posicion_en_eje_x = posicion_en_eje_x;
         this.posicion_en_eje_y = posicion_en_eje_y;
         this.tiempo_enfermo = tiempo_enfermo;
@@ -26,84 +26,92 @@ public class agente {
     public agente() {
     }
 
-    public void invertir_posicion_x(){
-        this.velocidad_x = -this.velocidad_x;
+    public void aumentar_dias_de_enfermos(){
+        this.tiempo_enfermo = tiempo_enfermo + 0.10;
     }
 
-    public void invertir_posicion_y(){
-        this.velocidad_y = -this.velocidad_y;
+    public void invertir_posicion_x() { this.velocidad_x = -this.velocidad_x; }
+
+    public void invertir_posicion_y() { this.velocidad_y = -this.velocidad_y; }
+
+    public void mover_eje_x(){
+        this.posicion_en_eje_x += velocidad_x;
     }
 
-    public int getTipo() {
-        return tipo;
+    public void mover_eje_y(){
+        this.posicion_en_eje_y += velocidad_y;
     }
 
     public void setTipo(int tipo) {
         this.tipo = tipo;
     }
 
-    public String getEstado() {
-        return this.estado;
-    }
-
     public void setEstado(String estado) {
         this.estado = estado;
-    }
-
-    public double getVelocidad_x() {
-        return velocidad_x;
     }
 
     public void setVelocidad_x(double velocidad_x) {
         this.velocidad_x = velocidad_x;
     }
 
-    public double getVelocidad_y() {
-        return velocidad_y;
-    }
-
     public void setVelocidad_y(double velocidad_y) {
         this.velocidad_y = velocidad_y;
-    }
-
-    public int getVelocidad_maxima() {
-        return velocidad_maxima;
     }
 
     public void setVelocidad_maxima(int velocidad_maxima) {
         this.velocidad_maxima = velocidad_maxima;
     }
 
-    public int getVelocidad_minima() {
-        return velocidad_minima;
-    }
-
     public void setVelocidad_minima(int velocidad_minima) {
         this.velocidad_minima = velocidad_minima;
+    }
+
+    public void setPosicion_en_eje_x(double posicion_en_eje_x) {
+        this.posicion_en_eje_x = posicion_en_eje_x;
+    }
+
+    public void setPosicion_en_eje_y(double posicion_en_eje_y) {
+        this.posicion_en_eje_y = posicion_en_eje_y;
+    }
+
+    public void setTiempo_enfermo(double tiempo_enfermo) {
+        this.tiempo_enfermo = tiempo_enfermo;
+    }
+
+    public int getTipo() {
+        return tipo;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public double getVelocidad_x() {
+        return velocidad_x;
+    }
+
+    public double getVelocidad_y() {
+        return velocidad_y;
+    }
+
+    public int getVelocidad_maxima() {
+        return velocidad_maxima;
+    }
+
+    public int getVelocidad_minima() {
+        return velocidad_minima;
     }
 
     public double getPosicion_en_eje_x() {
         return posicion_en_eje_x;
     }
 
-    public void setPosicion_en_eje_x(double posicion_en_eje_x) {
-        this.posicion_en_eje_x += posicion_en_eje_x;
-    }
-
     public double getPosicion_en_eje_y() {
         return posicion_en_eje_y;
     }
 
-    public void setPosicion_en_eje_y(double posicion_en_eje_y) {
-        this.posicion_en_eje_y += posicion_en_eje_y;
-    }
-
-    public int getTiempo_enfermo() {
+    public double getTiempo_enfermo() {
         return tiempo_enfermo;
-    }
-
-    public void setTiempo_enfermo(int tiempo_enfermo) {
-        this.tiempo_enfermo = tiempo_enfermo;
     }
 
     @Override

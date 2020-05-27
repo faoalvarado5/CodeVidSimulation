@@ -9,11 +9,10 @@ public class GuiMapa {
 
     JFrame f;
 
-    GuiMapa(String configuracion_agente, String configuracion_mapa, String configuracion_enfermedad) {
+    GuiMapa(ArrayList<agente> arreglo_de_agentes, mapa configuracion_mapa, enfermedad configuracion_enfermedad) {
 
-        System.out.println(configuracion_agente);
-        System.out.println(configuracion_mapa);
-        System.out.println(configuracion_enfermedad);
+
+
 
         JFrame frame = new JFrame( "Drawing 2D shapes" );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
@@ -40,17 +39,9 @@ public class GuiMapa {
         graficas.add("Grafica para enfermos", new GraficaIndividual(arreglo_de_curados,1));
         graficas.add("Grafica para sanos", new GraficaIndividual(arreglo_de_sanos,2));
 
-        int[] velocidad_minima = new int[40];
-        int[] velocidad_maxima = new int[40];
+        mapas.add("Costa Rica",  new GuiMapaPane(configuracion_enfermedad, arreglo_de_agentes, configuracion_mapa));
 
-        for(int i = 0; i < 40;i++){
-            velocidad_maxima[i] = 6;
-            velocidad_minima[i] = 3;
-        }
-
-        mapas.add("Costa Rica",  new GuiMapaPane(40,20,15,4,velocidad_minima,velocidad_maxima));
-
-        mapas.setPreferredSize( new Dimension(400, 700));
+        mapas.setPreferredSize( new Dimension(configuracion_mapa.getAncho(), configuracion_mapa.getLargo()));
         graficas.setPreferredSize( new Dimension(400, 700));
 
         JPanel panel_completo = new JPanel();

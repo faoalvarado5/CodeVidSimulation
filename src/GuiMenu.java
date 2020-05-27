@@ -5,14 +5,16 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.Scanner;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class GuiMenu {
 
     JFrame f;
-    String ruta_agentes;
-    String ruta_mapa;
-    String ruta_enfermedad;
+    ArrayList<agente> arreglo_de_agentes;
+    mapa configuracion_de_mapa;
+    enfermedad configuracion_de_enfermedad;
 
     GuiMenu() {
 
@@ -53,7 +55,6 @@ public class GuiMenu {
             fileChooser.showOpenDialog(null);
             File archivo = fileChooser.getSelectedFile();
             if(archivo != null){
-                ruta_agentes = archivo.getAbsolutePath();
                 ArrayList<agente> agentes = new ArrayList<agente>();
                 try {
 
@@ -73,23 +74,36 @@ public class GuiMenu {
                         String[] velocidades2 = velocidades.split(" ");
                         String estado = myReader.nextLine();
 
-                        agente agente = new agente();
 
                         //Aqui hago la lista de cada uno de los agentes segun su tipo especificado en el documento.
-                        for (int y=0; y<cantidad; y++) {
+                        System.out.println(configuracion_de_mapa);
+                        Random rand = new Random();
 
+                        for (int y=0; y<cantidad; y++) {
+                            agente agente = new agente();
                             agente.setVelocidad_maxima(Integer.parseInt(velocidades2[0]));
                             agente.setVelocidad_minima(Integer.parseInt(velocidades2[1]));
                             agente.setTipo(tipo);
                             agente.setEstado(estado);
-                            agente.setPosicion_en_eje_x(0);
-                            agente.setPosicion_en_eje_y(0);
                             agente.setTiempo_enfermo(0);
+                            int velocidad_maxima = Integer.parseInt(velocidades2[0]);
+                            int velocidad_minima = Integer.parseInt(velocidades2[1]);
+                            System.out.println(velocidad_maxima);
+                            System.out.println(velocidad_minima);
+
+                            if(velocidad_maxima == 0) agente.setVelocidad_x(0);
+                            else agente.setVelocidad_x(velocidad_maxima+rand.nextInt(velocidad_maxima));
+                            if(velocidad_minima == 0) agente.setVelocidad_y(0);
+                            else agente.setVelocidad_y(velocidad_minima+rand.nextInt(velocidad_maxima));
+                            agente.setPosicion_en_eje_x(rand.nextInt(configuracion_de_mapa.getAncho()));
+                            agente.setPosicion_en_eje_y(rand.nextInt(configuracion_de_mapa.getLargo()));
+
                             agentes.add(agente);
+
                         }
                     }
                     System.out.println(agentes.toString());
-
+                    arreglo_de_agentes = agentes;
                 } catch(Exception err) {
                     JOptionPane.showMessageDialog(null, err);
                 }
@@ -104,7 +118,6 @@ public class GuiMenu {
             fileChooser.showOpenDialog(null);
             File archivo = fileChooser.getSelectedFile();
             if(archivo != null){
-                 ruta_mapa = archivo.getAbsolutePath();
                  mapa mapa = new mapa();
                  try {
 
@@ -132,6 +145,7 @@ public class GuiMenu {
                              paredes -= 1;
                          }
                          System.out.println(mapa.toString());
+                         configuracion_de_mapa = mapa;
                      }
 
                  } catch(Exception err) {
@@ -148,7 +162,6 @@ public class GuiMenu {
             fileChooser.showOpenDialog(null);
             File archivo = fileChooser.getSelectedFile();
             if(archivo != null){
-                ruta_enfermedad = archivo.getAbsolutePath();
                 enfermedad enfermedad = new enfermedad();
 
                 try{
@@ -195,7 +208,7 @@ public class GuiMenu {
                     enfermedad.setDias_totales(Integer.MAX_VALUE);
 
                     System.out.println(enfermedad.toString());
-
+                    configuracion_de_enfermedad = enfermedad;
                 } catch (Exception err) {
                     JOptionPane.showMessageDialog(null, err);
                 }
@@ -206,8 +219,7 @@ public class GuiMenu {
     class comenzar_prueba implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-
-                new GuiMapa(ruta_agentes,ruta_mapa,ruta_enfermedad);
+                new GuiMapa(arreglo_de_agentes, configuracion_de_mapa, configuracion_de_enfermedad);
 
 
         }
