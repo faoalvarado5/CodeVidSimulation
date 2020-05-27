@@ -45,7 +45,6 @@ public class GraficaMultiple extends JPanel {
         List<Point> puntos_en_la_grafica_sanos = agregarPuntos(arreglo_de_sanos);
 
         double cantidad_de_lineas = (double)obtenerMaximoValor() / 20;
-        int residuo = (int)obtenerMaximoValor() % 20;
         double temp = cantidad_de_lineas;
 
         for (int i = 0; i <= 20; i++){
@@ -70,13 +69,6 @@ public class GraficaMultiple extends JPanel {
             grafica.drawLine(x0, y0, x1, y1);
 
         }
-
-
-
-        // Esta es la parte bonita, aquí se ponen las lineas en la gráfica y los puntos
-        agregarPuntosGrafica(grafica,arreglo_de_curados);
-        agregarPuntosGrafica(grafica,arreglo_de_enfermos);
-        agregarPuntosGrafica(grafica,arreglo_de_sanos);
 
         grafica.setColor(lineColor);
 
@@ -130,28 +122,6 @@ public class GraficaMultiple extends JPanel {
             //System.out.println("X: " + Integer.toString(x1) + " Y: " + Integer.toString(y1));
         }
         return puntos;
-    }
-
-    public void agregarPuntosGrafica(Graphics2D grafica, List<Integer> arreglo){
-        // En esta se ponen los labels en el eje Y
-        for (int i = 0; i < arreglo.size(); i++) {
-            if (arreglo.size() > 1) {
-                int x0 = i * (getWidth() - padding_de_la_grafica * 2 - padding_del_label) / (arreglo.size() - 1) + padding_de_la_grafica + padding_del_label;
-                int x1 = x0;
-                int y0 = getHeight() - padding_de_la_grafica - padding_del_label;
-                int y1 = y0 - tamaño_del_punto;
-                if ((i % ((int) ((arreglo.size() / 20.0)) + 1)) == 0) {
-                    grafica.setColor(gridColor);
-                    grafica.drawLine(x0, getHeight() - padding_de_la_grafica - padding_del_label - 1 - tamaño_del_punto, x1, padding_de_la_grafica);
-                    grafica.setColor(Color.BLACK);
-                    String xLabel = i + "";
-                    FontMetrics metrics = grafica.getFontMetrics();
-                    int labelWidth = metrics.stringWidth(xLabel);
-                    grafica.drawString(xLabel, x0 - labelWidth / 2, y0 + metrics.getHeight() + 3);
-                }
-                grafica.drawLine(x0, y0, x1, y1);
-            }
-        }
     }
 
     private double obtenerMinimoValor() {

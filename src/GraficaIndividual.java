@@ -70,11 +70,6 @@ public class GraficaIndividual extends JPanel {
 
         }
 
-
-
-        // Esta es la parte bonita, aquí se ponen las lineas en la gráfica y los puntos
-        agregarPuntosGrafica(grafica,arreglo);
-
         grafica.setColor(lineColor);
 
         agregarDatosGrafica(grafica,puntos_del_arreglo, color);
@@ -121,28 +116,6 @@ public class GraficaIndividual extends JPanel {
             //System.out.println("X: " + Integer.toString(x1) + " Y: " + Integer.toString(y1));
         }
         return puntos;
-    }
-
-    public void agregarPuntosGrafica(Graphics2D grafica, List<Integer> arreglo){
-        // En esta se ponen los labels en el eje Y
-        for (int i = 0; i < arreglo.size(); i++) {
-            if (arreglo.size() > 1) {
-                int x0 = i * (getWidth() - padding_de_la_grafica * 2 - padding_del_label) / (arreglo.size() - 1) + padding_de_la_grafica + padding_del_label;
-                int x1 = x0;
-                int y0 = getHeight() - padding_de_la_grafica - padding_del_label;
-                int y1 = y0 - tamaño_del_punto;
-                if ((i % ((int) ((arreglo.size() / 20.0)) + 1)) == 0) {
-                    grafica.setColor(gridColor);
-                    grafica.drawLine(x0, getHeight() - padding_de_la_grafica - padding_del_label - 1 - tamaño_del_punto, x1, padding_de_la_grafica);
-                    grafica.setColor(Color.BLACK);
-                    String xLabel = i + "";
-                    FontMetrics metrics = grafica.getFontMetrics();
-                    int labelWidth = metrics.stringWidth(xLabel);
-                    grafica.drawString(xLabel, x0 - labelWidth / 2, y0 + metrics.getHeight() + 3);
-                }
-                grafica.drawLine(x0, y0, x1, y1);
-            }
-        }
     }
 
     private double obtenerMinimoValor() {

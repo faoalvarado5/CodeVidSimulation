@@ -15,17 +15,22 @@ public class GuiMapaPane extends JPanel implements ActionListener {
     enfermedad configuracion_de_la_enfermedad;
     mapa configuracion_del_mapa;
     DatosActuales datos_progresivos_de_la_enfermedad;
+    Frame f;
+    JLabel dias_corriendo;
 
-    public GuiMapaPane(enfermedad configuracion_de_la_enfermedad, ArrayList<agente> arreglo_de_los_agentes, mapa configuracion_del_mapa, DatosActuales datos_progresivos_de_la_enfermedad){
+    public GuiMapaPane(enfermedad configuracion_de_la_enfermedad, ArrayList<agente> arreglo_de_los_agentes, mapa configuracion_del_mapa, DatosActuales datos_progresivos_de_la_enfermedad, Frame f, JLabel dias_corriendo){
         this.configuracion_de_la_enfermedad = configuracion_de_la_enfermedad;
         this.arreglo_de_los_agentes = arreglo_de_los_agentes;
         this.configuracion_del_mapa = configuracion_del_mapa;
         this.datos_progresivos_de_la_enfermedad = datos_progresivos_de_la_enfermedad;
         t = new Timer(50, this);
+        this.f = f;
+        this.dias_corriendo = dias_corriendo;
     }
 
     public void paintComponent(Graphics g){
         super.paintComponent(g);
+
         Graphics2D mapa = (Graphics2D) g;
         Ellipse2D[] persona = new Ellipse2D.Double[arreglo_de_los_agentes.size()];
         cambiar_color_de_las_personas();
@@ -45,6 +50,11 @@ public class GuiMapaPane extends JPanel implements ActionListener {
         }
         curar_enfermos();
         actualizar_datos_progresivos();
+
+        datos_progresivos_de_la_enfermedad.aumentar_dias_corriendo();
+
+        if(datos_progresivos_de_la_enfermedad.getDias() > 4000) t.stop();
+        f.repaint();
         t.start();
     }
     public void actionPerformed(ActionEvent e){
@@ -61,7 +71,7 @@ public class GuiMapaPane extends JPanel implements ActionListener {
 
     public void curar_enfermos(){
         for(int i = 0; i < arreglo_de_los_agentes.size();i++){
-            if(arreglo_de_los_agentes.get(i).getTiempo_enfermo() >= 18 && arreglo_de_los_agentes.get(i).getEstado().equals("e")){
+            if(arreglo_de_los_agentes.get(i).getTiempo_enfermo() >= 80 && arreglo_de_los_agentes.get(i).getEstado().equals("e")){
                 arreglo_de_los_agentes.get(i).setEstado("c");
                 arreglo_de_los_agentes.get(i).setTiempo_enfermo(0);
             }else if(arreglo_de_los_agentes.get(i).getEstado().equals("e")){
@@ -113,5 +123,6 @@ public class GuiMapaPane extends JPanel implements ActionListener {
         datos_progresivos_de_la_enfermedad.agregar_datos_de_sanos(cantidad_de_sanos);
 
     }
+
 
 }

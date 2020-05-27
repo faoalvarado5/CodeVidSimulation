@@ -14,6 +14,8 @@ public class DatosActuales {
         dias = 1;
     }
 
+    public void aumentar_dias_corriendo(){ this.dias++; }
+
     public void agregar_datos_de_enfermos(int cantidad_de_enfermos){
         this.cantidad_de_enfermos.add(cantidad_de_enfermos);
     }
