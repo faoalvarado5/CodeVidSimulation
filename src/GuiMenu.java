@@ -215,10 +215,7 @@ public class GuiMenu {
     class comenzar_prueba implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-<<<<<<< HEAD
 
-=======
->>>>>>> master
                 new GuiMapa(arreglo_de_agentes, configuracion_de_mapa, configuracion_de_enfermedad);
         }
     }
