@@ -39,13 +39,13 @@ public class GuiMapa {
         datos_progresivos_de_la_enfermedad.agregar_datos_de_enfermos(35);
         datos_progresivos_de_la_enfermedad.agregar_datos_de_sanos(36);
 
+        mapas.add("Costa Rica",  new GuiMapaPane(configuracion_enfermedad, arreglo_de_agentes, configuracion_mapa, datos_progresivos_de_la_enfermedad));
+
         graficas.add("Grafica para total", new GraficaMultiple(datos_progresivos_de_la_enfermedad.getCantidad_de_curados(), datos_progresivos_de_la_enfermedad.getCantidad_de_enfermos(),
                 datos_progresivos_de_la_enfermedad.getCantidad_de_sanos(), arreglo_de_agentes.size()));
         graficas.add("Grafica para curados", new GraficaIndividual(datos_progresivos_de_la_enfermedad.getCantidad_de_curados(),0, arreglo_de_agentes.size()));
         graficas.add("Grafica para enfermos", new GraficaIndividual(datos_progresivos_de_la_enfermedad.getCantidad_de_enfermos(),1, arreglo_de_agentes.size()));
         graficas.add("Grafica para sanos", new GraficaIndividual(datos_progresivos_de_la_enfermedad.getCantidad_de_sanos(),2, arreglo_de_agentes.size()));
-
-        mapas.add("Costa Rica",  new GuiMapaPane(configuracion_enfermedad, arreglo_de_agentes, configuracion_mapa));
 
         mapas.setPreferredSize( new Dimension(configuracion_mapa.getAncho(), configuracion_mapa.getLargo()));
         graficas.setPreferredSize( new Dimension(400, 700));
@@ -68,6 +68,10 @@ public class GuiMapa {
         frame.setVisible( true );
 
 
+
+    }
+
+    public void funciones_de_las_graficas(){
 
     }
 

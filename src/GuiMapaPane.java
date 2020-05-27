@@ -14,11 +14,13 @@ public class GuiMapaPane extends JPanel implements ActionListener {
     ArrayList<agente> arreglo_de_los_agentes;
     enfermedad configuracion_de_la_enfermedad;
     mapa configuracion_del_mapa;
+    DatosActuales datos_progresivos_de_la_enfermedad;
 
-    public GuiMapaPane(enfermedad configuracion_de_la_enfermedad, ArrayList<agente> arreglo_de_los_agentes, mapa configuracion_del_mapa){
+    public GuiMapaPane(enfermedad configuracion_de_la_enfermedad, ArrayList<agente> arreglo_de_los_agentes, mapa configuracion_del_mapa, DatosActuales datos_progresivos_de_la_enfermedad){
         this.configuracion_de_la_enfermedad = configuracion_de_la_enfermedad;
         this.arreglo_de_los_agentes = arreglo_de_los_agentes;
         this.configuracion_del_mapa = configuracion_del_mapa;
+        this.datos_progresivos_de_la_enfermedad = datos_progresivos_de_la_enfermedad;
         t = new Timer(50, this);
     }
 
@@ -42,7 +44,7 @@ public class GuiMapaPane extends JPanel implements ActionListener {
 
         }
         curar_enfermos();
-
+        actualizar_datos_progresivos();
         t.start();
     }
     public void actionPerformed(ActionEvent e){
@@ -92,6 +94,24 @@ public class GuiMapaPane extends JPanel implements ActionListener {
                 }
             }
         }
+    }
+
+    public void actualizar_datos_progresivos(){
+
+        int cantidad_de_enfermos = 0;
+        int cantidad_de_curados = 0;
+        int cantidad_de_sanos = 0;
+
+        for(int i = 0; i < arreglo_de_los_agentes.size(); i++){
+            if(arreglo_de_los_agentes.get(i).getEstado().equals("e")) cantidad_de_enfermos++;
+            else if(arreglo_de_los_agentes.get(i).getEstado().equals("c")) cantidad_de_curados++;
+            else cantidad_de_sanos++;
+        }
+
+        datos_progresivos_de_la_enfermedad.agregar_datos_de_enfermos(cantidad_de_enfermos);
+        datos_progresivos_de_la_enfermedad.agregar_datos_de_curados(cantidad_de_curados);
+        datos_progresivos_de_la_enfermedad.agregar_datos_de_sanos(cantidad_de_sanos);
+
     }
 
 }
