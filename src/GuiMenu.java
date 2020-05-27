@@ -15,19 +15,21 @@ public class GuiMenu {
     ArrayList<agente> arreglo_de_agentes;
     mapa configuracion_de_mapa;
     enfermedad configuracion_de_enfermedad;
+    int archivosCargados;
 
     GuiMenu() {
 
-        f = new JFrame();//creating instance of JFrame
-
+        f = new JFrame("Simulacion de propagacion de COVID-19");//creating instance of JFrame
+        JLabel label1 = new JLabel("Favor ingresar los archivos en su orden.");
         JButton boton_agentes = new JButton("Cargar agentes");//creating instance of JButton
         JButton boton_mapa = new JButton("Cargar mapa");//creating instance of JButton
         JButton boton_enferdad = new JButton("Cargar enfermedad");//creating instance of JButton
         JButton boton_comenzar = new JButton("Comenzar");//creating instance of JButton
 
-        boton_agentes.setBounds(70, 100, 150, 40);
+        boton_agentes.setBounds(70, 200, 150, 40);
+        label1.setBounds(30, 50, 250, 40);
         boton_mapa.setBounds(70, 150, 150, 40);
-        boton_enferdad.setBounds(70, 200, 150, 40);
+        boton_enferdad.setBounds(70, 100, 150, 40);
         boton_comenzar.setBounds(70, 250, 150, 40);
 
         boton_agentes.addActionListener(new configuracion_agente());
@@ -35,7 +37,7 @@ public class GuiMenu {
         boton_enferdad.addActionListener(new configuracion_enfermedad());
         boton_comenzar.addActionListener(new comenzar_prueba());
 
-
+        f.add(label1);
         f.add(boton_agentes);//adding button in JFrame
         f.add(boton_mapa);//adding button in JFrame
         f.add(boton_enferdad);//adding button in JFrame
@@ -45,7 +47,6 @@ public class GuiMenu {
         f.setLayout(null);//using no layout managers
         f.setVisible(true);//making the frame visible
         f.setLocationRelativeTo(null);
-
     }
 
     class configuracion_agente implements ActionListener {
@@ -109,6 +110,7 @@ public class GuiMenu {
     }
 
     class configuracion_mapa implements ActionListener {
+
         @Override
         public void actionPerformed(ActionEvent e) {
             JFileChooser fileChooser = new JFileChooser();
@@ -142,6 +144,7 @@ public class GuiMenu {
                              paredes -= 1;
                          }
                          configuracion_de_mapa = mapa;
+                         archivosCargados += 1;
                      }
 
                  } catch(Exception err) {
@@ -204,6 +207,7 @@ public class GuiMenu {
                     enfermedad.setDias_totales(Integer.MAX_VALUE);
 
                     configuracion_de_enfermedad = enfermedad;
+                    archivosCargados += 1;
                 } catch (Exception err) {
                     JOptionPane.showMessageDialog(null, err);
                 }
@@ -214,7 +218,10 @@ public class GuiMenu {
     class comenzar_prueba implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
+<<<<<<< HEAD
 
+=======
+>>>>>>> master
                 new GuiMapa(arreglo_de_agentes, configuracion_de_mapa, configuracion_de_enfermedad);
         }
     }
