@@ -15,7 +15,6 @@ public class GuiMenu {
     ArrayList<agente> arreglo_de_agentes;
     mapa configuracion_de_mapa;
     enfermedad configuracion_de_enfermedad;
-    int archivosCargados;
 
     GuiMenu() {
 
@@ -146,7 +145,6 @@ public class GuiMenu {
                              paredes -= 1;
                          }
                          configuracion_de_mapa = mapa;
-                         archivosCargados += 1;
                      }
 
                  } catch(Exception err) {
@@ -209,7 +207,6 @@ public class GuiMenu {
                     enfermedad.setDias_totales(Integer.MAX_VALUE);
 
                     configuracion_de_enfermedad = enfermedad;
-                    archivosCargados += 1;
                 } catch (Exception err) {
                     JOptionPane.showMessageDialog(null, err);
                 }
