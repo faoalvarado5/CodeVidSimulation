@@ -16,11 +16,11 @@ public class GraficaMultiple extends JPanel {
     private int tamaño_del_punto = 10;
     private int cantidad_de_personas_en_la_prueba = 20;
     //Esta es la cantidad de divisiones que tendrá la gráfica en el eje X, dependera mucho de los dias
-    private List<Integer> arreglo_de_curados = new ArrayList<>();;
-    private List<Integer> arreglo_de_enfermos = new ArrayList<>();;
-    private List<Integer> arreglo_de_sanos = new ArrayList<>();;
+    private ArrayList<Integer> arreglo_de_curados = new ArrayList<>();;
+    private ArrayList<Integer> arreglo_de_enfermos = new ArrayList<>();;
+    private ArrayList<Integer> arreglo_de_sanos = new ArrayList<>();;
 
-    public GraficaMultiple(List<Integer> arreglo_de_curados,List<Integer> arreglo_de_enfermos,List<Integer> arreglo_de_sanos) {
+    public GraficaMultiple(ArrayList<Integer> arreglo_de_curados,ArrayList<Integer> arreglo_de_enfermos,ArrayList<Integer> arreglo_de_sanos) {
 
         this.arreglo_de_curados = arreglo_de_curados;
         this.arreglo_de_enfermos = arreglo_de_enfermos;

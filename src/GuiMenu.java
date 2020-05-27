@@ -76,7 +76,6 @@ public class GuiMenu {
 
 
                         //Aqui hago la lista de cada uno de los agentes segun su tipo especificado en el documento.
-                        System.out.println(configuracion_de_mapa);
                         Random rand = new Random();
 
                         for (int y=0; y<cantidad; y++) {
@@ -88,8 +87,7 @@ public class GuiMenu {
                             agente.setTiempo_enfermo(0);
                             int velocidad_maxima = Integer.parseInt(velocidades2[0]);
                             int velocidad_minima = Integer.parseInt(velocidades2[1]);
-                            System.out.println(velocidad_maxima);
-                            System.out.println(velocidad_minima);
+
 
                             if(velocidad_maxima == 0) agente.setVelocidad_x(0);
                             else agente.setVelocidad_x(velocidad_maxima+rand.nextInt(velocidad_maxima));
@@ -102,7 +100,6 @@ public class GuiMenu {
 
                         }
                     }
-                    System.out.println(agentes.toString());
                     arreglo_de_agentes = agentes;
                 } catch(Exception err) {
                     JOptionPane.showMessageDialog(null, err);
@@ -144,7 +141,6 @@ public class GuiMenu {
                              mapa.addPared(pared);
                              paredes -= 1;
                          }
-                         System.out.println(mapa.toString());
                          configuracion_de_mapa = mapa;
                      }
 
@@ -207,7 +203,6 @@ public class GuiMenu {
                     enfermedad.setCantidad_sanos_actuales(0);
                     enfermedad.setDias_totales(Integer.MAX_VALUE);
 
-                    System.out.println(enfermedad.toString());
                     configuracion_de_enfermedad = enfermedad;
                 } catch (Exception err) {
                     JOptionPane.showMessageDialog(null, err);
@@ -219,9 +214,8 @@ public class GuiMenu {
     class comenzar_prueba implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
+
                 new GuiMapa(arreglo_de_agentes, configuracion_de_mapa, configuracion_de_enfermedad);
-
-
         }
     }
 }
