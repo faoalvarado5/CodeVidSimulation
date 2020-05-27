@@ -6,6 +6,7 @@ import java.awt.geom.Ellipse2D;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class GuiMapaPane extends JPanel implements ActionListener {
 
@@ -71,8 +72,7 @@ public class GuiMapaPane extends JPanel implements ActionListener {
         for(int indiceEnfermos = 0; indiceEnfermos < arreglo_de_los_agentes.size();indiceEnfermos++){
             if(arreglo_de_los_agentes.get(indiceEnfermos).getEstado().equals("e")){
 
-                System.out.println(arreglo_de_los_agentes.get(indiceEnfermos).toString());
-                System.out.println("------------------------------------------------");
+
                 for(int indicePersonas = 0; indicePersonas < arreglo_de_los_agentes.size();indicePersonas++) {
 
                     int posicion_x = (int)arreglo_de_los_agentes.get(indicePersonas).getPosicion_en_eje_x();
@@ -84,10 +84,9 @@ public class GuiMapaPane extends JPanel implements ActionListener {
 
                     if((posicion_x + 5 >= posicion_x_enfermos && posicion_x - 5 <= posicion_x_enfermos) && (posicion_y + 5 >= posicion_y_enfermos && posicion_y - 5 <= posicion_y_enfermos)
                             && indiceEnfermos != indicePersonas){
+
                             arreglo_de_los_agentes.get(indicePersonas).setEstado("e");
-                            System.out.println("Entra");
-                            System.out.println(posicion_x + " = " + posicion_x_enfermos);
-                            System.out.println(posicion_y + " = " + posicion_y_enfermos);
+
                     }
 
                 }

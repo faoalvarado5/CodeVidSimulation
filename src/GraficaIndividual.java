@@ -17,9 +17,9 @@ public class GraficaIndividual extends JPanel {
     private int tamaño_del_punto = 10;
     private int cantidad_de_personas_en_la_prueba = 20;
     //Esta es la cantidad de divisiones que tendrá la gráfica en el eje X, dependera mucho de los dias
-    private List<Integer> arreglo = new ArrayList<>();
+    private ArrayList<Integer> arreglo = new ArrayList<>();
 
-    public GraficaIndividual(List<Integer> arreglo, int color) {
+    public GraficaIndividual(ArrayList<Integer> arreglo, int color) {
         this.arreglo = arreglo;
         this.color = color;
     }
