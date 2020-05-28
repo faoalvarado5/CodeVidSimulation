@@ -32,7 +32,7 @@ public class GuiMapa {
         mapas.add("Costa Rica",  new GuiMapaPane(configuracion_enfermedad, arreglo_de_agentes, configuracion_mapa, datos_progresivos_de_la_enfermedad, frame));
 
         mapas.setPreferredSize( new Dimension(configuracion_mapa.getAncho(), configuracion_mapa.getLargo()));
-        graficas.setPreferredSize( new Dimension(400, 700));
+        graficas.setPreferredSize( new Dimension(configuracion_mapa.getAncho(), configuracion_mapa.getLargo()));
 
         JPanel panel_completo = new JPanel();
 
@@ -41,8 +41,8 @@ public class GuiMapa {
 
         frame.add(panel_completo);
 
-        frame.setSize( 1000, 1000 );
         frame.setLocation( 200, 200 );
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.setVisible( true );
 
     }

@@ -8,15 +8,23 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ *
+ * Esta es la funcion para poder imprimir las personas en el mapa, contiene un actionlistener, este es necesario para que podamos
+ * seleccionar la acción que se quiera poner en el loop con el Timer
+ *
+ */
+
 public class GuiMapaPane extends JPanel implements ActionListener {
 
-    Timer t;
-    ArrayList<agente> arreglo_de_los_agentes;
-    enfermedad configuracion_de_la_enfermedad;
-    mapa configuracion_del_mapa;
-    DatosActuales datos_progresivos_de_la_enfermedad;
-    Frame f;
-    int contador;
+    Timer t;                                            // Esta variable nos permite poner en un loop la acción de mover las personas
+    ArrayList<agente> arreglo_de_los_agentes;           // Esta variable contiene toda la información de las personas en el mapa
+    enfermedad configuracion_de_la_enfermedad;          // Esta variable nos permite utilizar toda la configuración de la enfermedad
+    mapa configuracion_del_mapa;                        // Esta variable la ocupamos únicamente para poner las paredes en el mapa
+    DatosActuales datos_progresivos_de_la_enfermedad;   // Esta variable guarda un registro de los infectados, curados y sanos, de igual forma con los dias transcurridos
+    Frame f;                                            // Este es el frame principal del programa, lo incluímos aquí para que se actualice la pantalla durante cada loop del timer
+    int contador;                                       // Este contador guarda la cantidad de veces que se ha recorrido la acción del timer
+    Graphics2D mapa;                                    // Se crea la variable del mapa, aquí se desplegarán las personas y las paredes
 
     public GuiMapaPane(enfermedad configuracion_de_la_enfermedad, ArrayList<agente> arreglo_de_los_agentes, mapa configuracion_del_mapa, DatosActuales datos_progresivos_de_la_enfermedad, Frame f){
         this.configuracion_de_la_enfermedad = configuracion_de_la_enfermedad;
@@ -27,17 +35,28 @@ public class GuiMapaPane extends JPanel implements ActionListener {
         this.f = f;
     }
 
-    public void paintComponent(Graphics g){
+    // Esta función está incluída dentro de JComponent y es necesaria para mostrar gráficos en java
+    public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        contador ++;
-        Graphics2D mapa = (Graphics2D) g;
+        // Se le suma 1 cada vez que se recorre con el timer
+        contador++;
+
+        // El mapa se le asignará la variable g, que viene siendo el parametro por defecto de JComponent
+        mapa = (Graphics2D) g;
+
+        // Este arreglo de elipse se necesitará para poder poner todas las personas en el mapa
         Ellipse2D[] persona = new Ellipse2D.Double[arreglo_de_los_agentes.size()];
+
+        // Esta función se llama para poder cambiar las personas de sanas a enfermas, curadas a enfermas y curadas a sanas
         cambiar_color_de_las_personas();
 
-        for(int i = 0; i < arreglo_de_los_agentes.size(); i++){
 
+        for(int i = 0; i < arreglo_de_los_agentes.size(); i++){
+            // Por cada personas que exista se van a crear los círculos que se pondrán en el mapa
              persona[i] = new Ellipse2D.Double(arreglo_de_los_agentes.get(i).getPosicion_en_eje_x(),arreglo_de_los_agentes.get(i).getPosicion_en_eje_y(),10,10);
+
+             // Debemos poner el color correspondiente de las personas según su estado
              if(arreglo_de_los_agentes.get(i).getEstado().equals("e")){
                  mapa.setPaint(Color.RED);
              }else if(arreglo_de_los_agentes.get(i).getEstado().equals("c")){
@@ -45,24 +64,48 @@ public class GuiMapaPane extends JPanel implements ActionListener {
              }else{
                  mapa.setPaint(Color.GREEN);
              }
+             // Finalmente lo metemos en el mapa
              mapa.fill(persona[i]);
-
         }
+
+
+        for(int i = 0; i < configuracion_del_mapa.getParedes().size(); i++){
+            // Por cada pared que exista en la variable de configuración del mapa se debe de meter en el mapa
+            mapa.setPaint(Color.BLACK);
+            mapa.drawLine(configuracion_del_mapa.getParedes().get(i).getX1(), configuracion_del_mapa.getParedes().get(i).getY1(),
+                    configuracion_del_mapa.getParedes().get(i).getX2(), configuracion_del_mapa.getParedes().get(i).getX2());
+        }
+
+        // Dependiendo de la cantidad de días que una persona esté enferma se debe de sanar (Esto es una probabilidad, no es estático)
         curar_enfermos();
+
+        // Esta función actualiza los datos del día; esto es necesario para poder actualizar la gráfica en tiempo real
         actualizar_datos_progresivos();
 
+        // Se aumentan los dias cada vez que se recorre el timer
         datos_progresivos_de_la_enfermedad.aumentar_dias_corriendo();
 
+        // Esta es la condición de parada
         if(datos_progresivos_de_la_enfermedad.getDias() > 4000) t.stop();
+
+        // Se actualiza el frame cada vez que una persona se mueve y los datos de las gráficas cambian
         f.repaint();
+
+        // Inicia el timer
         t.start();
     }
     public void actionPerformed(ActionEvent e){
 
+        // Este loop sirve para mover las personas
         for(int i = 0; i < arreglo_de_los_agentes.size();i++){
+
+            // Si la persona llega al borde, entonces se debe devolver
             if(arreglo_de_los_agentes.get(i).getPosicion_en_eje_x() < 0 || arreglo_de_los_agentes.get(i).getPosicion_en_eje_x() > configuracion_del_mapa.getAncho()-20) arreglo_de_los_agentes.get(i).invertir_posicion_x();
             if(arreglo_de_los_agentes.get(i).getPosicion_en_eje_y() < 0 || arreglo_de_los_agentes.get(i).getPosicion_en_eje_y() > configuracion_del_mapa.getLargo()-20) arreglo_de_los_agentes.get(i).invertir_posicion_y();
 
+
+
+            // Se mueven las personas
             arreglo_de_los_agentes.get(i).mover_eje_x();
             arreglo_de_los_agentes.get(i).mover_eje_y();
             repaint();

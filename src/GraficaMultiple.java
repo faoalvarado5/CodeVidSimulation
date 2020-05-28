@@ -80,9 +80,9 @@ public class GraficaMultiple extends JPanel {
         grafica.setColor(Color.WHITE);
 
         grafica.setColor(Color.BLACK);
-
-        grafica.drawString("Cantidad de dias: " + (int)(arreglo_de_curados.size()/10), 150 , 630);
-
+        int x0 = getWidth()/2;
+        int y0 = getHeight()-10;
+        grafica.drawString("Cantidad de dias: " + (int)(arreglo_de_curados.size()/10), x0 , y0);
 
 
 
