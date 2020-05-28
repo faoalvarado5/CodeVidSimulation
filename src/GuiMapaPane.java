@@ -46,13 +46,14 @@ public class GuiMapaPane extends JPanel implements ActionListener {
                  mapa.setPaint(Color.GREEN);
              }
              mapa.fill(persona[i]);
+
         }
         curar_enfermos();
         actualizar_datos_progresivos();
 
         datos_progresivos_de_la_enfermedad.aumentar_dias_corriendo();
 
-        if(datos_progresivos_de_la_enfermedad.getDias() == configuracion_de_la_enfermedad.getDias_totales()) t.stop();
+        if(datos_progresivos_de_la_enfermedad.getDias() > 4000) t.stop();
         f.repaint();
         t.start();
     }
@@ -70,10 +71,10 @@ public class GuiMapaPane extends JPanel implements ActionListener {
 
     public void curar_enfermos(){
         for(int i = 0; i < arreglo_de_los_agentes.size();i++){
-            if(arreglo_de_los_agentes.get(i).getTiempo_enfermo() >= configuracion_de_la_enfermedad.getDias_de_recuperacion() && arreglo_de_los_agentes.get(i).getEstado().equals("e")){
+            if(arreglo_de_los_agentes.get(i).getTiempo_enfermo() >= 80 && arreglo_de_los_agentes.get(i).getEstado().equals("e")){
                 arreglo_de_los_agentes.get(i).setEstado("c");
                 arreglo_de_los_agentes.get(i).setTiempo_enfermo(0);
-            }else if(arreglo_de_los_agentes.get(i).getEstado().equals("e") && Math.random() >= configuracion_de_la_enfermedad.getProbabilidad_muerte()){
+            }else if(arreglo_de_los_agentes.get(i).getEstado().equals("e")){
                 arreglo_de_los_agentes.get(i).aumentar_dias_de_enfermos();
             }
         }
@@ -82,6 +83,7 @@ public class GuiMapaPane extends JPanel implements ActionListener {
     public void cambiar_color_de_las_personas(){
         for(int indiceEnfermos = 0; indiceEnfermos < arreglo_de_los_agentes.size();indiceEnfermos++){
             if(arreglo_de_los_agentes.get(indiceEnfermos).getEstado().equals("e")){
+
 
                 for(int indicePersonas = 0; indicePersonas < arreglo_de_los_agentes.size();indicePersonas++) {
 
@@ -105,6 +107,7 @@ public class GuiMapaPane extends JPanel implements ActionListener {
                             continue;
                         }
                     }
+
                 }
             }
         }
@@ -127,4 +130,6 @@ public class GuiMapaPane extends JPanel implements ActionListener {
         datos_progresivos_de_la_enfermedad.agregar_datos_de_sanos(cantidad_de_sanos);
 
     }
+
+
 }

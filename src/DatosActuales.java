@@ -11,7 +11,7 @@ public class DatosActuales {
         cantidad_de_enfermos = new ArrayList<>();
         cantidad_de_sanos = new ArrayList<>();
         cantidad_de_curados = new ArrayList<>();
-        dias = 0;
+        dias = 1;
     }
 
     public void aumentar_dias_corriendo(){ this.dias++; }
