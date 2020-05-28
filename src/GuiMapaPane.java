@@ -92,20 +92,13 @@ public class GuiMapaPane extends JPanel implements ActionListener {
                     int posicion_x_enfermos = (int)arreglo_de_los_agentes.get(indiceEnfermos).getPosicion_en_eje_x();
                     int posicion_y_enfermos = (int)arreglo_de_los_agentes.get(indiceEnfermos).getPosicion_en_eje_y();
 
+
+
                     if((posicion_x + 5 >= posicion_x_enfermos && posicion_x - 5 <= posicion_x_enfermos) && (posicion_y + 5 >= posicion_y_enfermos && posicion_y - 5 <= posicion_y_enfermos)
                             && indiceEnfermos != indicePersonas){
 
-                        int tipo1 = (int)arreglo_de_los_agentes.get(indicePersonas).getTipo();
-                        int tipo2 = (int)arreglo_de_los_agentes.get(indiceEnfermos).getTipo();
-                        float probabilidad_de_contagio = configuracion_de_la_enfermedad.getMatriz_de_cotagio().get(tipo1-1).get(tipo2-1);
-
-                        if((Math.random()*100) <= probabilidad_de_contagio) {
-
                             arreglo_de_los_agentes.get(indicePersonas).setEstado("e");
-                        } else{
 
-                            continue;
-                        }
                     }
 
                 }
