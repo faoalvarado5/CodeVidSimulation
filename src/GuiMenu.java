@@ -84,13 +84,13 @@ public class GuiMenu {
 
                         for (int y=0; y<cantidad; y++) {
                             agente agente = new agente();
-                            agente.setVelocidad_maxima(Integer.parseInt(velocidades2[0]));
-                            agente.setVelocidad_minima(Integer.parseInt(velocidades2[1]));
+                            agente.setVelocidad_maxima(Integer.parseInt(velocidades2[1]));
+                            agente.setVelocidad_minima(Integer.parseInt(velocidades2[0]));
                             agente.setTipo(tipo);
                             agente.setEstado(estado);
                             agente.setTiempo_enfermo(0);
-                            int velocidad_maxima = Integer.parseInt(velocidades2[0]);
-                            int velocidad_minima = Integer.parseInt(velocidades2[1]);
+                            int velocidad_maxima = Integer.parseInt(velocidades2[1]);
+                            int velocidad_minima = Integer.parseInt(velocidades2[0]);
 
 
                             if(velocidad_maxima == 0) agente.setVelocidad_x(0);
@@ -223,7 +223,9 @@ public class GuiMenu {
     class comenzar_prueba implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-
+            System.out.println(arreglo_de_agentes.toString());
+            System.out.println(configuracion_de_mapa.toString());
+            System.out.println(configuracion_de_enfermedad.toString());
                 new GuiMapa(arreglo_de_agentes, configuracion_de_mapa, configuracion_de_enfermedad);
         }
     }

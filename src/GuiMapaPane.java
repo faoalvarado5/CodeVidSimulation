@@ -16,16 +16,14 @@ public class GuiMapaPane extends JPanel implements ActionListener {
     mapa configuracion_del_mapa;
     DatosActuales datos_progresivos_de_la_enfermedad;
     Frame f;
-    JLabel dias_corriendo;
 
-    public GuiMapaPane(enfermedad configuracion_de_la_enfermedad, ArrayList<agente> arreglo_de_los_agentes, mapa configuracion_del_mapa, DatosActuales datos_progresivos_de_la_enfermedad, Frame f, JLabel dias_corriendo){
+    public GuiMapaPane(enfermedad configuracion_de_la_enfermedad, ArrayList<agente> arreglo_de_los_agentes, mapa configuracion_del_mapa, DatosActuales datos_progresivos_de_la_enfermedad, Frame f){
         this.configuracion_de_la_enfermedad = configuracion_de_la_enfermedad;
         this.arreglo_de_los_agentes = arreglo_de_los_agentes;
         this.configuracion_del_mapa = configuracion_del_mapa;
         this.datos_progresivos_de_la_enfermedad = datos_progresivos_de_la_enfermedad;
         t = new Timer(50, this);
         this.f = f;
-        this.dias_corriendo = dias_corriendo;
     }
 
     public void paintComponent(Graphics g){
@@ -71,11 +69,15 @@ public class GuiMapaPane extends JPanel implements ActionListener {
 
     public void curar_enfermos(){
         for(int i = 0; i < arreglo_de_los_agentes.size();i++){
-            if(arreglo_de_los_agentes.get(i).getTiempo_enfermo() >= 80 && arreglo_de_los_agentes.get(i).getEstado().equals("e")){
+            if(arreglo_de_los_agentes.get(i).getTiempo_enfermo() >= 180 && arreglo_de_los_agentes.get(i).getEstado().equals("e")){
                 arreglo_de_los_agentes.get(i).setEstado("c");
                 arreglo_de_los_agentes.get(i).setTiempo_enfermo(0);
             }else if(arreglo_de_los_agentes.get(i).getEstado().equals("e")){
                 arreglo_de_los_agentes.get(i).aumentar_dias_de_enfermos();
+                if(Math.random()*100 <= configuracion_de_la_enfermedad.getProbabilidad_muerte() && arreglo_de_los_agentes.get(i).getTiempo_enfermo()%10 == 0){
+                    arreglo_de_los_agentes.remove(i);
+                    System.out.println(Math.random()*100);
+                }
             }
         }
     }
@@ -84,7 +86,6 @@ public class GuiMapaPane extends JPanel implements ActionListener {
         for(int indiceEnfermos = 0; indiceEnfermos < arreglo_de_los_agentes.size();indiceEnfermos++){
             if(arreglo_de_los_agentes.get(indiceEnfermos).getEstado().equals("e")){
 
-
                 for(int indicePersonas = 0; indicePersonas < arreglo_de_los_agentes.size();indicePersonas++) {
 
                     int posicion_x = (int)arreglo_de_los_agentes.get(indicePersonas).getPosicion_en_eje_x();
@@ -92,15 +93,10 @@ public class GuiMapaPane extends JPanel implements ActionListener {
                     int posicion_x_enfermos = (int)arreglo_de_los_agentes.get(indiceEnfermos).getPosicion_en_eje_x();
                     int posicion_y_enfermos = (int)arreglo_de_los_agentes.get(indiceEnfermos).getPosicion_en_eje_y();
 
-
-
                     if((posicion_x + 5 >= posicion_x_enfermos && posicion_x - 5 <= posicion_x_enfermos) && (posicion_y + 5 >= posicion_y_enfermos && posicion_y - 5 <= posicion_y_enfermos)
                             && indiceEnfermos != indicePersonas){
-
                             arreglo_de_los_agentes.get(indicePersonas).setEstado("e");
-
                     }
-
                 }
             }
         }

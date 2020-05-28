@@ -7,7 +7,7 @@ public class DatosActuales {
     ArrayList<Integer>cantidad_de_curados;
     int dias;
 
-    public DatosActuales(int cantidad_de_personas_en_la_prueba){
+    public DatosActuales(){
         cantidad_de_enfermos = new ArrayList<>();
         cantidad_de_sanos = new ArrayList<>();
         cantidad_de_curados = new ArrayList<>();

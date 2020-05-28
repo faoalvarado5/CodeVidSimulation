@@ -1,3 +1,7 @@
+import java.util.Random;
+
+import static java.lang.Math.abs;
+
 public class agente {
 
     private int tipo;
@@ -37,7 +41,6 @@ public class agente {
     public void mover_eje_x(){
         this.posicion_en_eje_x += velocidad_x;
     }
-
     public void mover_eje_y(){
         this.posicion_en_eje_y += velocidad_y;
     }

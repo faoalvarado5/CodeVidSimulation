@@ -78,6 +78,14 @@ public class GraficaMultiple extends JPanel {
 
         // Dibuja un fondo blanco
         grafica.setColor(Color.WHITE);
+
+        grafica.setColor(Color.BLACK);
+
+        grafica.drawString("Cantidad de dias: " + (int)(arreglo_de_curados.size()/10), 150 , 630);
+
+
+
+
     }
 
     private void agregarDatosGrafica(Graphics2D grafica, List<Point> puntos, int color){
