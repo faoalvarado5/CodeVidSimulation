@@ -27,7 +27,7 @@ public class agente {
     }
 
     public void aumentar_dias_de_enfermos(){
-        this.tiempo_enfermo = tiempo_enfermo + 0.10;
+        this.tiempo_enfermo = tiempo_enfermo + 1.00;
     }
 
     public void invertir_posicion_x() { this.velocidad_x = -this.velocidad_x; }

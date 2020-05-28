@@ -14,7 +14,6 @@ public class GuiMapa {
         JFrame frame = new JFrame( "Drawing 2D shapes" );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 
-
         JTabbedPane graficas = new JTabbedPane();
         JTabbedPane mapas = new JTabbedPane();
 
@@ -30,7 +29,7 @@ public class GuiMapa {
         graficas.add("Grafica para enfermos", new GraficaIndividual(datos_progresivos_de_la_enfermedad.getCantidad_de_enfermos(),1, arreglo_de_agentes.size()));
         graficas.add("Grafica para sanos", new GraficaIndividual(datos_progresivos_de_la_enfermedad.getCantidad_de_sanos(),2, arreglo_de_agentes.size()));
 
-        JLabel dias_corriendo = new JLabel("Los dias que han transcurrido son: " + datos_progresivos_de_la_enfermedad.getDias() / 10);
+        JLabel dias_corriendo = new JLabel("Los dias que han transcurrido son: " + datos_progresivos_de_la_enfermedad.getDias());
 
         mapas.add("Costa Rica",  new GuiMapaPane(configuracion_enfermedad, arreglo_de_agentes, configuracion_mapa, datos_progresivos_de_la_enfermedad, frame, dias_corriendo));
 
