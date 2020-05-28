@@ -208,7 +208,7 @@ public class GuiMenu {
                     enfermedad.setCantidad_enfermos_actuales(0);
                     enfermedad.setCantidad_recuperados_actuales(0);
                     enfermedad.setCantidad_sanos_actuales(0);
-                    enfermedad.setDias_totales(Integer.MAX_VALUE);
+                    enfermedad.setDias_totales(20);
 
                     configuracion_de_enfermedad = enfermedad;
                     archivosCargados += 1;

@@ -16,6 +16,7 @@ public class GuiMapaPane extends JPanel implements ActionListener {
     mapa configuracion_del_mapa;
     DatosActuales datos_progresivos_de_la_enfermedad;
     Frame f;
+    int contador;
 
     public GuiMapaPane(enfermedad configuracion_de_la_enfermedad, ArrayList<agente> arreglo_de_los_agentes, mapa configuracion_del_mapa, DatosActuales datos_progresivos_de_la_enfermedad, Frame f){
         this.configuracion_de_la_enfermedad = configuracion_de_la_enfermedad;
@@ -29,6 +30,7 @@ public class GuiMapaPane extends JPanel implements ActionListener {
     public void paintComponent(Graphics g){
         super.paintComponent(g);
 
+        contador ++;
         Graphics2D mapa = (Graphics2D) g;
         Ellipse2D[] persona = new Ellipse2D.Double[arreglo_de_los_agentes.size()];
         cambiar_color_de_las_personas();
@@ -76,7 +78,6 @@ public class GuiMapaPane extends JPanel implements ActionListener {
                 arreglo_de_los_agentes.get(i).aumentar_dias_de_enfermos();
                 if(Math.random()*100 <= configuracion_de_la_enfermedad.getProbabilidad_muerte() && arreglo_de_los_agentes.get(i).getTiempo_enfermo()%10 == 0){
                     arreglo_de_los_agentes.remove(i);
-                    System.out.println(Math.random()*100);
                 }
             }
         }
@@ -95,7 +96,21 @@ public class GuiMapaPane extends JPanel implements ActionListener {
 
                     if((posicion_x + 5 >= posicion_x_enfermos && posicion_x - 5 <= posicion_x_enfermos) && (posicion_y + 5 >= posicion_y_enfermos && posicion_y - 5 <= posicion_y_enfermos)
                             && indiceEnfermos != indicePersonas){
+
+                        int tipo1 = (int)arreglo_de_los_agentes.get(indicePersonas).getTipo();
+                        int tipo2 = (int)arreglo_de_los_agentes.get(indiceEnfermos).getTipo();
+                        float probabilidad_de_contagio = configuracion_de_la_enfermedad.getMatriz_de_cotagio().get(tipo1-1).get(tipo2-1);
+
+                        if(configuracion_de_la_enfermedad.getReinfeccion() != 0 &&
+                                Math.random()*100 <= probabilidad_de_contagio &&
+                                arreglo_de_los_agentes.get(indicePersonas).getEstado().equals("c")){
+
                             arreglo_de_los_agentes.get(indicePersonas).setEstado("e");
+                        }else if (Math.random()*100 <= probabilidad_de_contagio &&
+                                arreglo_de_los_agentes.get(indicePersonas).getEstado().equals("s")){
+
+                            arreglo_de_los_agentes.get(indicePersonas).setEstado("e");
+                        }
                     }
                 }
             }
