@@ -1,7 +1,12 @@
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +20,7 @@ public class GuiMapa {
         JFrame frame = new JFrame( "Drawing 2D shapes" );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 
+        JButton boton_para_tomar_screen = new JButton("Guardar image");
 
         JTabbedPane graficas = new JTabbedPane();
         JTabbedPane mapas = new JTabbedPane();
@@ -38,12 +44,31 @@ public class GuiMapa {
 
         panel_completo.add(mapas);
         panel_completo.add(graficas);
-
+        panel_completo.add(boton_para_tomar_screen);
         frame.add(panel_completo);
+
 
         frame.setLocation( 200, 200 );
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.setVisible( true );
+
+        boton_para_tomar_screen.setPreferredSize(new Dimension(200, 40));
+        boton_para_tomar_screen.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                try
+                {
+                    BufferedImage image = new BufferedImage(frame.getWidth(), frame.getHeight(), BufferedImage.TYPE_INT_RGB);
+                    Graphics2D graphics2D = image.createGraphics();
+                    frame.paint(graphics2D);
+                    ImageIO.write(image,"jpeg", new File("grafica.jpeg"));
+                }
+                catch(Exception exception)
+                {
+                    //code
+                }
+            }
+        });
+
 
     }
 

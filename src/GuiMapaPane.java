@@ -86,7 +86,12 @@ public class GuiMapaPane extends JPanel implements ActionListener {
         datos_progresivos_de_la_enfermedad.aumentar_dias_corriendo();
 
         // Esta es la condición de parada
-        if(datos_progresivos_de_la_enfermedad.getDias() > 4000) t.stop();
+        if(datos_progresivos_de_la_enfermedad.getDias() > 1000) {
+            t.stop();
+            t.removeActionListener(this);
+        }
+
+
 
         // Se actualiza el frame cada vez que una persona se mueve y los datos de las gráficas cambian
         f.repaint();
