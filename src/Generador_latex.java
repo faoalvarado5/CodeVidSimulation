@@ -3,16 +3,31 @@ import java.io.*;
 
 public class Generador_latex {
 
-    public void generarLatex() throws IOException {
+    //public void generarLatex() throws IOException {
+    public static void main(String[] args) {
 
-        JFileChooser fileChooser = new JFileChooser();
-        fileChooser.showOpenDialog(null);
-        File archivo = fileChooser.getSelectedFile();
+        File archivo = new File("latex/salida.tex");
+        if (!archivo.exists()) {
+            try {
+                archivo.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
 
-        FileWriter fileWriter = new FileWriter(archivo, false);
+        FileWriter fileWriter = null;
+
+        try {
+            fileWriter = new FileWriter(archivo, false);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        String contents[] = new File("latex/").list();
 
         // Este es el string para generar la portada del documento de salida.
-        String portada = "\"" + "documentclass{report}" + "\n" +
+        String documento = "\"" + "documentclass{report}" + "\n" +
+                "\"" + "usepackage{graphicx}" + "\n" +
                 "\"" + "begin{document}" + "\n" +
                 "\"" + "begin{titlepage}" + "\n" +
                 "\"" + "centering" + "\n" +
@@ -33,19 +48,29 @@ public class Generador_latex {
                 "\"" + "newpage" + "\n" +
                 "\"" + "section{Gr\\'afico}" + "\n" +
 
-                "afgassfagdgh" + "\n" +
+                "\"" + "includegraphics{" + contents[0] + "}" + "\n" +
 
                 "\"" + "newpage" + "\n" +
-                "\"" + "section{Cambios en el mapa}" + "\n" +
+                "\"" + "section{Cambios en el mapa}" + "\n";
 
-                "Gsgsgsgsgsgsgs" + "\n" +
+                for(int i=1; i<contents.length-1; i++) {
 
-                "\"" + "end{document}" + "\n";
+                    documento += "\"" + "includegraphics{" + contents[i] + "}" + "\n";
+                }
 
-        portada = portada.replaceAll("\"","\\\\");
-        fileWriter.write(portada);
-        fileWriter.close();
+                documento += "\"" + "end{document}" + "\n";
+
+        documento = documento.replaceAll("\"", "\\\\");
+        try {
+            fileWriter.write(documento);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            fileWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         JOptionPane.showMessageDialog(null, "Latex generado con exito.");
     }
-
 }
