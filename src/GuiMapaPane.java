@@ -86,7 +86,7 @@ public class GuiMapaPane extends JPanel implements ActionListener {
         datos_progresivos_de_la_enfermedad.aumentar_dias_corriendo();
 
         // Esta es la condición de parada
-        if(datos_progresivos_de_la_enfermedad.getDias() > 1000) {
+        if(datos_progresivos_de_la_enfermedad.getDias() > 8000) {
             t.stop();
             t.removeActionListener(this);
         }
@@ -104,15 +104,50 @@ public class GuiMapaPane extends JPanel implements ActionListener {
         // Este loop sirve para mover las personas
         for(int i = 0; i < arreglo_de_los_agentes.size();i++){
 
+            // Esta variable la vamos a utilizar para poder ver si la persona choca con pared, si no lo hace entonces
+            // puede chocar con alguna linea puesta por el usuario.
+            Boolean validador_de_pared = false;
+
             // Si la persona llega al borde, entonces se debe devolver
-            if(arreglo_de_los_agentes.get(i).getPosicion_en_eje_x() < 0 || arreglo_de_los_agentes.get(i).getPosicion_en_eje_x() > configuracion_del_mapa.getAncho()-20) arreglo_de_los_agentes.get(i).invertir_posicion_x();
-            if(arreglo_de_los_agentes.get(i).getPosicion_en_eje_y() < 0 || arreglo_de_los_agentes.get(i).getPosicion_en_eje_y() > configuracion_del_mapa.getLargo()-20) arreglo_de_los_agentes.get(i).invertir_posicion_y();
+            if((arreglo_de_los_agentes.get(i).getPosicion_en_eje_x() < 0 || arreglo_de_los_agentes.get(i).getPosicion_en_eje_x() > configuracion_del_mapa.getAncho()-20)){
+                arreglo_de_los_agentes.get(i).invertir_posicion_x();
+                validador_de_pared = true;
+            }
+            if(arreglo_de_los_agentes.get(i).getPosicion_en_eje_y() < 0 || arreglo_de_los_agentes.get(i).getPosicion_en_eje_y() > configuracion_del_mapa.getLargo()-20) {
+                arreglo_de_los_agentes.get(i).invertir_posicion_y();
+                validador_de_pared = true;
+            }
+
+            if(!validador_de_pared){
+
+                for(int j = 0; j < configuracion_del_mapa.getParedes().size(); j++){
+                    ArrayList<Integer[]> funciones_lineales_de_las_paredes = configuracion_del_mapa.getParedes().get(j).getFunciones_lineales_de_las_paredes();
+                    for(int z = 0; z < funciones_lineales_de_las_paredes.size(); z++){
 
 
+                        //System.out.println(z);
+                        //System.out.println(funciones_lineales_de_las_paredes.size());
 
-            // Se mueven las personas
+                        if((arreglo_de_los_agentes.get(i).getPosicion_en_eje_x() == funciones_lineales_de_las_paredes.get(z)[1]  &&
+                                arreglo_de_los_agentes.get(i).getPosicion_en_eje_y() == funciones_lineales_de_las_paredes.get(z)[0])){
+                            arreglo_de_los_agentes.get(i).invertir_posicion_x();
+                            System.out.println("Eje x:" + funciones_lineales_de_las_paredes.get(z)[1]);
+                            arreglo_de_los_agentes.get(i).invertir_posicion_y();
+                            System.out.println("Eje y:" + funciones_lineales_de_las_paredes.get(z)[0]);
+
+                        }
+
+
+                    }
+                    //System.out.println("--------------------------------");
+                }
+            }
+
             arreglo_de_los_agentes.get(i).mover_eje_x();
             arreglo_de_los_agentes.get(i).mover_eje_y();
+
+            // Se mueven las personas
+
             repaint();
          }
     }

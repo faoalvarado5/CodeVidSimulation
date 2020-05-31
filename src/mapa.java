@@ -1,6 +1,7 @@
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Map;
 
 public class mapa {
 
@@ -17,6 +18,7 @@ public class mapa {
         this.ancho = ancho;
         this.paredes = paredes;
     }
+
 
     public int getLargo() {
         return largo;
@@ -45,6 +47,7 @@ public class mapa {
     public void addPared(pared pared) {
 
         this.paredes.add(pared);
+
     }
 
     @Override
