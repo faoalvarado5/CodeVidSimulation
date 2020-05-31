@@ -120,36 +120,37 @@ public class GuiMenu {
             fileChooser.showOpenDialog(null);
             File archivo = fileChooser.getSelectedFile();
             if(archivo != null){
-                 mapa mapa = new mapa();
-                 try {
+                mapa mapa = new mapa();
+                try {
 
-                     Scanner myReader = new Scanner(archivo);
+                    Scanner myReader = new Scanner(archivo);
 
-                     //Aqui leo la primera linea donde vienen las dimenciones del mapa
-                     String line1 = myReader.nextLine();
-                     String[] dimenciones = line1.split(" ");
-                     mapa.setAncho(Integer.parseInt(dimenciones[0]));
-                     mapa.setLargo(Integer.parseInt(dimenciones[1]));
+                    //Aqui leo la primera linea donde vienen las dimenciones del mapa
+                    String line1 = myReader.nextLine();
+                    System.out.println(line1);
+                    String[] dimenciones = line1.split(" ");
+                    mapa.setAncho(Integer.parseInt(dimenciones[0]));
+                    mapa.setLargo(Integer.parseInt(dimenciones[1]));
 
-                     if(myReader.hasNextLine()) {
+                    if(myReader.hasNextLine()) {
 
-                         //Aqui leo la cantidad de paredes que tiene el mapa.
-                         String line2 = myReader.nextLine();
-                         int paredes = Integer.parseInt(line2);
+                        //Aqui leo la cantidad de paredes que tiene el mapa.
+                        String line2 = myReader.nextLine();
+                        int paredes = Integer.parseInt(line2);
 
-                         while (paredes != 0) {
+                        while (paredes != 0) {
 
-                             //Aqui leo y asigno las dimenciones de las paredes hasta que ya no hayan mas.
-                             String linex = myReader.nextLine();
-                             String[] dimenciones2 = linex.split(" ");
-                             pared pared = new pared(Integer.parseInt(dimenciones2[0]), Integer.parseInt(dimenciones2[1]), Integer.parseInt(dimenciones2[2]), Integer.parseInt(dimenciones2[3]));
-                             mapa.addPared(pared);
-                             paredes -= 1;
-                         }
-                         configuracion_de_mapa = mapa;
-                         archivosCargados += 1;
-                         boton_agentes.setEnabled(true);
-                     }
+                            //Aqui leo y asigno las dimenciones de las paredes hasta que ya no hayan mas.
+                            String linex = myReader.nextLine();
+                            String[] dimenciones2 = linex.split(" ");
+                            pared pared = new pared(Integer.parseInt(dimenciones2[0]), Integer.parseInt(dimenciones2[1]), Integer.parseInt(dimenciones2[2]), Integer.parseInt(dimenciones2[3]));
+                            mapa.addPared(pared);
+                            paredes -= 1;
+                        }
+                        configuracion_de_mapa = mapa;
+                        archivosCargados += 1;
+                        boton_agentes.setEnabled(true);
+                    }
 
                  } catch(Exception err) {
                      JOptionPane.showMessageDialog(null, err);

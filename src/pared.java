@@ -24,44 +24,41 @@ public class pared {
             if(x1 > x2){
                 for (int i = x2; i <= x1; i++){
                     Integer[] puntos = new Integer[2];
-                    puntos[0] = y1+25;
-                    puntos[1] = i;
+                    puntos[0] = y1;
+                    puntos[1] = i+25;
                     funciones_lineales_de_las_paredes.add(puntos);
                 }
             }else{
                 for (int i = x1; i <= x2; i++){
                     Integer[] puntos = new Integer[2];
-                    puntos[0] = y1+25;
-                    puntos[1] = i;
+                    puntos[0] = y1;
+                    puntos[1] = i+25;
                     funciones_lineales_de_las_paredes.add(puntos);
                 }
             }
         }else{
-            System.out.println("Entra");
-            System.out.println("y1 " + y1);
-            System.out.println("y2 " + y2);
+
             if(y1 > y2){
                 for (int i = y2; i <= y1; i++){
                     Integer[] puntos = new Integer[2];
-                    puntos[0] = i;
-                    puntos[1] = x1+25;
+                    puntos[0] = i+25;
+                    puntos[1] = x1;
                     funciones_lineales_de_las_paredes.add(puntos);
                 }
             }else{
                 for (int i = y1; i <= y2; i++){
-                    System.out.println(i);
                     Integer[] puntos = new Integer[2];
-                    puntos[0] = i;
-                    puntos[1] = x1+25;
+                    puntos[0] = i+25;
+                    puntos[1] = x1;
                     funciones_lineales_de_las_paredes.add(puntos);
                 }
             }
         }
 
-        for (int i = 0; i < funciones_lineales_de_las_paredes.size(); i++){
-            System.out.println("X: " + funciones_lineales_de_las_paredes.get(i)[1]);
-            System.out.println("Y: " + funciones_lineales_de_las_paredes.get(i)[0]);
+        for(int i = 0; i < funciones_lineales_de_las_paredes.size(); i++){
+            System.out.println("(" + funciones_lineales_de_las_paredes.get(i)[1] + "," + funciones_lineales_de_las_paredes.get(i)[0]+ ")");
         }
+
     }
 
     public ArrayList<Integer[]> getFunciones_lineales_de_las_paredes() {

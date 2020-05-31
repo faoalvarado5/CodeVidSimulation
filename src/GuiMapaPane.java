@@ -31,7 +31,7 @@ public class GuiMapaPane extends JPanel implements ActionListener {
         this.arreglo_de_los_agentes = arreglo_de_los_agentes;
         this.configuracion_del_mapa = configuracion_del_mapa;
         this.datos_progresivos_de_la_enfermedad = datos_progresivos_de_la_enfermedad;
-        t = new Timer(50, this);
+        t = new Timer(100, this);
         this.f = f;
     }
 
@@ -73,7 +73,7 @@ public class GuiMapaPane extends JPanel implements ActionListener {
             // Por cada pared que exista en la variable de configuración del mapa se debe de meter en el mapa
             mapa.setPaint(Color.BLACK);
             mapa.drawLine(configuracion_del_mapa.getParedes().get(i).getX1(), configuracion_del_mapa.getParedes().get(i).getY1(),
-                    configuracion_del_mapa.getParedes().get(i).getX2(), configuracion_del_mapa.getParedes().get(i).getX2());
+                    configuracion_del_mapa.getParedes().get(i).getX2(), configuracion_del_mapa.getParedes().get(i).getY2());
         }
 
         // Dependiendo de la cantidad de días que una persona esté enferma se debe de sanar (Esto es una probabilidad, no es estático)
@@ -113,43 +113,37 @@ public class GuiMapaPane extends JPanel implements ActionListener {
                 arreglo_de_los_agentes.get(i).invertir_posicion_x();
                 validador_de_pared = true;
             }
-            if(arreglo_de_los_agentes.get(i).getPosicion_en_eje_y() < 0 || arreglo_de_los_agentes.get(i).getPosicion_en_eje_y() > configuracion_del_mapa.getLargo()-20) {
+            if(arreglo_de_los_agentes.get(i).getPosicion_en_eje_y() < 0 || arreglo_de_los_agentes.get(i).getPosicion_en_eje_y() > configuracion_del_mapa.getLargo()-25) {
                 arreglo_de_los_agentes.get(i).invertir_posicion_y();
                 validador_de_pared = true;
             }
 
-            if(!validador_de_pared){
-
-                for(int j = 0; j < configuracion_del_mapa.getParedes().size(); j++){
-                    ArrayList<Integer[]> funciones_lineales_de_las_paredes = configuracion_del_mapa.getParedes().get(j).getFunciones_lineales_de_las_paredes();
-                    for(int z = 0; z < funciones_lineales_de_las_paredes.size(); z++){
+            for(int j = 0; j < configuracion_del_mapa.getParedes().size(); j++){
+                ArrayList<Integer[]> funciones_lineales_de_las_paredes = configuracion_del_mapa.getParedes().get(j).getFunciones_lineales_de_las_paredes();
+                for(int z = 0; z < funciones_lineales_de_las_paredes.size(); z++){
 
 
-                        //System.out.println(z);
-                        //System.out.println(funciones_lineales_de_las_paredes.size());
+                    //System.out.println(z);
+                    //System.out.println(funciones_lineales_de_las_paredes.size());
 
-                        if((arreglo_de_los_agentes.get(i).getPosicion_en_eje_x() == funciones_lineales_de_las_paredes.get(z)[1]  &&
-                                arreglo_de_los_agentes.get(i).getPosicion_en_eje_y() == funciones_lineales_de_las_paredes.get(z)[0])){
-                            arreglo_de_los_agentes.get(i).invertir_posicion_x();
-                            System.out.println("Eje x:" + funciones_lineales_de_las_paredes.get(z)[1]);
-                            arreglo_de_los_agentes.get(i).invertir_posicion_y();
-                            System.out.println("Eje y:" + funciones_lineales_de_las_paredes.get(z)[0]);
+                    if((
+                     funciones_lineales_de_las_paredes.get(z)[1] > arreglo_de_los_agentes.get(i).getPosicion_en_eje_x() + arreglo_de_los_agentes.get(i).getVelocidad_x()  &&
+                                    (arreglo_de_los_agentes.get(i).getPosicion_en_eje_y() == funciones_lineales_de_las_paredes.get(z)[0])
 
-                        }
-
+                    )){
+                        arreglo_de_los_agentes.get(i).invertir_posicion_x();
+                        arreglo_de_los_agentes.get(i).invertir_posicion_y();
+                        arreglo_de_los_agentes.get(i).mover_eje_y();
+                        arreglo_de_los_agentes.get(i).mover_eje_x();
 
                     }
-                    //System.out.println("--------------------------------");
                 }
             }
-
-            arreglo_de_los_agentes.get(i).mover_eje_x();
             arreglo_de_los_agentes.get(i).mover_eje_y();
+            arreglo_de_los_agentes.get(i).mover_eje_x();
 
-            // Se mueven las personas
-
-            repaint();
          }
+        repaint();
     }
 
     public void curar_enfermos(){

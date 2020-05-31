@@ -45,6 +45,13 @@ public class agente {
         this.posicion_en_eje_y += velocidad_y;
     }
 
+    public void mover_para_atras_eje_x(){
+        this.posicion_en_eje_x = this.posicion_en_eje_x - (velocidad_x*2);
+    }
+    public void mover_para_atras_eje_y(){
+        this.posicion_en_eje_y = this.posicion_en_eje_y - (velocidad_y*2);
+    }
+
     public void setTipo(int tipo) {
         this.tipo = tipo;
     }
