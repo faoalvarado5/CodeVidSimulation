@@ -6,7 +6,7 @@ public class pared {
     private int x2;
     private int y1;
     private int y2;
-
+    private Boolean es_horizontal = true;
     private ArrayList<Integer[]> funciones_lineales_de_las_paredes;
 
     public pared() {
@@ -21,23 +21,24 @@ public class pared {
         this.funciones_lineales_de_las_paredes = new ArrayList<>();
 
         if(y1 + 2 > y2 && y1 - 2 < y2){
+            es_horizontal = true;
             if(x1 > x2){
                 for (int i = x2; i <= x1; i++){
                     Integer[] puntos = new Integer[2];
-                    puntos[0] = y1;
-                    puntos[1] = i+25;
+                    puntos[0] = y1+25;
+                    puntos[1] = i;
                     funciones_lineales_de_las_paredes.add(puntos);
                 }
             }else{
                 for (int i = x1; i <= x2; i++){
                     Integer[] puntos = new Integer[2];
-                    puntos[0] = y1;
-                    puntos[1] = i+25;
+                    puntos[0] = y1+25;
+                    puntos[1] = i;
                     funciones_lineales_de_las_paredes.add(puntos);
                 }
             }
         }else{
-
+            es_horizontal = false;
             if(y1 > y2){
                 for (int i = y2; i <= y1; i++){
                     Integer[] puntos = new Integer[2];
@@ -67,6 +68,14 @@ public class pared {
 
     public void setFunciones_lineales_de_las_paredes(ArrayList<Integer[]> funciones_lineales_de_las_paredes) {
         this.funciones_lineales_de_las_paredes = funciones_lineales_de_las_paredes;
+    }
+
+    public Boolean getEs_horizontal() {
+        return es_horizontal;
+    }
+
+    public void setEs_horizontal(Boolean es_horizontal) {
+        this.es_horizontal = es_horizontal;
     }
 
     public int getX1() {

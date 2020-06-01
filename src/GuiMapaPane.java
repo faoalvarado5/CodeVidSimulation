@@ -106,42 +106,113 @@ public class GuiMapaPane extends JPanel implements ActionListener {
 
             // Esta variable la vamos a utilizar para poder ver si la persona choca con pared, si no lo hace entonces
             // puede chocar con alguna linea puesta por el usuario.
-            Boolean validador_de_pared = false;
+            int validador_de_pared = 0;
+            Double posicion_de_la_pared_que_choco = 0.0;
+            if(arreglo_de_los_agentes.get(i).getTipo() != 3) {
 
-            // Si la persona llega al borde, entonces se debe devolver
-            if((arreglo_de_los_agentes.get(i).getPosicion_en_eje_x() < 0 || arreglo_de_los_agentes.get(i).getPosicion_en_eje_x() > configuracion_del_mapa.getAncho()-20)){
-                arreglo_de_los_agentes.get(i).invertir_posicion_x();
-                validador_de_pared = true;
-            }
-            if(arreglo_de_los_agentes.get(i).getPosicion_en_eje_y() < 0 || arreglo_de_los_agentes.get(i).getPosicion_en_eje_y() > configuracion_del_mapa.getLargo()-25) {
-                arreglo_de_los_agentes.get(i).invertir_posicion_y();
-                validador_de_pared = true;
-            }
+                arreglo_de_los_agentes.get(i).agregar_puntos_al_agente_de_tipo_2();
 
-            for(int j = 0; j < configuracion_del_mapa.getParedes().size(); j++){
-                ArrayList<Integer[]> funciones_lineales_de_las_paredes = configuracion_del_mapa.getParedes().get(j).getFunciones_lineales_de_las_paredes();
-                for(int z = 0; z < funciones_lineales_de_las_paredes.size(); z++){
+                // Si la persona llega al borde, entonces se debe devolver
+                if ((arreglo_de_los_agentes.get(i).getPosicion_en_eje_x() < 0 || arreglo_de_los_agentes.get(i).getPosicion_en_eje_x() > configuracion_del_mapa.getAncho() - 20)) {
+                    arreglo_de_los_agentes.get(i).invertir_posicion_x();
+                }
+                if (arreglo_de_los_agentes.get(i).getPosicion_en_eje_y() < 0 || arreglo_de_los_agentes.get(i).getPosicion_en_eje_y() > configuracion_del_mapa.getLargo() - 25) {
+                    arreglo_de_los_agentes.get(i).invertir_posicion_y();
+                }
 
 
-                    //System.out.println(z);
-                    //System.out.println(funciones_lineales_de_las_paredes.size());
-
-                    if((
-                     funciones_lineales_de_las_paredes.get(z)[1] > arreglo_de_los_agentes.get(i).getPosicion_en_eje_x() + arreglo_de_los_agentes.get(i).getVelocidad_x()  &&
+                for (int j = 0; j < configuracion_del_mapa.getParedes().size(); j++) {
+                    ArrayList<Integer[]> funciones_lineales_de_las_paredes = configuracion_del_mapa.getParedes().get(j).getFunciones_lineales_de_las_paredes();
+                    for (int z = 0; z < funciones_lineales_de_las_paredes.size(); z++) {
+                        if (!configuracion_del_mapa.getParedes().get(j).getEs_horizontal()) {
+                            if ((funciones_lineales_de_las_paredes.get(z)[1] > arreglo_de_los_agentes.get(i).getPosicion_en_eje_x() + arreglo_de_los_agentes.get(i).getVelocidad_x() &&
                                     (arreglo_de_los_agentes.get(i).getPosicion_en_eje_y() == funciones_lineales_de_las_paredes.get(z)[0])
+                            )) {
+                                validador_de_pared = 1;
+                                Double random = Math.random()*2;
+                                if(random > 0.5) arreglo_de_los_agentes.get(i).invertir_posicion_x();
+                                else arreglo_de_los_agentes.get(i).invertir_posicion_y();
+                                posicion_de_la_pared_que_choco = funciones_lineales_de_las_paredes.get(z)[1]/1.0;
+                            }
+                        }else {
+                            if ((funciones_lineales_de_las_paredes.get(z)[0] > arreglo_de_los_agentes.get(i).getPosicion_en_eje_y() + arreglo_de_los_agentes.get(i).getVelocidad_y() &&
+                                    (arreglo_de_los_agentes.get(i).getPosicion_en_eje_x() == funciones_lineales_de_las_paredes.get(z)[1])
+                            )) {
+                                System.out.println("Horizontal");
 
-                    )){
-                        arreglo_de_los_agentes.get(i).invertir_posicion_x();
-                        arreglo_de_los_agentes.get(i).invertir_posicion_y();
-                        arreglo_de_los_agentes.get(i).mover_eje_y();
-                        arreglo_de_los_agentes.get(i).mover_eje_x();
-
+                                validador_de_pared = 2;
+                                Double random = Math.random()*2;
+                                if(random > 0.5) arreglo_de_los_agentes.get(i).invertir_posicion_x();
+                                else arreglo_de_los_agentes.get(i).invertir_posicion_y();
+                                posicion_de_la_pared_que_choco = funciones_lineales_de_las_paredes.get(z)[0]/1.0;
+                            }
+                        }
                     }
                 }
-            }
-            arreglo_de_los_agentes.get(i).mover_eje_y();
-            arreglo_de_los_agentes.get(i).mover_eje_x();
 
+                if(validador_de_pared == 1){
+                    arreglo_de_los_agentes.get(i).setPosicion_en_eje_y(posicion_de_la_pared_que_choco);
+                }else if(validador_de_pared == 2){
+                    System.out.println("Entrro a tocar linea");
+                    System.out.println(arreglo_de_los_agentes.get(i).toString());
+                    arreglo_de_los_agentes.get(i).setPosicion_en_eje_y(posicion_de_la_pared_que_choco);
+                    System.out.println(arreglo_de_los_agentes.get(i).toString());
+                }else if(arreglo_de_los_agentes.get(i).getTipo() == 1 || arreglo_de_los_agentes.get(i).getPosiciones_del_tipo_2().size() < 7) {
+                    arreglo_de_los_agentes.get(i).mover_eje_y();
+                    arreglo_de_los_agentes.get(i).mover_eje_x();
+                }else if(arreglo_de_los_agentes.get(i).getPosiciones_del_tipo_2().size() >= 7){
+                    ArrayList<Double[]> puntos_del_tipo_2 = arreglo_de_los_agentes.get(i).getPosiciones_del_tipo_2();
+                    arreglo_de_los_agentes.get(i).setPosicion_en_eje_x(puntos_del_tipo_2.get(arreglo_de_los_agentes.get(i).getPosicion_del_tipo_2())[0]);
+                    arreglo_de_los_agentes.get(i).setPosicion_en_eje_y(puntos_del_tipo_2.get(arreglo_de_los_agentes.get(i).getPosicion_del_tipo_2())[1]);
+
+                    arreglo_de_los_agentes.get(i).aumentar_posicion_del_tipo_2();
+                }
+            }else {
+
+                Boolean validador_para_averiguar_si_toca_pared_del_frame = false;
+
+                // Si la persona llega al borde, entonces se debe devolver
+                if ((arreglo_de_los_agentes.get(i).getPosicion_en_eje_x() < 0 || arreglo_de_los_agentes.get(i).getPosicion_en_eje_x() > configuracion_del_mapa.getAncho() - 20)) {
+                    arreglo_de_los_agentes.get(i).invertir_posicion_x();
+                    validador_para_averiguar_si_toca_pared_del_frame = true;
+                }
+                if (arreglo_de_los_agentes.get(i).getPosicion_en_eje_y() < 0 || arreglo_de_los_agentes.get(i).getPosicion_en_eje_y() > configuracion_del_mapa.getLargo() - 25) {
+                    arreglo_de_los_agentes.get(i).invertir_posicion_y();
+                    validador_para_averiguar_si_toca_pared_del_frame = true;
+                }
+
+
+                for (int j = 0; j < configuracion_del_mapa.getParedes().size(); j++) {
+                    ArrayList<Integer[]> funciones_lineales_de_las_paredes = configuracion_del_mapa.getParedes().get(j).getFunciones_lineales_de_las_paredes();
+                    for (int z = 0; z < funciones_lineales_de_las_paredes.size(); z++) {
+                        if (configuracion_del_mapa.getParedes().get(j).getEs_horizontal())
+                            if ((funciones_lineales_de_las_paredes.get(z)[1] > arreglo_de_los_agentes.get(i).getPosicion_en_eje_x() + arreglo_de_los_agentes.get(i).getVelocidad_x() &&
+                                    (arreglo_de_los_agentes.get(i).getPosicion_en_eje_y() == funciones_lineales_de_las_paredes.get(z)[0])
+                            )) {
+                                validador_para_averiguar_si_toca_pared_del_frame = true;
+                                arreglo_de_los_agentes.get(i).invertir_posicion_x();
+                                arreglo_de_los_agentes.get(i).invertir_posicion_y();
+
+                            } else if ((funciones_lineales_de_las_paredes.get(z)[0] > arreglo_de_los_agentes.get(i).getPosicion_en_eje_y() + arreglo_de_los_agentes.get(i).getVelocidad_y() &&
+                                    (arreglo_de_los_agentes.get(i).getPosicion_en_eje_x() == funciones_lineales_de_las_paredes.get(z)[1])
+                            )) {
+                                System.out.println("Entra aqui");
+                                validador_para_averiguar_si_toca_pared_del_frame = true;
+                                arreglo_de_los_agentes.get(i).invertir_posicion_x();
+                                arreglo_de_los_agentes.get(i).invertir_posicion_y();
+                            }
+                    }
+                }
+
+
+                if(!validador_para_averiguar_si_toca_pared_del_frame){
+                    arreglo_de_los_agentes.get(i).mover_aleatoreamente();
+                }
+                arreglo_de_los_agentes.get(i).mover_eje_y();
+                arreglo_de_los_agentes.get(i).mover_eje_x();
+
+
+            }
          }
         repaint();
     }

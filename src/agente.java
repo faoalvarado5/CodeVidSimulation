@@ -1,3 +1,6 @@
+import javax.swing.text.StyledEditorKit;
+import java.sql.SQLOutput;
+import java.util.ArrayList;
 import java.util.Random;
 
 import static java.lang.Math.abs;
@@ -13,7 +16,9 @@ public class agente {
     private double posicion_en_eje_x;
     private double posicion_en_eje_y;
     private double tiempo_enfermo;
-
+    private ArrayList<Double[]> posiciones_del_tipo_2 = new ArrayList<Double[]>();;
+    private int posicion_del_tipo_2 = 0;
+    private Boolean validador_para_mover_posicion_del_tipo_2 = true;
 
     public agente(int tipo, String estado, double velocidad_x, double velocidad_y, int velocidad_maxima, int velocidad_minima, double posicion_en_eje_x, double posicion_en_eje_y, double tiempo_enfermo) {
         this.tipo = tipo;
@@ -25,10 +30,41 @@ public class agente {
         this.posicion_en_eje_x = posicion_en_eje_x;
         this.posicion_en_eje_y = posicion_en_eje_y;
         this.tiempo_enfermo = tiempo_enfermo;
+        this.posicion_del_tipo_2 = 0;
     }
 
     public agente() {
     }
+
+    public void mover_aleatoreamente(){
+
+        Double random_x = Math.random()*2;
+        Double random_y = Math.random()*2;
+
+        if(random_x > 0.5) this.velocidad_x = -this.velocidad_x;
+        if(random_y > 0.5) this.velocidad_y = -this.velocidad_y;
+    }
+
+    public void agregar_puntos_al_agente_de_tipo_2(){
+        if(posiciones_del_tipo_2.size() < 7){
+            Double[] puntos = new Double[2];
+            puntos[0] = posicion_en_eje_x;
+            puntos[1] = posicion_en_eje_y;
+            posiciones_del_tipo_2.add(puntos);
+        }
+    }
+
+    public void aumentar_posicion_del_tipo_2(){
+
+        if(this.posicion_del_tipo_2 == 0) validador_para_mover_posicion_del_tipo_2 = true;
+        else if(this.posicion_del_tipo_2 == 6) validador_para_mover_posicion_del_tipo_2 = false;
+
+        if(validador_para_mover_posicion_del_tipo_2) this.posicion_del_tipo_2++;
+        else this.posicion_del_tipo_2--;
+
+
+    }
+
 
     public void aumentar_dias_de_enfermos(){
         this.tiempo_enfermo = tiempo_enfermo + 0.10;
@@ -122,6 +158,22 @@ public class agente {
 
     public double getTiempo_enfermo() {
         return tiempo_enfermo;
+    }
+
+    public ArrayList<Double[]> getPosiciones_del_tipo_2() {
+        return posiciones_del_tipo_2;
+    }
+
+    public void setPosiciones_del_tipo_2(ArrayList<Double[]> posiciones_del_tipo_2) {
+        this.posiciones_del_tipo_2 = posiciones_del_tipo_2;
+    }
+
+    public int getPosicion_del_tipo_2() {
+        return posicion_del_tipo_2;
+    }
+
+    public void setPosicion_del_tipo_2(int posicion_del_tipo_2) {
+        this.posicion_del_tipo_2 = posicion_del_tipo_2;
     }
 
     @Override
