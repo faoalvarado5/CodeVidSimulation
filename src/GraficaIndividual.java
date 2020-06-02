@@ -9,8 +9,8 @@ public class GraficaIndividual extends JPanel {
 
     private int padding_de_la_grafica = 25;
     private int padding_del_label = 25;
-    private Color lineColor = new Color(44, 102, 230, 180);
-    private Color color_del_punto_curados = new Color(231, 225, 21, 180);
+    private Color lineColor = new Color(230, 205, 44, 180);
+    private Color color_del_punto_curados = new Color(21, 67, 231, 180);
     private Color color_del_punto_enfermos = new Color(255, 0, 0, 180);
     private Color color_del_punto_sanos = new Color(21, 161, 0, 180);
     private Color gridColor = new Color(200, 200, 200, 200);
@@ -87,9 +87,9 @@ public class GraficaIndividual extends JPanel {
         if(color == 1){
             grafica.setColor(color_del_punto_enfermos);
         }else if(color == 0){
-            grafica.setColor(color_del_punto_sanos);
-        }else{
             grafica.setColor(color_del_punto_curados);
+        }else{
+            grafica.setColor(color_del_punto_sanos);
         }
 
         for (int i = 0; i < puntos.size(); i++) {
