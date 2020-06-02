@@ -1,13 +1,9 @@
 import javax.swing.*;
-import javax.swing.text.MutableAttributeSet;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Ellipse2D;
-import java.math.RoundingMode;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Random;
 
 /**
  *
@@ -86,25 +82,26 @@ public class GuiMapaPane extends JPanel implements ActionListener {
         // Dependiendo de la cantidad de días que una persona esté enferma se debe de sanar (Esto es una probabilidad, no es estático)
         curar_enfermos();
 
-        // Esta función actualiza los datos del día; esto es necesario para poder actualizar la gráfica en tiempo real
-        actualizar_datos_progresivos();
+
 
         // Se aumentan los dias cada vez que se recorre el timer
         datos_progresivos_de_la_enfermedad.aumentar_dias_corriendo();
 
         // Esta es la condición de parada
-        if(datos_progresivos_de_la_enfermedad.getDias() > 8000) {
+        if(datos_progresivos_de_la_enfermedad.getDias() > 80) {
             t.stop();
-            t.removeActionListener(this);
+            t = new Timer(30, this);
+        }else{
+            // Esta función actualiza los datos del día; esto es necesario para poder actualizar la gráfica en tiempo real
+            actualizar_datos_progresivos();
         }
-
-
 
         // Se actualiza el frame cada vez que una persona se mueve y los datos de las gráficas cambian
         f.repaint();
 
         // Inicia el timer
-        t.start();
+
+        System.out.println(contador);
     }
     public void actionPerformed(ActionEvent e){
 

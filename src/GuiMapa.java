@@ -9,9 +9,6 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
-
-import static com.sun.java.accessibility.util.AWTEventMonitor.addMouseListener;
 
 public class GuiMapa {
 
@@ -100,8 +97,5 @@ public class GuiMapa {
                 }
             }
         });
-
-
     }
-
 }
