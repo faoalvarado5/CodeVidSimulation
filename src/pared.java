@@ -25,15 +25,15 @@ public class pared {
             if(x1 > x2){
                 for (int i = x2; i <= x1; i++){
                     Integer[] puntos = new Integer[2];
-                    puntos[0] = y1+25;
-                    puntos[1] = i;
+                    puntos[0] = i;
+                    puntos[1] = y1;
                     funciones_lineales_de_las_paredes.add(puntos);
                 }
             }else{
                 for (int i = x1; i <= x2; i++){
                     Integer[] puntos = new Integer[2];
-                    puntos[0] = y1+25;
-                    puntos[1] = i;
+                    puntos[0] = i;
+                    puntos[1] = y1;
                     funciones_lineales_de_las_paredes.add(puntos);
                 }
             }
@@ -42,15 +42,15 @@ public class pared {
             if(y1 > y2){
                 for (int i = y2; i <= y1; i++){
                     Integer[] puntos = new Integer[2];
-                    puntos[0] = i+25;
-                    puntos[1] = x1;
+                    puntos[0] = x1;
+                    puntos[1] = i;
                     funciones_lineales_de_las_paredes.add(puntos);
                 }
             }else{
                 for (int i = y1; i <= y2; i++){
                     Integer[] puntos = new Integer[2];
-                    puntos[0] = i+25;
-                    puntos[1] = x1;
+                    puntos[0] = x1;
+                    puntos[1] = i;
                     funciones_lineales_de_las_paredes.add(puntos);
                 }
             }

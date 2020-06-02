@@ -3,8 +3,7 @@ import java.io.*;
 
 public class Generador_latex {
 
-    //public void generarLatex() throws IOException {
-    public static void main(String[] args) {
+    public void generarLatex() throws IOException {
 
         File archivo = new File("latex/salida.tex");
         if (!archivo.exists()) {
@@ -53,12 +52,12 @@ public class Generador_latex {
                 "\"" + "newpage" + "\n" +
                 "\"" + "section{Cambios en el mapa}" + "\n";
 
-                for(int i=1; i<contents.length-1; i++) {
+        for (int i = 1; i < contents.length - 1; i++) {
 
-                    documento += "\"" + "includegraphics{" + contents[i] + "}" + "\n";
-                }
+            documento += "\"" + "includegraphics{" + contents[i] + "}" + "\n";
+        }
 
-                documento += "\"" + "end{document}" + "\n";
+        documento += "\"" + "end{document}" + "\n";
 
         documento = documento.replaceAll("\"", "\\\\");
         try {

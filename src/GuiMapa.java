@@ -7,6 +7,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +17,7 @@ public class GuiMapa {
 
     JFrame f;
     DatosActuales datos_progresivos_de_la_enfermedad = new DatosActuales();
+    int contador_de_imagenes_tomadas = 0;
 
     GuiMapa(ArrayList<agente> arreglo_de_agentes, mapa configuracion_mapa, enfermedad configuracion_enfermedad) {
 
@@ -23,6 +25,9 @@ public class GuiMapa {
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 
         JButton boton_para_tomar_screen = new JButton("Guardar image");
+        JButton boton_para_guardar_latex = new JButton("Generar latex con imagenes tomadas");
+
+
 
         JTabbedPane graficas = new JTabbedPane();
         JTabbedPane mapas = new JTabbedPane();
@@ -47,6 +52,7 @@ public class GuiMapa {
         panel_completo.add(mapas);
         panel_completo.add(graficas);
         panel_completo.add(boton_para_tomar_screen);
+        panel_completo.add(boton_para_guardar_latex);
         frame.add(panel_completo);
 
         mapas.addMouseListener(new MouseAdapter() {
@@ -70,7 +76,11 @@ public class GuiMapa {
                     BufferedImage image = new BufferedImage(frame.getWidth(), frame.getHeight(), BufferedImage.TYPE_INT_RGB);
                     Graphics2D graphics2D = image.createGraphics();
                     frame.paint(graphics2D);
-                    ImageIO.write(image,"jpeg", new File("grafica.jpeg"));
+                    File file = new File("latex/");
+                    //Creating the directory
+                    file.mkdir();
+                    ImageIO.write(image,"jpeg", new File("latex/grafica"+contador_de_imagenes_tomadas+".jpeg"));
+                    contador_de_imagenes_tomadas++;
                 }
                 catch(Exception exception)
                 {
@@ -79,10 +89,18 @@ public class GuiMapa {
             }
         });
 
+        boton_para_guardar_latex.setPreferredSize(new Dimension(400, 40));
+        boton_para_guardar_latex.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                Generador_latex gl = new Generador_latex();
+                try {
+                    gl.generarLatex();
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
+            }
+        });
 
-    }
-
-    public void funciones_de_las_graficas(){
 
     }
 
