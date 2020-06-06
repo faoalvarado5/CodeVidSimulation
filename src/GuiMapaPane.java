@@ -65,7 +65,6 @@ public class GuiMapaPane extends JPanel implements ActionListener {
              mapa.fill(persona[i]);
         }
 
-
         for(int i = 0; i < configuracion_del_mapa.getParedes().size(); i++){
             // Por cada pared que exista en la variable de configuración del mapa se debe de meter en el mapa
             mapa.setPaint(Color.BLACK);
@@ -76,19 +75,16 @@ public class GuiMapaPane extends JPanel implements ActionListener {
                 mapa.drawLine(configuracion_del_mapa.getParedes().get(i).getX1(), configuracion_del_mapa.getParedes().get(i).getY1()+5,
                         configuracion_del_mapa.getParedes().get(i).getX2(), configuracion_del_mapa.getParedes().get(i).getY2()-5);
             }
-
         }
 
         // Dependiendo de la cantidad de días que una persona esté enferma se debe de sanar (Esto es una probabilidad, no es estático)
         curar_enfermos();
 
-
-
         // Se aumentan los dias cada vez que se recorre el timer
         datos_progresivos_de_la_enfermedad.aumentar_dias_corriendo();
 
         // Esta es la condición de parada
-        if(datos_progresivos_de_la_enfermedad.getDias() > 80) {
+        if(datos_progresivos_de_la_enfermedad.getDias() > configuracion_de_la_enfermedad.getDias_totales()*100) {
             t.stop();
             t = new Timer(30, this);
         }else{
@@ -99,6 +95,7 @@ public class GuiMapaPane extends JPanel implements ActionListener {
         // Se actualiza el frame cada vez que una persona se mueve y los datos de las gráficas cambian
         f.repaint();
 
+        t.start();
         // Inicia el timer
 
         System.out.println(contador);
@@ -123,7 +120,6 @@ public class GuiMapaPane extends JPanel implements ActionListener {
                 if (arreglo_de_los_agentes.get(i).getPosicion_en_eje_y() + arreglo_de_los_agentes.get(i).getVelocidad_y() < 0 || arreglo_de_los_agentes.get(i).getPosicion_en_eje_y() + arreglo_de_los_agentes.get(i).getVelocidad_y() > configuracion_del_mapa.getLargo() - 25) {
                     arreglo_de_los_agentes.get(i).invertir_posicion_y();
                 }
-
 
                 for (int j = 0; j < configuracion_del_mapa.getParedes().size(); j++) {
                     ArrayList<Integer[]> funciones_lineales_de_las_paredes = configuracion_del_mapa.getParedes().get(j).getFunciones_lineales_de_las_paredes();
@@ -158,9 +154,8 @@ public class GuiMapaPane extends JPanel implements ActionListener {
                                 arreglo_de_los_agentes.get(i).mover_eje_x();
                             }
                         }
-
-                        }
                     }
+                }
 
                 if(arreglo_de_los_agentes.get(i).getTipo() == 1 || arreglo_de_los_agentes.get(i).getPosiciones_del_tipo_2().size() < 7) {
                     arreglo_de_los_agentes.get(i).mover_eje_y();
@@ -185,7 +180,6 @@ public class GuiMapaPane extends JPanel implements ActionListener {
                     arreglo_de_los_agentes.get(i).invertir_posicion_y();
                     validador_para_averiguar_si_toca_pared_del_frame = true;
                 }
-
 
                 for (int j = 0; j < configuracion_del_mapa.getParedes().size(); j++) {
                     ArrayList<Integer[]> funciones_lineales_de_las_paredes = configuracion_del_mapa.getParedes().get(j).getFunciones_lineales_de_las_paredes();
@@ -289,6 +283,4 @@ public class GuiMapaPane extends JPanel implements ActionListener {
         datos_progresivos_de_la_enfermedad.agregar_datos_de_sanos(cantidad_de_sanos);
 
     }
-
-
 }

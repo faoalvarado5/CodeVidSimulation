@@ -205,11 +205,14 @@ public class GuiMenu {
                     String lastLine = myReader.nextLine();
                     enfermedad.setReinfeccion(Integer.parseInt(lastLine));
 
+                    //Esta linea lee la cantidad de dias que el programa va a simular.
+                    String lastLine2 = myReader.nextLine();
+                    enfermedad.setDias_totales(Integer.parseInt(lastLine2));
+
                     enfermedad.setDias_corriendo(0);
                     enfermedad.setCantidad_enfermos_actuales(0);
                     enfermedad.setCantidad_recuperados_actuales(0);
                     enfermedad.setCantidad_sanos_actuales(0);
-                    enfermedad.setDias_totales(20);
 
                     configuracion_de_enfermedad = enfermedad;
                     archivosCargados += 1;
