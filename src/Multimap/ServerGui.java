@@ -18,6 +18,7 @@ public class ServerGui {
     JButton start_button = new JButton("Ready to start");//creating instance of JButton
     JLabel label = new JLabel("Looking for clients...");
     JLabel label_of_countries_connected = new JLabel("");
+    int number_of_clients_connected = 1;
 
     public ServerGui() {
 
@@ -63,14 +64,18 @@ public class ServerGui {
                             ObjectOutputStream outStream = new ObjectOutputStream(socket.getOutputStream());
                             ObjectInputStream inStream = new ObjectInputStream(socket.getInputStream());
 
-                            String recvPacket = (String) inStream.readObject();
-                            label_of_countries_connected.setText(label_of_countries_connected.getText() + ", " + recvPacket);
+                            if(socket.isConnected()){
+                                String recvPacket = (String) inStream.readObject();
+                                label_of_countries_connected.setText(label_of_countries_connected.getText() + ", " + recvPacket);
 
-                            String msg = "¿Hi, are you ready to try new diseases?";
-                            outStream.writeObject(msg);
+                                String msg = "Hi you are the number " + number_of_clients_connected;
+                                outStream.writeObject(msg);
+                                number_of_clients_connected++;
 
-                            if(socket.isConnected())
+                                outStream.writeObject(number_of_clients_connected);
                                 start_button.setEnabled(true);
+                            }
+
 
                         }
                     }catch (Exception error){

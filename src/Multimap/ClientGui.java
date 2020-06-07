@@ -55,6 +55,9 @@ public class ClientGui {
                 outStream.writeObject(name_of_the_country.getText());
                 String recvPacket = (String) inStream.readObject();
 
+                int number_of_client = (int)inStream.readObject();
+
+                System.out.println("My number is: " + number_of_client);
 
                 label.setText(recvPacket);
 
