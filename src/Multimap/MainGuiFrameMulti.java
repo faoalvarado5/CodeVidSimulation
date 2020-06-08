@@ -22,10 +22,10 @@ public class MainGuiFrameMulti {
 
     MainGuiFrameMulti(ArrayList<agente> arreglo_de_agentes, mapa configuracion_mapa, enfermedad configuracion_enfermedad) {
 
-        JFrame frame = new JFrame( "Drawing 2D shapes" );
+        JFrame frame = new JFrame("Simulación de propagación de CODE-VID");
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 
-        JButton boton_para_tomar_screen = new JButton("Guardar image");
+        JButton boton_para_tomar_screen = new JButton("Guardar imagen");
         JButton boton_para_guardar_latex = new JButton("Generar latex con imagenes tomadas");
 
 
@@ -94,8 +94,11 @@ public class MainGuiFrameMulti {
         boton_para_guardar_latex.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
                 Generador_latex gl = new Generador_latex();
+                int total = configuracion_enfermedad.getCantidad_enfermos_actuales() +
+                        configuracion_enfermedad.getCantidad_recuperados_actuales() +
+                        configuracion_enfermedad.getCantidad_sanos_actuales();
                 try {
-                    gl.generarLatex();
+                    gl.generarLatex(total);
                 } catch (IOException ioException) {
                     ioException.printStackTrace();
                 }

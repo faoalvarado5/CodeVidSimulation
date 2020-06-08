@@ -96,7 +96,10 @@ public class MainGuiFrameSingle {
             public void actionPerformed(ActionEvent e){
                 Generador_latex gl = new Generador_latex();
                 try {
-                    gl.generarLatex();
+                    int total = configuracion_enfermedad.getCantidad_enfermos_actuales() +
+                            configuracion_enfermedad.getCantidad_recuperados_actuales() +
+                            configuracion_enfermedad.getCantidad_sanos_actuales();
+                    gl.generarLatex(total);
                 } catch (IOException ioException) {
                     ioException.printStackTrace();
                 }

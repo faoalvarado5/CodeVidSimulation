@@ -7,7 +7,7 @@ import java.io.IOException;
 
 public class Generador_latex {
 
-    public void generarLatex() throws IOException {
+    public void generarLatex(int total) throws IOException {
 
         File archivo = new File("latex/salida.tex");
         if (!archivo.exists()) {
@@ -31,6 +31,7 @@ public class Generador_latex {
         // Este es el string para generar la portada del documento de salida.
         String documento = "\"" + "documentclass{report}" + "\n" +
                 "\"" + "usepackage{graphicx}" + "\n" +
+                "\"" + "usepackage{pgfplots}" + "\n" +
                 "\"" + "begin{document}" + "\n" +
                 "\"" + "begin{titlepage}" + "\n" +
                 "\"" + "centering" + "\n" +
@@ -50,15 +51,36 @@ public class Generador_latex {
                 "\"" + "end{titlepage}" + "\n" +
                 "\"" + "newpage" + "\n" +
                 "\"" + "section{Gr\\'afico}" + "\n" +
+                "\"" + "begin{tikzpicture}" + "\n" +
+                "\"" + "begin{axis}[" + "\n" +
+                "xlabel={D\\'ias}," + "\n" +
+                "ylabel={Cantidad}," + "\n" +
+                "xmin=0, xmax=" + total + ","+ "\n" +
+                "ymin=0, ymax=" + total + "," + "\n" +
+                "legend pos=north west," + "\n" +
+                "ymajorgrids=true," + "\n" +
+                "grid style=dashed," + "\n" +
+                "]" + "\n" +
+                "\"" + "addplot[" + "\n" +
+                "color=red," + "\n" +
+                "mark=square," + "\n" +
+                "]" + "\n" +
+                "coordinates {" + "\n" +
 
-                "\"" + "includegraphics{" + contents[0] + "}" + "\n" +
 
+                "(0,23.1)(10,27.5)(20,32)(30,37.8)(40,44.6)(60,61.8)(80,83.8)(100,114)" + "\n" +
+
+
+                "};" + "\n" +
+                "\"" + "legend{Infecci\\'ones}" + "\n" +
+                "\"" + "end{axis}" + "\n" +
+                "\"" + "end{tikzpicture}" + "\n" +
                 "\"" + "newpage" + "\n" +
                 "\"" + "section{Cambios en el mapa}" + "\n";
 
         for (int i = 1; i < contents.length - 1; i++) {
 
-            documento += "\"" + "includegraphics{" + contents[i] + "}" + "\n";
+            documento += "\"" + "includegraphics[scale=0.20]{" + contents[i] + "}" + "\n";
         }
 
         documento += "\"" + "end{document}" + "\n";
