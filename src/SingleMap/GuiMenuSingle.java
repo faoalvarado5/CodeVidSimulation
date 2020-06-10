@@ -16,7 +16,6 @@ public class GuiMenuSingle {
     ArrayList<agente> arreglo_de_agentes;
     mapa configuracion_de_mapa;
     enfermedad configuracion_de_enfermedad;
-    int archivosCargados;
     JButton boton_agentes = new JButton("Cargar agentes");//creating instance of JButton
     JButton boton_mapa = new JButton("Cargar mapa");//creating instance of JButton
     JButton boton_enferdad = new JButton("Cargar enfermedad");//creating instance of JButton
@@ -25,25 +24,26 @@ public class GuiMenuSingle {
     public GuiMenuSingle() {
 
         f = new JFrame("Simulacion de propagacion de COVID-19");//creating instance of JFrame
-        JLabel label1 = new JLabel("Favor ingresar los archivos en su orden.");
-
+        JLabel label1 = new JLabel("Ingrese los archivos de configuracion.");
 
         boton_agentes.setEnabled(false);
+        boton_enferdad.setEnabled(false);
+        boton_comenzar.setEnabled(false);
 
-        boton_agentes.setBounds(70, 200, 150, 40);
+        boton_enferdad.setBounds(70, 200, 150, 40);
         label1.setBounds(30, 50, 250, 40);
-        boton_mapa.setBounds(70, 150, 150, 40);
-        boton_enferdad.setBounds(70, 100, 150, 40);
+        boton_agentes.setBounds(70, 150, 150, 40);
+        boton_mapa.setBounds(70, 100, 150, 40);
         boton_comenzar.setBounds(70, 250, 150, 40);
 
-        boton_agentes.addActionListener(new configuracion_agente());
         boton_mapa.addActionListener(new configuracion_mapa());
+        boton_agentes.addActionListener(new configuracion_agente());
         boton_enferdad.addActionListener(new configuracion_enfermedad());
         boton_comenzar.addActionListener(new comenzar_prueba());
 
         f.add(label1);
-        f.add(boton_agentes);//adding button in JFrame
         f.add(boton_mapa);//adding button in JFrame
+        f.add(boton_agentes);//adding button in JFrame
         f.add(boton_enferdad);//adding button in JFrame
         f.add(boton_comenzar);
 
@@ -102,7 +102,8 @@ public class GuiMenuSingle {
                             agente.setPosicion_en_eje_y(rand.nextInt(configuracion_de_mapa.getLargo()));
 
                             agentes.add(agente);
-
+                            boton_enferdad.setEnabled(true);
+                            boton_agentes.setEnabled(false);
                         }
                     }
                     arreglo_de_agentes = agentes;
@@ -128,7 +129,6 @@ public class GuiMenuSingle {
 
                     //Aqui leo la primera linea donde vienen las dimenciones del mapa
                     String line1 = myReader.nextLine();
-                    System.out.println(line1);
                     String[] dimenciones = line1.split(" ");
                     mapa.setAncho(Integer.parseInt(dimenciones[0]));
                     mapa.setLargo(Integer.parseInt(dimenciones[1]));
@@ -149,8 +149,8 @@ public class GuiMenuSingle {
                             paredes -= 1;
                         }
                         configuracion_de_mapa = mapa;
-                        archivosCargados += 1;
                         boton_agentes.setEnabled(true);
+                        boton_mapa.setEnabled(false);
                     }
 
                  } catch(Exception err) {
@@ -216,7 +216,8 @@ public class GuiMenuSingle {
                     enfermedad.setCantidad_sanos_actuales(0);
 
                     configuracion_de_enfermedad = enfermedad;
-                    archivosCargados += 1;
+                    boton_enferdad.setEnabled(false);
+                    boton_comenzar.setEnabled(true);
 
                 } catch (Exception err) {
                     JOptionPane.showMessageDialog(null, err);
@@ -228,10 +229,7 @@ public class GuiMenuSingle {
     class comenzar_prueba implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            System.out.println(arreglo_de_agentes.toString());
-            System.out.println(configuracion_de_mapa.toString());
-            System.out.println(configuracion_de_enfermedad.toString());
-                new MainGuiFrameSingle(arreglo_de_agentes, configuracion_de_mapa, configuracion_de_enfermedad);
+                new MainGuiFrameSingle(arreglo_de_agentes, configuracion_de_mapa, configuracion_de_enfermedad, arreglo_de_agentes.size());
         }
     }
 }

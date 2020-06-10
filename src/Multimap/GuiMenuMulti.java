@@ -231,7 +231,7 @@ public class GuiMenuMulti {
             System.out.println(arreglo_de_agentes.toString());
             System.out.println(configuracion_de_mapa.toString());
             System.out.println(configuracion_de_enfermedad.toString());
-                new MainGuiFrameMulti(arreglo_de_agentes, configuracion_de_mapa, configuracion_de_enfermedad);
+                new MainGuiFrameMulti(arreglo_de_agentes, configuracion_de_mapa, configuracion_de_enfermedad, arreglo_de_agentes.size());
         }
     }
 }

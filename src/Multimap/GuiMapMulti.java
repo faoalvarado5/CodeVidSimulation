@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Ellipse2D;
+import java.io.IOException;
 import java.util.ArrayList;
 // The import from the object
 import Classes.*;
@@ -90,7 +91,13 @@ public class GuiMapMulti extends JPanel implements ActionListener {
         // Esta es la condición de parada
         if(datos_progresivos_de_la_enfermedad.getDias() > configuracion_de_la_enfermedad.getDias_totales()*100) {
             t.stop();
-            t = new Timer(30, this);
+            Generador_latex gl = new Generador_latex();
+            try {
+                gl.generarLatex(arreglo_de_los_agentes.size());
+                System.exit(0);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }else{
             // Esta función actualiza los datos del día; esto es necesario para poder actualizar la gráfica en tiempo real
             actualizar_datos_progresivos();
@@ -99,7 +106,6 @@ public class GuiMapMulti extends JPanel implements ActionListener {
         // Se actualiza el frame cada vez que una persona se mueve y los datos de las gráficas cambian
         f.repaint();
 
-        t.start();
         // Inicia el timer
         t.start();
         System.out.println(contador);

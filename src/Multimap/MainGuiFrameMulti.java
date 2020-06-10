@@ -20,15 +20,12 @@ public class MainGuiFrameMulti {
     DatosActuales datos_progresivos_de_la_enfermedad = new DatosActuales();
     int contador_de_imagenes_tomadas = 0;
 
-    MainGuiFrameMulti(ArrayList<agente> arreglo_de_agentes, mapa configuracion_mapa, enfermedad configuracion_enfermedad) {
+    MainGuiFrameMulti(ArrayList<agente> arreglo_de_agentes, mapa configuracion_mapa, enfermedad configuracion_enfermedad, int total) {
 
         JFrame frame = new JFrame("Simulación de propagación de CODE-VID");
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 
         JButton boton_para_tomar_screen = new JButton("Guardar imagen");
-        JButton boton_para_guardar_latex = new JButton("Generar latex con imagenes tomadas");
-
-
 
         JTabbedPane graficas = new JTabbedPane();
         JTabbedPane mapas = new JTabbedPane();
@@ -53,9 +50,9 @@ public class MainGuiFrameMulti {
         panel_completo.add(mapas);
         panel_completo.add(graficas);
         panel_completo.add(boton_para_tomar_screen);
-        panel_completo.add(boton_para_guardar_latex);
         frame.add(panel_completo);
 
+        /**
         mapas.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
                 int x = e.getX();
@@ -64,6 +61,7 @@ public class MainGuiFrameMulti {
 
             }
         });
+        */
 
         frame.setLocation( 200, 200 );
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -86,21 +84,6 @@ public class MainGuiFrameMulti {
                 catch(Exception exception)
                 {
                     //code
-                }
-            }
-        });
-
-        boton_para_guardar_latex.setPreferredSize(new Dimension(400, 40));
-        boton_para_guardar_latex.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e){
-                Generador_latex gl = new Generador_latex();
-                int total = configuracion_enfermedad.getCantidad_enfermos_actuales() +
-                        configuracion_enfermedad.getCantidad_recuperados_actuales() +
-                        configuracion_enfermedad.getCantidad_sanos_actuales();
-                try {
-                    gl.generarLatex(total);
-                } catch (IOException ioException) {
-                    ioException.printStackTrace();
                 }
             }
         });
