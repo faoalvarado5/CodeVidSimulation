@@ -27,6 +27,7 @@ public class GuiMapMulti extends JPanel implements ActionListener {
     Frame f;                                            // Este es el frame principal del programa, lo incluímos aquí para que se actualice la pantalla durante cada loop del timer
     int contador;                                       // Este contador guarda la cantidad de veces que se ha recorrido la acción del timer
     Graphics2D mapa;                                    // Se crea la variable del mapa, aquí se desplegarán las personas y las paredes
+    ArrayList<Integer> listaGrafico = new ArrayList<>();
 
     public GuiMapMulti(enfermedad configuracion_de_la_enfermedad, ArrayList<agente> arreglo_de_los_agentes, mapa configuracion_del_mapa, DatosActuales datos_progresivos_de_la_enfermedad, Frame f){
         this.configuracion_de_la_enfermedad = configuracion_de_la_enfermedad;
@@ -93,12 +94,17 @@ public class GuiMapMulti extends JPanel implements ActionListener {
             t.stop();
             Generador_latex gl = new Generador_latex();
             try {
-                gl.generarLatex(arreglo_de_los_agentes.size());
+                gl.generarLatex(arreglo_de_los_agentes.size(), configuracion_de_la_enfermedad.getDias_totales(), listaGrafico);
                 System.exit(0);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }else{
+            if(datos_progresivos_de_la_enfermedad.getDias()%100 == 0){
+                //listaGrafico.add(datos_progresivos_de_la_enfermedad.getDias()/100);
+                //listaGrafico.add(datos_progresivos_de_la_enfermedad.getCantidad_de_enfermos().size());
+                System.out.println("Dias: " + datos_progresivos_de_la_enfermedad.getDias()/100 + " Enf: " + datos_progresivos_de_la_enfermedad.getCantidad_de_enfermos().size());
+            }
             // Esta función actualiza los datos del día; esto es necesario para poder actualizar la gráfica en tiempo real
             actualizar_datos_progresivos();
         }

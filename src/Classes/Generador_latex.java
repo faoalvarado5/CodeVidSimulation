@@ -4,10 +4,11 @@ import javax.swing.*;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class Generador_latex {
 
-    public void generarLatex(int total) throws IOException {
+    public void generarLatex(int totalAgentes, int totalDias, ArrayList<Integer> listaGrafico) throws IOException {
 
         File archivo = new File("latex/salida.tex");
         if (!archivo.exists()) {
@@ -55,8 +56,8 @@ public class Generador_latex {
                 "\"" + "begin{axis}[" + "\n" +
                 "xlabel={D\\'ias}," + "\n" +
                 "ylabel={Cantidad}," + "\n" +
-                "xmin=0, xmax=" + total + ","+ "\n" +
-                "ymin=0, ymax=" + total + "," + "\n" +
+                "xmin=0, xmax=" + totalDias + ","+ "\n" +
+                "ymin=0, ymax=" + totalAgentes + "," + "\n" +
                 "legend pos=north west," + "\n" +
                 "ymajorgrids=true," + "\n" +
                 "grid style=dashed," + "\n" +
@@ -65,19 +66,19 @@ public class Generador_latex {
                 "color=red," + "\n" +
                 "mark=square," + "\n" +
                 "]" + "\n" +
-                "coordinates {" + "\n" +
+                "coordinates {" + "\n";
 
+        for (int i=0; i<listaGrafico.size(); i+=2) {
 
-                "(0,23.1)(10,27.5)(20,32)(30,37.8)(40,44.6)(60,61.8)(80,83.8)(100,114)" + "\n" +
-
-
-                "};" + "\n" +
+            documento += "(" + listaGrafico.get(i) + ", " + listaGrafico.get(i+1) + ")";
+        }
+        documento += "\n";
+        documento += "};" + "\n" +
                 "\"" + "legend{Infecci\\'ones}" + "\n" +
                 "\"" + "end{axis}" + "\n" +
                 "\"" + "end{tikzpicture}" + "\n" +
                 "\"" + "newpage" + "\n" +
                 "\"" + "section{Cambios en el mapa}" + "\n";
-
         for (int i = 1; i < contents.length - 1; i++) {
 
             documento += "\"" + "includegraphics[scale=0.20]{" + contents[i] + "}" + "\n";
