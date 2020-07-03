@@ -1,18 +1,17 @@
 package Multimap;
 
+import Classes.*;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
+
 // The import from the object
-import Classes.*;
 
 public class MainGuiFrameMulti {
 
@@ -20,12 +19,14 @@ public class MainGuiFrameMulti {
     DatosActuales datos_progresivos_de_la_enfermedad = new DatosActuales();
     int contador_de_imagenes_tomadas = 0;
 
-    MainGuiFrameMulti(ArrayList<agente> arreglo_de_agentes, mapa configuracion_mapa, enfermedad configuracion_enfermedad, int total) {
+    MainGuiFrameMulti(ArrayList<agente> arreglo_de_agentes, mapa configuracion_mapa, enfermedad configuracion_enfermedad, int total, Server servidores) {
 
-        JFrame frame = new JFrame("Simulación de propagación de CODE-VID");
+        System.out.println(servidores.toString());
+
+        JFrame frame = new JFrame( "Simulación de propagación de CODE-VID" );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 
-        JButton boton_para_tomar_screen = new JButton("Guardar imagen");
+        JButton boton_para_tomar_screen = new JButton("Guardar image");
 
         JTabbedPane graficas = new JTabbedPane();
         JTabbedPane mapas = new JTabbedPane();

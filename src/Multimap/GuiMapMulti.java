@@ -1,5 +1,7 @@
 package Multimap;
 
+import Classes.*;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -7,8 +9,8 @@ import java.awt.event.ActionListener;
 import java.awt.geom.Ellipse2D;
 import java.io.IOException;
 import java.util.ArrayList;
+
 // The import from the object
-import Classes.*;
 
 /**
  *
@@ -88,7 +90,6 @@ public class GuiMapMulti extends JPanel implements ActionListener {
 
         // Se aumentan los dias cada vez que se recorre el timer
         datos_progresivos_de_la_enfermedad.aumentar_dias_corriendo();
-
         // Esta es la condición de parada
         if(datos_progresivos_de_la_enfermedad.getDias() > configuracion_de_la_enfermedad.getDias_totales()*100) {
             t.stop();
@@ -101,9 +102,8 @@ public class GuiMapMulti extends JPanel implements ActionListener {
             }
         }else{
             if(datos_progresivos_de_la_enfermedad.getDias()%100 == 0){
-                //listaGrafico.add(datos_progresivos_de_la_enfermedad.getDias()/100);
-                //listaGrafico.add(datos_progresivos_de_la_enfermedad.getCantidad_de_enfermos().size());
-                System.out.println("Dias: " + datos_progresivos_de_la_enfermedad.getDias()/100 + " Enf: " + datos_progresivos_de_la_enfermedad.getCantidad_de_enfermos().size());
+                listaGrafico.add(datos_progresivos_de_la_enfermedad.getDias()/100);
+                listaGrafico.add(datos_progresivos_de_la_enfermedad.getCantidad_de_enfermos().get(datos_progresivos_de_la_enfermedad.getCantidad_de_enfermos().size()-1));
             }
             // Esta función actualiza los datos del día; esto es necesario para poder actualizar la gráfica en tiempo real
             actualizar_datos_progresivos();
@@ -114,7 +114,6 @@ public class GuiMapMulti extends JPanel implements ActionListener {
 
         // Inicia el timer
         t.start();
-        System.out.println(contador);
     }
     public void actionPerformed(ActionEvent e){
 
