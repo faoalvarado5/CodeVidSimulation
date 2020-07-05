@@ -117,6 +117,11 @@ public class GuiMapMulti extends JPanel implements ActionListener {
     }
     public void actionPerformed(ActionEvent e){
 
+
+        
+
+
+
         // Este loop sirve para mover las personas
         for(int i = 0; i < arreglo_de_los_agentes.size();i++){
 

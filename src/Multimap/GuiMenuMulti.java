@@ -93,6 +93,7 @@ public class GuiMenuMulti {
                         servidores.addElementToListOfIps(datos[0]);
 
                         if(servidores.available(datos[0],Integer.parseInt(datos[5]))){
+                            System.out.println("Entra");
                             configuracion_de_enfermedad.setDias_totales(Integer.parseInt(datos[1]));
                             servidores.setProbabilidad_de_visita((double) Float.parseFloat(datos[2]));
                             servidores.setTiempo_para_lanzar_probabilidad(Integer.parseInt(datos[3]));

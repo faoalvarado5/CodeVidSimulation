@@ -14,8 +14,10 @@ public class Server {
     Double probabilidad_de_visita;
     int tiempo_para_lanzar_probabilidad;
     int tiempo_de_agente_en_la_computadora;
-    ServerSocket serverSocket;
-    ArrayList<Socket> lista_de_computadoras;
+    ServerSocket serverSocket;   // Recibe
+                                 // Input
+    ArrayList<Socket> lista_de_computadoras;    // Enviar informacion
+                                                // Output
 
     public Server(){
         this.lista_de_ips = new ArrayList<>();
@@ -24,6 +26,7 @@ public class Server {
         this.probabilidad_de_visita = 0.0;
         this.tiempo_de_agente_en_la_computadora = 0;
         this.tiempo_para_lanzar_probabilidad = 0;
+        this.serverSocket = null;
 
     }
 
@@ -51,12 +54,15 @@ public class Server {
     }
     public boolean available(String ip, int port) {
 
-        try {
-            Socket ignored = new Socket(ip, port);
-            return false;
-        } catch (IOException ignored) {
-            return true;
+        if(serverSocket == null) {
+            try {
+                Socket ignored = new Socket(ip, port);
+                return false;
+            } catch (IOException ignored) {
+                return true;
+            }
         }
+        return false;
     }
 
     public ArrayList<String> getLista_de_ips() {

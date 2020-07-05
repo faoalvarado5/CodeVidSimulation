@@ -15,11 +15,10 @@ public class SocketTestClient {
         a.setEstado("e");
         a.setTiempo_enfermo(0);
 
-        final int PUERTO = 1234;
 
         try {
 
-            Socket socket = new Socket("201.203.117.98",PUERTO);
+            Socket socket = new Socket("localhost",1234);
 
             ObjectOutputStream outStream = new ObjectOutputStream(socket.getOutputStream());
             ObjectInputStream inStream = new ObjectInputStream(socket.getInputStream());
