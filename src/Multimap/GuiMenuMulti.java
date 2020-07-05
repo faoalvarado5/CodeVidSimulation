@@ -89,18 +89,19 @@ public class GuiMenuMulti {
                     for (int i=0; i<x; i++) {
                         String line2 = myReader.nextLine();
                         String[] datos = line2.split(" ");
-                        servidores.addElementToListOfPorts(Integer.parseInt(datos[5]));
-                        servidores.addElementToListOfIps(datos[0]);
+
 
                         if(servidores.available(datos[0],Integer.parseInt(datos[5]))){
-                            System.out.println("Entra");
                             configuracion_de_enfermedad.setDias_totales(Integer.parseInt(datos[1]));
-                            servidores.setProbabilidad_de_visita((double) Float.parseFloat(datos[2]));
                             servidores.setTiempo_para_lanzar_probabilidad(Integer.parseInt(datos[3]));
                             servidores.setTiempo_de_agente_en_la_computadora(Integer.parseInt(datos[4]));
                             ServerSocket serverSocket = new ServerSocket(Integer.parseInt(datos[5]));
                             servidores.setServerSocket(serverSocket);
 
+                        }else{
+                            servidores.addElementToListOfPorts(Integer.parseInt(datos[5]));
+                            servidores.addElementToListOfIps(datos[0]);
+                            servidores.addElementToListOfProb((double) Float.parseFloat(datos[2]));
                         }
 
                     }

@@ -11,7 +11,7 @@ public class Server {
 
     ArrayList<String> lista_de_ips;
     ArrayList<Integer> lista_de_puertos;
-    Double probabilidad_de_visita;
+    ArrayList<Double> probabilidad_de_visita;
     int tiempo_para_lanzar_probabilidad;
     int tiempo_de_agente_en_la_computadora;
     ServerSocket serverSocket;   // Recibe
@@ -23,26 +23,16 @@ public class Server {
         this.lista_de_ips = new ArrayList<>();
         this.lista_de_puertos = new ArrayList<>();
         this.lista_de_computadoras = new ArrayList<>();
-        this.probabilidad_de_visita = 0.0;
+        this.probabilidad_de_visita = new ArrayList<>();
         this.tiempo_de_agente_en_la_computadora = 0;
         this.tiempo_para_lanzar_probabilidad = 0;
         this.serverSocket = null;
 
     }
 
-    public Server(ArrayList<String> lista_de_ips, ArrayList<Integer> lista_de_puertos, Double probabilidad_de_visita, int tiempo_para_lanzar_probabilidad,
-                  int tiempo_de_agente_en_la_computadora, int puerto, ArrayList<Socket> lista_de_computadoras) throws IOException {
-
-        this.lista_de_ips = new ArrayList<>();
-        this.lista_de_puertos = new ArrayList<>();
-        this.probabilidad_de_visita = probabilidad_de_visita;
-        this.tiempo_para_lanzar_probabilidad = tiempo_para_lanzar_probabilidad;
-        this.tiempo_de_agente_en_la_computadora = tiempo_de_agente_en_la_computadora;
-        this.serverSocket = new ServerSocket(puerto);
-        this.lista_de_computadoras = new ArrayList<>();
-
+    public void addElementToListOfProb(Double a){
+        probabilidad_de_visita.add(a);
     }
-
     public void addElementToListOfIps(String a){
         lista_de_ips.add(a);
     }
@@ -81,11 +71,11 @@ public class Server {
         this.lista_de_puertos = lista_de_puertos;
     }
 
-    public Double getProbabilidad_de_visita() {
+    public ArrayList<Double> getProbabilidad_de_visita() {
         return probabilidad_de_visita;
     }
 
-    public void setProbabilidad_de_visita(Double probabilidad_de_visita) {
+    public void setProbabilidad_de_visita(ArrayList<Double> probabilidad_de_visita) {
         this.probabilidad_de_visita = probabilidad_de_visita;
     }
 
