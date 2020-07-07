@@ -286,6 +286,10 @@ public class GuiMenuMulti {
     class comenzar_prueba implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
+            File dir = new File("latex");
+            for(File file: dir.listFiles()) {
+                file.delete();
+            }
                 new MainGuiFrameMulti(arreglo_de_agentes, configuracion_de_mapa, configuracion_de_enfermedad, arreglo_de_agentes.size(), servidores);
         }
     }

@@ -79,9 +79,9 @@ public class Generador_latex {
                 "\"" + "end{tikzpicture}" + "\n" +
                 "\"" + "newpage" + "\n" +
                 "\"" + "section{Cambios en el mapa}" + "\n";
-        for (int i = 1; i < contents.length - 1; i++) {
+        for (int i = 1; i < contents.length; i++) {
 
-            documento += "\"" + "includegraphics[scale=0.20]{" + contents[i] + "}" + "\n";
+            documento += "\"" + "includegraphics[scale=0.20]{" + i + "}" + "\n";
         }
 
         documento += "\"" + "end{document}" + "\n";

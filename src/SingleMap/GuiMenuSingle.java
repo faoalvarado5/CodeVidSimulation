@@ -229,7 +229,12 @@ public class GuiMenuSingle {
     class comenzar_prueba implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-                new MainGuiFrameSingle(arreglo_de_agentes, configuracion_de_mapa, configuracion_de_enfermedad, arreglo_de_agentes.size());
+
+            File dir = new File("latex");
+            for(File file: dir.listFiles()) {
+                file.delete();
+            }
+            new MainGuiFrameSingle(arreglo_de_agentes, configuracion_de_mapa, configuracion_de_enfermedad, arreglo_de_agentes.size());
         }
     }
 }

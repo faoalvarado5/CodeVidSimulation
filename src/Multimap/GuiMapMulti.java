@@ -2,12 +2,19 @@ package Multimap;
 
 import Classes.*;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Ellipse2D;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.util.ArrayList;
 
 // The import from the object
@@ -30,14 +37,17 @@ public class GuiMapMulti extends JPanel implements ActionListener {
     int contador;                                       // Este contador guarda la cantidad de veces que se ha recorrido la acción del timer
     Graphics2D mapa;                                    // Se crea la variable del mapa, aquí se desplegarán las personas y las paredes
     ArrayList<Integer> listaGrafico = new ArrayList<>();
+    Server server;
+    int contador_imagenes = 1;
 
-    public GuiMapMulti(enfermedad configuracion_de_la_enfermedad, ArrayList<agente> arreglo_de_los_agentes, mapa configuracion_del_mapa, DatosActuales datos_progresivos_de_la_enfermedad, Frame f){
+    public GuiMapMulti(enfermedad configuracion_de_la_enfermedad, ArrayList<agente> arreglo_de_los_agentes, mapa configuracion_del_mapa, DatosActuales datos_progresivos_de_la_enfermedad, Frame f, Server server){
         this.configuracion_de_la_enfermedad = configuracion_de_la_enfermedad;
         this.arreglo_de_los_agentes = arreglo_de_los_agentes;
         this.configuracion_del_mapa = configuracion_del_mapa;
         this.datos_progresivos_de_la_enfermedad = datos_progresivos_de_la_enfermedad;
         t = new Timer(30, this);
         this.f = f;
+        this.server = server;
     }
 
     // Esta función está incluída dentro de JComponent y es necesaria para mostrar gráficos en java
@@ -101,6 +111,20 @@ public class GuiMapMulti extends JPanel implements ActionListener {
                 e.printStackTrace();
             }
         }else{
+            if(contador%100 == 0){
+                try {
+                    BufferedImage image = new BufferedImage(f.getWidth(), f.getHeight(), BufferedImage.TYPE_INT_RGB);
+                    Graphics2D graphics2D = image.createGraphics();
+                    f.paint(graphics2D);
+                    File file = new File("latex/");
+                    //Creating the directory
+                    file.mkdir();
+                    ImageIO.write(image, "jpeg", new File("latex/" + contador_imagenes + ".jpeg"));
+                    //Thread.sleep(1000);
+                    contador_imagenes++;
+                }catch(Exception e){
+                }
+            }
             if(datos_progresivos_de_la_enfermedad.getDias()%100 == 0){
                 listaGrafico.add(datos_progresivos_de_la_enfermedad.getDias()/100);
                 listaGrafico.add(datos_progresivos_de_la_enfermedad.getCantidad_de_enfermos().get(datos_progresivos_de_la_enfermedad.getCantidad_de_enfermos().size()-1));
@@ -117,9 +141,39 @@ public class GuiMapMulti extends JPanel implements ActionListener {
     }
     public void actionPerformed(ActionEvent e){
 
+        try {
+            for(int i = 0; i<server.getLista_de_puertos().size(); i++){
 
-        
+                Socket socket = server.getLista_de_computadoras().get(i);
+                ObjectInputStream inStream = new ObjectInputStream(socket.getInputStream());
 
+                if ((agente)inStream.readObject() != null) {
+                    agente recvPacket = (agente)inStream.readObject();
+                    arreglo_de_los_agentes.add(recvPacket);
+                }
+            }
+
+        }catch (Exception exception){
+        }
+
+        if(contador%server.getTiempo_para_lanzar_probabilidad() == 0) {
+
+            for (int i = 0; i < arreglo_de_los_agentes.size(); i++) {
+                for(int j = 0; j<server.getProbabilidad_de_visita().size(); j++) {
+                    if (Math.random() * 100 <= server.getProbabilidad_de_visita().get(j)) {
+
+                        try {
+                            Socket socket = server.getLista_de_computadoras().get(j);
+
+                            ObjectOutputStream outStream = new ObjectOutputStream(socket.getOutputStream());
+                            outStream.writeObject(arreglo_de_los_agentes.get(i));
+
+                        }catch (Exception exception){
+                        }
+                    }
+                }
+            }
+        }
 
 
         // Este loop sirve para mover las personas

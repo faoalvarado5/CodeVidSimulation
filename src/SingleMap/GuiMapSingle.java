@@ -1,10 +1,13 @@
 package SingleMap;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Ellipse2D;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 // The import from the object
@@ -28,6 +31,7 @@ public class GuiMapSingle extends JPanel implements ActionListener {
     int contador;                                       // Este contador guarda la cantidad de veces que se ha recorrido la acción del timer
     Graphics2D mapa;                                    // Se crea la variable del mapa, aquí se desplegarán las personas y las paredes
     ArrayList<Integer> listaGrafico = new ArrayList<>();
+    int contador_imagenes = 1;
 
     public GuiMapSingle(enfermedad configuracion_de_la_enfermedad, ArrayList<agente> arreglo_de_los_agentes, mapa configuracion_del_mapa, DatosActuales datos_progresivos_de_la_enfermedad, Frame f){
         this.configuracion_de_la_enfermedad = configuracion_de_la_enfermedad;
@@ -99,6 +103,20 @@ public class GuiMapSingle extends JPanel implements ActionListener {
                 e.printStackTrace();
             }
         }else{
+            if(contador%100 == 0){
+                try {
+                    BufferedImage image = new BufferedImage(f.getWidth(), f.getHeight(), BufferedImage.TYPE_INT_RGB);
+                    Graphics2D graphics2D = image.createGraphics();
+                    f.paint(graphics2D);
+                    File file = new File("latex/");
+                    //Creating the directory
+                    file.mkdir();
+                    ImageIO.write(image, "jpeg", new File("latex/" + contador_imagenes + ".jpeg"));
+                    //Thread.sleep(1000);
+                    contador_imagenes++;
+                }catch(Exception e){
+                }
+            }
             if(datos_progresivos_de_la_enfermedad.getDias()%100 == 0){
                 listaGrafico.add(datos_progresivos_de_la_enfermedad.getDias()/100);
                 listaGrafico.add(datos_progresivos_de_la_enfermedad.getCantidad_de_enfermos().get(datos_progresivos_de_la_enfermedad.getCantidad_de_enfermos().size()-1));
