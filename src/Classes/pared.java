@@ -57,11 +57,6 @@ public class pared {
                 }
             }
         }
-
-        for(int i = 0; i < funciones_lineales_de_las_paredes.size(); i++){
-            System.out.println("(" + funciones_lineales_de_las_paredes.get(i)[1] + "," + funciones_lineales_de_las_paredes.get(i)[0]+ ")");
-        }
-
     }
 
     public ArrayList<Integer[]> getFunciones_lineales_de_las_paredes() {
