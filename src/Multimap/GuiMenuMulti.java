@@ -90,7 +90,6 @@ public class GuiMenuMulti {
                         String line2 = myReader.nextLine();
                         String[] datos = line2.split(" ");
 
-
                         if(servidores.available(datos[0],Integer.parseInt(datos[5]))){
                             configuracion_de_enfermedad.setDias_totales(Integer.parseInt(datos[1]));
                             servidores.setTiempo_para_lanzar_probabilidad(Integer.parseInt(datos[3]));
@@ -102,6 +101,7 @@ public class GuiMenuMulti {
                             servidores.addElementToListOfPorts(Integer.parseInt(datos[5]));
                             servidores.addElementToListOfIps(datos[0]);
                             servidores.addElementToListOfProb((double) Float.parseFloat(datos[2]));
+
                         }
 
                     }

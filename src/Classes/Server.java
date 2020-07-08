@@ -16,13 +16,11 @@ public class Server {
     int tiempo_de_agente_en_la_computadora;
     ServerSocket serverSocket;   // Recibe
                                  // Input
-    ArrayList<Socket> lista_de_computadoras;    // Enviar informacion
-                                                // Output
+
 
     public Server(){
         this.lista_de_ips = new ArrayList<>();
         this.lista_de_puertos = new ArrayList<>();
-        this.lista_de_computadoras = new ArrayList<>();
         this.probabilidad_de_visita = new ArrayList<>();
         this.tiempo_de_agente_en_la_computadora = 0;
         this.tiempo_para_lanzar_probabilidad = 0;
@@ -38,9 +36,6 @@ public class Server {
     }
     public void addElementToListOfPorts(Integer a){
         lista_de_puertos.add(a);
-    }
-    public void addElementToListOfComputers(Socket a){
-        lista_de_computadoras.add(a);
     }
     public boolean available(String ip, int port) {
 
@@ -103,14 +98,6 @@ public class Server {
         this.serverSocket = serverSocket;
     }
 
-    public ArrayList<Socket> getLista_de_computadoras() {
-        return lista_de_computadoras;
-    }
-
-    public void setLista_de_computadoras(ArrayList<Socket> lista_de_computadoras) {
-        this.lista_de_computadoras = lista_de_computadoras;
-    }
-
     @Override
     public String toString() {
         return "Server{" +
@@ -120,7 +107,6 @@ public class Server {
                 ", tiempo_para_lanzar_probabilidad=" + tiempo_para_lanzar_probabilidad +
                 ", tiempo_de_agente_en_la_computadora=" + tiempo_de_agente_en_la_computadora +
                 ", serverSocket=" + serverSocket +
-                ", lista_de_computadoras=" + lista_de_computadoras +
                 '}';
     }
 }

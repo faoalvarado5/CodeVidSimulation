@@ -15,7 +15,6 @@ public class SocketTestClient {
         a.setEstado("e");
         a.setTiempo_enfermo(0);
 
-
         try {
 
             Socket socket = new Socket("localhost",1234);

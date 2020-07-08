@@ -11,9 +11,7 @@ import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 
@@ -39,6 +37,7 @@ public class GuiMapMulti extends JPanel implements ActionListener {
     ArrayList<Integer> listaGrafico = new ArrayList<>();
     Server server;
     int contador_imagenes = 1;
+    LogicaDeLaConexion logica;
 
     public GuiMapMulti(enfermedad configuracion_de_la_enfermedad, ArrayList<agente> arreglo_de_los_agentes, mapa configuracion_del_mapa, DatosActuales datos_progresivos_de_la_enfermedad, Frame f, Server server){
         this.configuracion_de_la_enfermedad = configuracion_de_la_enfermedad;
@@ -48,6 +47,9 @@ public class GuiMapMulti extends JPanel implements ActionListener {
         t = new Timer(30, this);
         this.f = f;
         this.server = server;
+        logica = new LogicaDeLaConexion(arreglo_de_los_agentes,server,contador);
+        logica.start();
+
     }
 
     // Esta función está incluída dentro de JComponent y es necesaria para mostrar gráficos en java
@@ -141,153 +143,39 @@ public class GuiMapMulti extends JPanel implements ActionListener {
     }
     public void actionPerformed(ActionEvent e){
 
-        try {
-            for(int i = 0; i<server.getLista_de_puertos().size(); i++){
 
-                Socket socket = server.getLista_de_computadoras().get(i);
-                ObjectInputStream inStream = new ObjectInputStream(socket.getInputStream());
-
-                if ((agente)inStream.readObject() != null) {
-                    agente recvPacket = (agente)inStream.readObject();
-                    arreglo_de_los_agentes.add(recvPacket);
-                }
-            }
-
-        }catch (Exception exception){
-        }
+        arreglo_de_los_agentes = logica.getArreglo_de_los_agentes();
 
         if(contador%server.getTiempo_para_lanzar_probabilidad() == 0) {
 
             for (int i = 0; i < arreglo_de_los_agentes.size(); i++) {
                 for(int j = 0; j<server.getProbabilidad_de_visita().size(); j++) {
-                    if (Math.random() * 100 <= server.getProbabilidad_de_visita().get(j)) {
+                    if (Math.random() <= server.getProbabilidad_de_visita().get(j)) {
 
                         try {
-                            Socket socket = server.getLista_de_computadoras().get(j);
+                            Socket socket = new Socket(server.getLista_de_ips().get(j),server.getLista_de_puertos().get(j));
 
                             ObjectOutputStream outStream = new ObjectOutputStream(socket.getOutputStream());
                             outStream.writeObject(arreglo_de_los_agentes.get(i));
-
+                            arreglo_de_los_agentes.remove(i);
+                            System.out.println("Enviando");
                         }catch (Exception exception){
+                            System.out.println("---------------------------------------");
+                            System.out.println("Error para enviar");
+                            System.out.println(exception);
+                            System.out.println(server.getLista_de_puertos().get(j));
+                            System.out.println("---------------------------------------");
                         }
                     }
                 }
             }
         }
 
-
         // Este loop sirve para mover las personas
         for(int i = 0; i < arreglo_de_los_agentes.size();i++){
-
-            // Esta variable la vamos a utilizar para poder ver si la persona choca con pared, si no lo hace entonces
-            // puede chocar con alguna linea puesta por el usuario.
-            int validador_de_pared = 0;
-            Double posicion_de_la_pared_que_choco = 0.0;
-            if(arreglo_de_los_agentes.get(i).getTipo() != 3) {
-
-                arreglo_de_los_agentes.get(i).agregar_puntos_al_agente_de_tipo_2();
-
-                // Si la persona llega al borde, entonces se debe devolver
-                if ((arreglo_de_los_agentes.get(i).getPosicion_en_eje_x() + arreglo_de_los_agentes.get(i).getVelocidad_x()< 0 || arreglo_de_los_agentes.get(i).getPosicion_en_eje_x() + arreglo_de_los_agentes.get(i).getVelocidad_x() > configuracion_del_mapa.getAncho() - 20)) {
-                    arreglo_de_los_agentes.get(i).invertir_posicion_x();
-                }
-                if (arreglo_de_los_agentes.get(i).getPosicion_en_eje_y() + arreglo_de_los_agentes.get(i).getVelocidad_y() < 0 || arreglo_de_los_agentes.get(i).getPosicion_en_eje_y() + arreglo_de_los_agentes.get(i).getVelocidad_y() > configuracion_del_mapa.getLargo() - 25) {
-                    arreglo_de_los_agentes.get(i).invertir_posicion_y();
-                }
-
-                for (int j = 0; j < configuracion_del_mapa.getParedes().size(); j++) {
-                    ArrayList<Integer[]> funciones_lineales_de_las_paredes = configuracion_del_mapa.getParedes().get(j).getFunciones_lineales_de_las_paredes();
-
-                    double valor_que_contiene_pixeles_de_distancia = 0;
-                    for (int z = 0; z < funciones_lineales_de_las_paredes.size(); z++) {
-
-                        if (configuracion_del_mapa.getParedes().get(j).getEs_horizontal()) {
-
-                            valor_que_contiene_pixeles_de_distancia = Math.abs(funciones_lineales_de_las_paredes.get(z)[1] - arreglo_de_los_agentes.get(i).getPosicion_en_eje_y());
-
-                            if (valor_que_contiene_pixeles_de_distancia < Math.abs(arreglo_de_los_agentes.get(i).getVelocidad_y()) &&
-                                    arreglo_de_los_agentes.get(i).getPosicion_en_eje_x() == funciones_lineales_de_las_paredes.get(z)[0]) {
-                                arreglo_de_los_agentes.get(i).invertir_posicion_y();
-                                if(Math.random() < 0.5){
-                                    arreglo_de_los_agentes.get(i).invertir_posicion_x();
-                                }
-
-                                arreglo_de_los_agentes.get(i).mover_eje_y();
-                                arreglo_de_los_agentes.get(i).mover_eje_x();
-                            }
-                        } else {
-
-                            valor_que_contiene_pixeles_de_distancia = Math.abs(funciones_lineales_de_las_paredes.get(z)[0] - arreglo_de_los_agentes.get(i).getPosicion_en_eje_x());
-
-                            if (valor_que_contiene_pixeles_de_distancia < Math.abs(arreglo_de_los_agentes.get(i).getVelocidad_x()) &&
-                                    arreglo_de_los_agentes.get(i).getPosicion_en_eje_y() == funciones_lineales_de_las_paredes.get(z)[1]) {
-                                if(Math.random() < 0.5){
-                                    arreglo_de_los_agentes.get(i).invertir_posicion_y();
-                                }arreglo_de_los_agentes.get(i).invertir_posicion_x();
-                                arreglo_de_los_agentes.get(i).mover_eje_y();
-                                arreglo_de_los_agentes.get(i).mover_eje_x();
-                            }
-                        }
-                    }
-                }
-
-                if(arreglo_de_los_agentes.get(i).getTipo() == 1 || arreglo_de_los_agentes.get(i).getPosiciones_del_tipo_2().size() < 7) {
-                    arreglo_de_los_agentes.get(i).mover_eje_y();
-                    arreglo_de_los_agentes.get(i).mover_eje_x();
-                }else if(arreglo_de_los_agentes.get(i).getPosiciones_del_tipo_2().size() >= 7){
-                    ArrayList<Double[]> puntos_del_tipo_2 = arreglo_de_los_agentes.get(i).getPosiciones_del_tipo_2();
-                    arreglo_de_los_agentes.get(i).setPosicion_en_eje_x(puntos_del_tipo_2.get(arreglo_de_los_agentes.get(i).getPosicion_del_tipo_2())[0]);
-                    arreglo_de_los_agentes.get(i).setPosicion_en_eje_y(puntos_del_tipo_2.get(arreglo_de_los_agentes.get(i).getPosicion_del_tipo_2())[1]);
-
-                    arreglo_de_los_agentes.get(i).aumentar_posicion_del_tipo_2();
-                }
-            }else {
-
-                Boolean validador_para_averiguar_si_toca_pared_del_frame = false;
-
-                // Si la persona llega al borde, entonces se debe devolver
-                if ((arreglo_de_los_agentes.get(i).getPosicion_en_eje_x() < 0 || arreglo_de_los_agentes.get(i).getPosicion_en_eje_x() > configuracion_del_mapa.getAncho() - 20)) {
-                    arreglo_de_los_agentes.get(i).invertir_posicion_x();
-                    validador_para_averiguar_si_toca_pared_del_frame = true;
-                }
-                if (arreglo_de_los_agentes.get(i).getPosicion_en_eje_y() < 0 || arreglo_de_los_agentes.get(i).getPosicion_en_eje_y() > configuracion_del_mapa.getLargo() - 25) {
-                    arreglo_de_los_agentes.get(i).invertir_posicion_y();
-                    validador_para_averiguar_si_toca_pared_del_frame = true;
-                }
-
-                for (int j = 0; j < configuracion_del_mapa.getParedes().size(); j++) {
-                    ArrayList<Integer[]> funciones_lineales_de_las_paredes = configuracion_del_mapa.getParedes().get(j).getFunciones_lineales_de_las_paredes();
-                    double valor_que_contiene_pixeles_de_distancia = 0;
-
-                    for (int z = 0; z < funciones_lineales_de_las_paredes.size(); z++) {
-                        if (configuracion_del_mapa.getParedes().get(j).getEs_horizontal()) {
-
-                            valor_que_contiene_pixeles_de_distancia = Math.abs(funciones_lineales_de_las_paredes.get(z)[1] - arreglo_de_los_agentes.get(i).getPosicion_en_eje_y());
-
-                            if (valor_que_contiene_pixeles_de_distancia < Math.abs(arreglo_de_los_agentes.get(i).getVelocidad_y()) &&
-                                    arreglo_de_los_agentes.get(i).getPosicion_en_eje_x() == funciones_lineales_de_las_paredes.get(z)[0]) {
-                                arreglo_de_los_agentes.get(i).mover_eje_y();
-                                arreglo_de_los_agentes.get(i).mover_eje_x();
-                            }
-                        } else {
-
-                            valor_que_contiene_pixeles_de_distancia = Math.abs(funciones_lineales_de_las_paredes.get(z)[0] - arreglo_de_los_agentes.get(i).getPosicion_en_eje_x());
-
-                            if (valor_que_contiene_pixeles_de_distancia < Math.abs(arreglo_de_los_agentes.get(i).getVelocidad_x()) &&
-                                    arreglo_de_los_agentes.get(i).getPosicion_en_eje_y() == funciones_lineales_de_las_paredes.get(z)[1]) {
-                                arreglo_de_los_agentes.get(i).mover_eje_y();
-                                arreglo_de_los_agentes.get(i).mover_eje_x();
-                            }
-                        }
-                    }
-                }
-
-                if(!validador_para_averiguar_si_toca_pared_del_frame){
-                    arreglo_de_los_agentes.get(i).mover_aleatoreamente();
-                }
-                arreglo_de_los_agentes.get(i).mover_eje_y();
-                arreglo_de_los_agentes.get(i).mover_eje_x();
-            }
+            LogicaDeLosAgentes logicaDeLosAgentes = new LogicaDeLosAgentes(configuracion_del_mapa, arreglo_de_los_agentes.get(i));
+            logicaDeLosAgentes.start();
+            arreglo_de_los_agentes.set(i,logicaDeLosAgentes.getAgentes());
          }
         repaint();
     }
