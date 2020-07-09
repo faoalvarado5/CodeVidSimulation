@@ -105,24 +105,15 @@ public class GuiMapMulti extends JPanel implements ActionListener {
         // Esta es la condición de parada
         if(datos_progresivos_de_la_enfermedad.getDias() > configuracion_de_la_enfermedad.getDias_totales()*100) {
             t.stop();
-            Generador_latex gl = new Generador_latex();
-            try {
-                gl.generarLatex(arreglo_de_los_agentes.size(), configuracion_de_la_enfermedad.getDias_totales(), listaGrafico);
-                System.exit(0);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+
+            ImageThread imageThread = new ImageThread(listaGrafico, arreglo_de_los_agentes,configuracion_de_la_enfermedad);
+            imageThread.start();
+
         }else{
             if(contador%100 == 0){
                 try {
-                    BufferedImage image = new BufferedImage(f.getWidth(), f.getHeight(), BufferedImage.TYPE_INT_RGB);
-                    Graphics2D graphics2D = image.createGraphics();
-                    f.paint(graphics2D);
-                    File file = new File("latex/");
-                    //Creating the directory
-                    file.mkdir();
-                    ImageIO.write(image, "jpeg", new File("latex/" + contador_imagenes + ".jpeg"));
-                    //Thread.sleep(1000);
+                    LatexThread latexThread = new LatexThread(f,contador_imagenes);
+                    latexThread.start();
                     contador_imagenes++;
                 }catch(Exception e){
                 }
@@ -156,9 +147,14 @@ public class GuiMapMulti extends JPanel implements ActionListener {
                             Socket socket = new Socket(server.getLista_de_ips().get(j),server.getLista_de_puertos().get(j));
 
                             ObjectOutputStream outStream = new ObjectOutputStream(socket.getOutputStream());
+                            arreglo_de_los_agentes.get(i).setTiempo_de_viaje(server.getTiempo_de_agente_en_la_computadora());
                             outStream.writeObject(arreglo_de_los_agentes.get(i));
                             arreglo_de_los_agentes.remove(i);
+                            System.out.println("---------------------------------------");
                             System.out.println("Enviando");
+                            System.out.println(arreglo_de_los_agentes.get(i).toString());
+                            System.out.println("---------------------------------------");
+
                         }catch (Exception exception){
                             System.out.println("---------------------------------------");
                             System.out.println("Error para enviar");

@@ -17,6 +17,7 @@ public class agente implements Serializable {
     private ArrayList<Double[]> posiciones_del_tipo_2 = new ArrayList<Double[]>();;
     private int posicion_del_tipo_2 = 0;
     private Boolean validador_para_mover_posicion_del_tipo_2 = true;
+    private int tiempo_de_viaje = 0;
 
     public agente(int tipo, String estado, double velocidad_x, double velocidad_y, int velocidad_maxima, int velocidad_minima, double posicion_en_eje_x, double posicion_en_eje_y, double tiempo_enfermo) {
         this.tipo = tipo;
@@ -32,6 +33,14 @@ public class agente implements Serializable {
     }
 
     public agente() {
+    }
+
+    public int getTiempo_de_viaje() {
+        return tiempo_de_viaje;
+    }
+
+    public void setTiempo_de_viaje(int tiempo_de_viaje) {
+        this.tiempo_de_viaje = tiempo_de_viaje;
     }
 
     public void mover_aleatoreamente(){
@@ -186,6 +195,10 @@ public class agente implements Serializable {
                 ", posicion_en_eje_x=" + posicion_en_eje_x +
                 ", posicion_en_eje_y=" + posicion_en_eje_y +
                 ", tiempo_enfermo=" + tiempo_enfermo +
+                ", posiciones_del_tipo_2=" + posiciones_del_tipo_2 +
+                ", posicion_del_tipo_2=" + posicion_del_tipo_2 +
+                ", validador_para_mover_posicion_del_tipo_2=" + validador_para_mover_posicion_del_tipo_2 +
+                ", tiempo_de_viaje=" + tiempo_de_viaje +
                 '}';
     }
 }
