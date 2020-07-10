@@ -17,7 +17,6 @@ public class MainGuiFrameMulti {
 
     JFrame f;
     DatosActuales datos_progresivos_de_la_enfermedad = new DatosActuales();
-    int contador_de_imagenes_tomadas = 0;
 
     MainGuiFrameMulti(ArrayList<agente> arreglo_de_agentes, mapa configuracion_mapa, enfermedad configuracion_enfermedad, int total, Server servidores) {
 
@@ -25,8 +24,6 @@ public class MainGuiFrameMulti {
 
         JFrame frame = new JFrame( "Simulación de propagación de CODE-VID" );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-
-        JButton boton_para_tomar_screen = new JButton("Guardar image");
 
         JTabbedPane graficas = new JTabbedPane();
         JTabbedPane mapas = new JTabbedPane();
@@ -50,32 +47,10 @@ public class MainGuiFrameMulti {
 
         panel_completo.add(mapas);
         panel_completo.add(graficas);
-        panel_completo.add(boton_para_tomar_screen);
         frame.add(panel_completo);
 
         frame.setLocation( 200, 200 );
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.setVisible( true );
-
-        boton_para_tomar_screen.setPreferredSize(new Dimension(200, 40));
-        boton_para_tomar_screen.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e){
-                try
-                {
-                    BufferedImage image = new BufferedImage(frame.getWidth(), frame.getHeight(), BufferedImage.TYPE_INT_RGB);
-                    Graphics2D graphics2D = image.createGraphics();
-                    frame.paint(graphics2D);
-                    File file = new File("latex/");
-                    //Creating the directory
-                    file.mkdir();
-                    ImageIO.write(image,"jpeg", new File("latex/grafica"+contador_de_imagenes_tomadas+".jpeg"));
-                    contador_de_imagenes_tomadas++;
-                }
-                catch(Exception exception)
-                {
-                    //code
-                }
-            }
-        });
     }
 }

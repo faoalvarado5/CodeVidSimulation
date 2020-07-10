@@ -134,10 +134,9 @@ public class GuiMapMulti extends JPanel implements ActionListener {
     }
     public void actionPerformed(ActionEvent e){
 
-
         arreglo_de_los_agentes = logica.getArreglo_de_los_agentes();
 
-        if(contador%server.getTiempo_para_lanzar_probabilidad() == 0) {
+        if(contador%server.getTiempo_para_lanzar_probabilidad() == 0 && server.getLista_de_puertos().size() > 1) {
 
             for (int i = 0; i < arreglo_de_los_agentes.size(); i++) {
                 for(int j = 0; j<server.getProbabilidad_de_visita().size(); j++) {

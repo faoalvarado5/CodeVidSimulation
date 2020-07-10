@@ -18,6 +18,7 @@ public class agente implements Serializable {
     private int posicion_del_tipo_2 = 0;
     private Boolean validador_para_mover_posicion_del_tipo_2 = true;
     private int tiempo_de_viaje = 0;
+    //private int servidor_proveniente = ;
 
     public agente(int tipo, String estado, double velocidad_x, double velocidad_y, int velocidad_maxima, int velocidad_minima, double posicion_en_eje_x, double posicion_en_eje_y, double tiempo_enfermo) {
         this.tipo = tipo;
