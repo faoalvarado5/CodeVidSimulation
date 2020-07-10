@@ -52,26 +52,41 @@ public class GraficaMultiple extends JPanel {
         double temp = cantidad_de_lineas;
 
         for (int i = 0; i <= 20; i++){
-            int x0 = padding_de_la_grafica + padding_del_label;
-            int x1 = tamaño_del_punto + padding_de_la_grafica + padding_del_label;
-            int y0 = getHeight() - ((i * (int)cantidad_de_personas_en_la_prueba / 20 * (getHeight() - padding_de_la_grafica * 2 - padding_del_label)) / cantidad_de_personas_en_la_prueba + padding_de_la_grafica + padding_del_label);
-            int y1 = y0;
 
-            grafica.setColor(gridColor);
-            grafica.drawLine(padding_de_la_grafica + padding_del_label + 1 + tamaño_del_punto, y0, getWidth() - padding_de_la_grafica, y1);
-            grafica.setColor(Color.BLACK);
-            // Aqui es donde se imprimen la cantidad de personas en la pantalla, eje Y
+            int posicion = i;
 
-            double valor_del_label = i * temp;
-            valor_del_label = new BigDecimal(valor_del_label).setScale(2, RoundingMode.HALF_UP).doubleValue();
-            String yLabel = valor_del_label + "";
+            Thread setting_color = new Thread(){
 
-            FontMetrics metrics = grafica.getFontMetrics();
-            int labelWidth = metrics.stringWidth(yLabel);
-            //Pone los labels en la pantalla
-            grafica.drawString(yLabel, x0 - labelWidth - 5, y0 + (metrics.getHeight() / 2) - 3);
-            grafica.drawLine(x0, y0, x1, y1);
+                public void run(){
 
+                    int x0 = padding_de_la_grafica + padding_del_label;
+                    int x1 = tamaño_del_punto + padding_de_la_grafica + padding_del_label;
+                    int y0 = getHeight() - ((posicion * (int)cantidad_de_personas_en_la_prueba / 20 * (getHeight() - padding_de_la_grafica * 2 - padding_del_label)) / cantidad_de_personas_en_la_prueba + padding_de_la_grafica + padding_del_label);
+                    int y1 = y0;
+
+                    grafica.setColor(gridColor);
+                    grafica.drawLine(padding_de_la_grafica + padding_del_label + 1 + tamaño_del_punto, y0, getWidth() - padding_de_la_grafica, y1);
+                    grafica.setColor(Color.BLACK);
+                    // Aqui es donde se imprimen la cantidad de personas en la pantalla, eje Y
+
+                    double valor_del_label = posicion * temp;
+                    valor_del_label = new BigDecimal(valor_del_label).setScale(2, RoundingMode.HALF_UP).doubleValue();
+                    String yLabel = valor_del_label + "";
+
+                    FontMetrics metrics = grafica.getFontMetrics();
+                    int labelWidth = metrics.stringWidth(yLabel);
+                    //Pone los labels en la pantalla
+                    grafica.drawString(yLabel, x0 - labelWidth - 5, y0 + (metrics.getHeight() / 2) - 3);
+                    grafica.drawLine(x0, y0, x1, y1);
+                }
+            };
+
+            setting_color.start();
+            try {
+                setting_color.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
 
         grafica.setColor(lineColor);

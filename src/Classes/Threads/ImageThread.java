@@ -1,4 +1,4 @@
-package Multimap;
+package Classes.Threads;
 
 import Classes.Generador_latex;
 import Classes.agente;

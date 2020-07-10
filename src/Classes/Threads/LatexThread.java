@@ -1,4 +1,4 @@
-package Multimap;
+package Classes.Threads;
 
 import javax.imageio.ImageIO;
 import java.awt.*;

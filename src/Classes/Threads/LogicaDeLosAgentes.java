@@ -1,4 +1,4 @@
-package Multimap;
+package Classes.Threads;
 
 import Classes.agente;
 import Classes.mapa;
