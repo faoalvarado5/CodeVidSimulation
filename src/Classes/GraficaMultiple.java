@@ -23,14 +23,16 @@ public class GraficaMultiple extends JPanel {
     private ArrayList<Integer> arreglo_de_enfermos = new ArrayList<>();;
     private ArrayList<Integer> arreglo_de_sanos = new ArrayList<>();;
     public int dias_totales;
+    public DatosActuales datos_progresivos_de_la_enfermedad;
 
-    public GraficaMultiple(ArrayList<Integer> arreglo_de_curados,ArrayList<Integer> arreglo_de_enfermos,ArrayList<Integer> arreglo_de_sanos, int cantidad_de_personas_en_la_prueba, int dias_totales) {
+    public GraficaMultiple(ArrayList<Integer> arreglo_de_curados,ArrayList<Integer> arreglo_de_enfermos,ArrayList<Integer> arreglo_de_sanos, int cantidad_de_personas_en_la_prueba, int dias_totales, DatosActuales datos_progresivos_de_la_enfermedad) {
 
         this.arreglo_de_curados = arreglo_de_curados;
         this.arreglo_de_enfermos = arreglo_de_enfermos;
         this.arreglo_de_sanos = arreglo_de_sanos;
         this.cantidad_de_personas_en_la_prueba = cantidad_de_personas_en_la_prueba;
         this.dias_totales = dias_totales;
+        this.datos_progresivos_de_la_enfermedad = datos_progresivos_de_la_enfermedad;
     }
 
     protected void paintComponent(Graphics g) {
@@ -101,7 +103,7 @@ public class GraficaMultiple extends JPanel {
         grafica.setColor(Color.BLACK);
         int x0 = getWidth()/2;
         int y0 = getHeight()-10;
-        grafica.drawString("Dias totales: " + dias_totales + " Dias corriendo: " + (int)(arreglo_de_curados.size()/100), x0 , y0);
+        grafica.drawString("Dias totales: " + dias_totales + " Dias corriendo: " + datos_progresivos_de_la_enfermedad.getDias() , x0 , y0);
 
 
 

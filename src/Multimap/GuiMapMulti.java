@@ -106,10 +106,9 @@ public class GuiMapMulti extends JPanel implements ActionListener {
         // Dependiendo de la cantidad de días que una persona esté enferma se debe de sanar (Esto es una probabilidad, no es estático)
         curar_enfermos();
 
-        // Se aumentan los dias cada vez que se recorre el timer
-        datos_progresivos_de_la_enfermedad.aumentar_dias_corriendo();
+
         // Esta es la condición de parada
-        if(datos_progresivos_de_la_enfermedad.getDias() > configuracion_de_la_enfermedad.getDias_totales()*100) {
+        if(datos_progresivos_de_la_enfermedad.getDias() == configuracion_de_la_enfermedad.getDias_totales()+1) {
             t.stop();
 
             Generador_latex gl = new Generador_latex();
@@ -134,16 +133,20 @@ public class GuiMapMulti extends JPanel implements ActionListener {
                     //Thread.sleep(1000);
 
                     contador_imagenes++;
+
+                    // Se aumentan los dias cada vez que se recorre el timer
+                    datos_progresivos_de_la_enfermedad.aumentar_dias_corriendo();
+
                 }catch(Exception e){
                 }
             }
             if(datos_progresivos_de_la_enfermedad.getDias()%100 == 0){
                 listaGrafico.add(datos_progresivos_de_la_enfermedad.getDias()/100);
                 listaGrafico.add(datos_progresivos_de_la_enfermedad.getCantidad_de_enfermos().get(datos_progresivos_de_la_enfermedad.getCantidad_de_enfermos().size()-1));
-                // Esta función actualiza los datos del día; esto es necesario para poder actualizar la gráfica en tiempo real
-                actualizar_datos_progresivos();
             }
-            if(datos_progresivos_de_la_enfermedad.getDias()%25 == 0){
+
+            if(contador%25 == 0){
+                // Esta función actualiza los datos del día; esto es necesario para poder actualizar la gráfica en tiempo real
                 actualizar_datos_progresivos();
             }
 
@@ -159,30 +162,31 @@ public class GuiMapMulti extends JPanel implements ActionListener {
 
         arreglo_de_los_agentes = logica.getArreglo_de_los_agentes();
 
-        if(contador%server.getTiempo_para_lanzar_probabilidad() == 0 && server.getLista_de_puertos().size() > 1) {
+        if(contador%server.getTiempo_para_lanzar_probabilidad() == 0 && server.getLista_de_puertos().size() >= 1) {
 
             for (int i = 0; i < arreglo_de_los_agentes.size(); i++) {
                 for(int j = 0; j<server.getProbabilidad_de_visita().size(); j++) {
                     if (Math.random() <= server.getProbabilidad_de_visita().get(j)) {
 
-                        try {
-                            Socket socket = new Socket(server.getLista_de_ips().get(j),server.getLista_de_puertos().get(j));
+                        int posicion_i = i;
+                        int posicion_j = j;
 
-                            ObjectOutputStream outStream = new ObjectOutputStream(socket.getOutputStream());
-                            outStream.writeObject(arreglo_de_los_agentes.get(i));
-                            arreglo_de_los_agentes.remove(i);
-                            System.out.println("---------------------------------------");
-                            System.out.println("Enviando");
-                            System.out.println(arreglo_de_los_agentes.get(i).toString());
-                            System.out.println("---------------------------------------");
+                        Thread enviar_agente = new Thread(){
+                            public void run(){
 
-                        }catch (Exception exception){
-                            System.out.println("---------------------------------------");
-                            System.out.println("Error para enviar");
-                            System.out.println(exception);
-                            System.out.println(server.getLista_de_puertos().get(j));
-                            System.out.println("---------------------------------------");
-                        }
+                                Socket socket = null;
+                                try {
+                                    socket = new Socket(server.getLista_de_ips().get(posicion_j),server.getLista_de_puertos().get(posicion_j));
+                                    ObjectOutputStream outStream = new ObjectOutputStream(socket.getOutputStream());
+                                    outStream.writeObject(arreglo_de_los_agentes.get(posicion_i));
+                                } catch (IOException ioException) {
+                                    ioException.printStackTrace();
+                                }
+
+                            }
+                        };
+
+                        arreglo_de_los_agentes.remove(i);
                     }
                 }
             }
@@ -250,6 +254,8 @@ public class GuiMapMulti extends JPanel implements ActionListener {
         int cantidad_de_enfermos = 0;
         int cantidad_de_curados = 0;
         int cantidad_de_sanos = 0;
+
+
 
         for(int i = 0; i < arreglo_de_los_agentes.size(); i++){
             if(arreglo_de_los_agentes.get(i).getEstado().equals("e")) cantidad_de_enfermos++;
