@@ -26,7 +26,6 @@ public class LatexThread extends Thread{
             ImageIO.write(image, "jpeg", new File("latex/" + contador_imagenes + ".jpeg"));
             //Thread.sleep(1000);
         }catch(Exception e){
-
         }
     }
     @Override

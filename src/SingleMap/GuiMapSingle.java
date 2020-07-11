@@ -97,7 +97,7 @@ public class GuiMapSingle extends JPanel implements ActionListener {
             t.stop();
             Generador_latex gl = new Generador_latex();
             try {
-                gl.generarLatex(arreglo_de_los_agentes.size(), configuracion_de_la_enfermedad.getDias_totales(), listaGrafico);
+                gl.generarLatex(arreglo_de_los_agentes.size(), configuracion_de_la_enfermedad.getDias_totales(), listaGrafico, null);
                 System.exit(0);
             } catch (IOException e) {
                 e.printStackTrace();

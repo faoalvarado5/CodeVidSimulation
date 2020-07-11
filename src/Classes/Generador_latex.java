@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class Generador_latex {
 
-    public void generarLatex(int totalAgentes, int totalDias, ArrayList<Integer> listaGrafico) throws IOException {
+    public void generarLatex(int totalAgentes, int totalDias, ArrayList<Integer> listaGrafico, ArrayList<Integer> agentes_viajeros) throws IOException {
 
         File archivo = new File("latex/salida.tex");
         if (!archivo.exists()) {
@@ -41,12 +41,12 @@ public class Generador_latex {
                 "{\"" + "scshape\\Large Facultad de Ingenier\\'ia en Computaci\\'on \\par}" + "\n" +
                 "\"" + "vspace{3cm}" + "\n" +
                 "{\"" + "scshape\\Huge Simulaci\\'on de propagaci\\'on \\\\" + "\n" +
-                "de COVID-19\\par}" + "\n" +
+                "de CODEVID-19\\par}" + "\n" +
                 "\"" + "vspace{3cm}" + "\n" +
                 "{\"" + "itshape\\Large Proyecto 2\\par}" + "\n" +
                 "\"" + "vfill" + "\n" +
                 "{\"" + "Large Emanuelle Jim\\'enez S.\\par}" + "\n" +
-                "{\"" + "Large Fabrizio Alvarado B\\par}" + "\n" +
+                "{\"" + "Large Fabrizio Alvarado B.\\par}" + "\n" +
                 "\"" + "vfill" + "\n" +
                 "{\"" + "Large Junio 2020 \\par}" + "\n" +
                 "\"" + "end{titlepage}" + "\n" +
@@ -82,6 +82,26 @@ public class Generador_latex {
         for (int i = 1; i < contents.length; i++) {
 
             documento += "\"" + "includegraphics[scale=0.20]{" + i + "}" + "\n";
+        }
+
+        if(agentes_viajeros.size() >= 1) {
+
+            System.out.println("agenteeeees" + agentes_viajeros.size());
+            documento += "\"" + "newpage" + "\n";
+            documento += "\"" + "section{Viajes}" + "\n";
+            int actual = agentes_viajeros.get(0);
+            int contador = 1;
+            for (int i = 1; i < agentes_viajeros.size(); i++) {
+
+                if(agentes_viajeros.get(i) == actual){
+                    contador ++;
+                }else{
+                    documento += "En el d\\'ia " + actual + " viajaron un total de " + contador + " agentes." + "\"" + "n" + "\n";
+                    actual = agentes_viajeros.get(i);
+                    contador = 1;
+                }
+            }
+            documento += "En el d\\'ia " + actual + " viajaron un total de " + contador + " agentes." + "\"" + "newline" + "\n";
         }
 
         documento += "\"" + "end{document}" + "\n";
