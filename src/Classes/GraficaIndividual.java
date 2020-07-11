@@ -75,10 +75,6 @@ public class GraficaIndividual extends JPanel {
         grafica.setColor(lineColor);
 
         agregarDatosGrafica(grafica,puntos_del_arreglo, color);
-        int x1 = getWidth()/2-50;
-        int y1 = getHeight()-23;
-
-        grafica.drawString("Agentes totales: " + cantidad_de_personas_en_la_prueba, x1, y1);
     }
 
     private void agregarDatosGrafica(Graphics2D grafica, List<Point> puntos, int color){

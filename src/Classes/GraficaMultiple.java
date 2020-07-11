@@ -99,16 +99,12 @@ public class GraficaMultiple extends JPanel {
         grafica.setColor(Color.WHITE);
 
         grafica.setColor(Color.BLACK);
-        int x0 = getWidth()/2-100;
+        int x0 = getWidth()/2;
         int y0 = getHeight()-10;
-        int x1 = getWidth()/2-50;
-        int y1 = getHeight()-23;
         grafica.drawString("Dias totales: " + dias_totales + " Dias corriendo: " + (int)(arreglo_de_curados.size()/100), x0 , y0);
-        int agentes_totales = 0;
-        agentes_totales = arreglo_de_curados.get(arreglo_de_curados.size()-1) +
-                            arreglo_de_enfermos.get(arreglo_de_enfermos.size()-1) +
-                            arreglo_de_sanos.get(arreglo_de_sanos.size()-1);
-        grafica.drawString("Agentes totales: " + agentes_totales, x1, y1);
+
+
+
     }
 
     private void agregarDatosGrafica(Graphics2D grafica, List<Point> puntos, int color){
