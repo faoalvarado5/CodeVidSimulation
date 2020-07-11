@@ -166,7 +166,7 @@ public class GuiMapMulti extends JPanel implements ActionListener {
 
             for (int i = 0; i < arreglo_de_los_agentes.size(); i++) {
                 for(int j = 0; j<server.getProbabilidad_de_visita().size(); j++) {
-                    if (Math.random() <= server.getProbabilidad_de_visita().get(j)) {
+                    if (Math.random() <= server.getProbabilidad_de_visita().get(j) && arreglo_de_los_agentes.get(i).getTipo() != 4) {
 
                         int posicion_i = i;
                         int posicion_j = j;
@@ -179,14 +179,17 @@ public class GuiMapMulti extends JPanel implements ActionListener {
                                     socket = new Socket(server.getLista_de_ips().get(posicion_j),server.getLista_de_puertos().get(posicion_j));
                                     ObjectOutputStream outStream = new ObjectOutputStream(socket.getOutputStream());
                                     outStream.writeObject(arreglo_de_los_agentes.get(posicion_i));
+                                    System.out.println("---------------");
+                                    System.out.println("Enviando agente");
+                                    System.out.println(arreglo_de_los_agentes.get(posicion_i).toString());
+                                    System.out.println("---------------");
+                                    arreglo_de_los_agentes.remove(posicion_i);
                                 } catch (IOException ioException) {
-                                    ioException.printStackTrace();
+                                    System.out.println("Nadie escuchando");
                                 }
-
                             }
                         };
-
-                        arreglo_de_los_agentes.remove(i);
+                        enviar_agente.start();
                     }
                 }
             }
