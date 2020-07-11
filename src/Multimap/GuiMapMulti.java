@@ -140,13 +140,10 @@ public class GuiMapMulti extends JPanel implements ActionListener {
             if(datos_progresivos_de_la_enfermedad.getDias()%100 == 0){
                 listaGrafico.add(datos_progresivos_de_la_enfermedad.getDias()/100);
                 listaGrafico.add(datos_progresivos_de_la_enfermedad.getCantidad_de_enfermos().get(datos_progresivos_de_la_enfermedad.getCantidad_de_enfermos().size()-1));
-                // Esta función actualiza los datos del día; esto es necesario para poder actualizar la gráfica en tiempo real
-                actualizar_datos_progresivos();
-            }
-            if(datos_progresivos_de_la_enfermedad.getDias()%25 == 0){
-                actualizar_datos_progresivos();
-            }
 
+            }
+            // Esta función actualiza los datos del día; esto es necesario para poder actualizar la gráfica en tiempo real
+            actualizar_datos_progresivos();
         }
 
         // Se actualiza el frame cada vez que una persona se mueve y los datos de las gráficas cambian
