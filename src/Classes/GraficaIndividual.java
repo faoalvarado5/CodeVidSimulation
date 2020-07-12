@@ -92,7 +92,7 @@ public class GraficaIndividual extends JPanel {
 
         if(color == 1){
             grafica.setColor(color_del_punto_enfermos);
-        }else if(color == 0){
+        }else if(color == 2){
             grafica.setColor(color_del_punto_curados);
         }else{
             grafica.setColor(color_del_punto_sanos);

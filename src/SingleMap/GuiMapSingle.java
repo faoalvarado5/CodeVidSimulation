@@ -92,11 +92,10 @@ public class GuiMapSingle extends JPanel implements ActionListener {
             curar_enfermos();
         }
 
-        // Se aumentan los dias cada vez que se recorre el timer
-        datos_progresivos_de_la_enfermedad.aumentar_dias_corriendo();
+
 
         // Esta es la condición de parada
-        if(datos_progresivos_de_la_enfermedad.getDias() > configuracion_de_la_enfermedad.getDias_totales()*100) {
+        if(datos_progresivos_de_la_enfermedad.getDias() >= configuracion_de_la_enfermedad.getDias_totales()) {
             t.stop();
             Generador_latex gl = new Generador_latex();
             try {
@@ -116,13 +115,13 @@ public class GuiMapSingle extends JPanel implements ActionListener {
                     file.mkdir();
                     ImageIO.write(image, "jpeg", new File("latex/" + contador_imagenes + ".jpeg"));
                     //Thread.sleep(1000);
+                    // Se aumentan los dias cada vez que se recorre el timer
+                    datos_progresivos_de_la_enfermedad.aumentar_dias_corriendo();
+                    listaGrafico.add(datos_progresivos_de_la_enfermedad.getDias());
+                    listaGrafico.add(datos_progresivos_de_la_enfermedad.getCantidad_de_enfermos().get(datos_progresivos_de_la_enfermedad.getCantidad_de_enfermos().size()-1));
                     contador_imagenes++;
                 }catch(Exception e){
                 }
-            }
-            if(datos_progresivos_de_la_enfermedad.getDias()%100 == 0){
-                listaGrafico.add(datos_progresivos_de_la_enfermedad.getDias()/100);
-                listaGrafico.add(datos_progresivos_de_la_enfermedad.getCantidad_de_enfermos().get(datos_progresivos_de_la_enfermedad.getCantidad_de_enfermos().size()-1));
             }
             if(contador%25==0){
 

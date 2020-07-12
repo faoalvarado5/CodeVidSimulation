@@ -105,7 +105,7 @@ public class GraficaMultiple extends JPanel {
         int y0 = getHeight()-10;
         int x1 = getWidth()/2-50;
         int y1 = getHeight()-23;
-        grafica.drawString("Dias totales: " + dias_totales + " Dias corriendo: " + datos_progresivos_de_la_enfermedad.getDias()/100, x0 , y0);
+        grafica.drawString("Dias totales: " + dias_totales + " Dias corriendo: " + datos_progresivos_de_la_enfermedad.getDias(), x0 , y0);
         int agentes_totales = 0;
         agentes_totales = datos_progresivos_de_la_enfermedad.getCantidad_de_enfermos().get(datos_progresivos_de_la_enfermedad.getCantidad_de_enfermos().size()-1) +
                             datos_progresivos_de_la_enfermedad.getCantidad_de_curados().get(datos_progresivos_de_la_enfermedad.getCantidad_de_curados().size()-1) +

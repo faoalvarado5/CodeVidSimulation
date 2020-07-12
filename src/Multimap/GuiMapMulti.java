@@ -104,7 +104,6 @@ public class GuiMapMulti extends JPanel implements ActionListener {
         // Dependiendo de la cantidad de días que una persona esté enferma se debe de sanar (Esto es una probabilidad, no es estático)
         curar_enfermos();
 
-
         // Esta es la condición de parada
         if(datos_progresivos_de_la_enfermedad.getDias() > configuracion_de_la_enfermedad.getDias_totales()*100) {
             t.stop();

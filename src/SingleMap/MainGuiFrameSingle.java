@@ -34,9 +34,9 @@ public class MainGuiFrameSingle {
 
         graficas.add("Grafica para total", new GraficaMultiple(datos_progresivos_de_la_enfermedad.getCantidad_de_curados(), datos_progresivos_de_la_enfermedad.getCantidad_de_enfermos(),
                 datos_progresivos_de_la_enfermedad.getCantidad_de_sanos(), arreglo_de_agentes.size(), configuracion_enfermedad.getDias_totales(), datos_progresivos_de_la_enfermedad));
-        graficas.add("Grafica para curados", new GraficaIndividual(datos_progresivos_de_la_enfermedad.getCantidad_de_sanos(),2, arreglo_de_agentes.size()));
+        graficas.add("Grafica para curados", new GraficaIndividual(datos_progresivos_de_la_enfermedad.getCantidad_de_curados(),2, arreglo_de_agentes.size()));
         graficas.add("Grafica para enfermos", new GraficaIndividual(datos_progresivos_de_la_enfermedad.getCantidad_de_enfermos(),1, arreglo_de_agentes.size()));
-        graficas.add("Grafica para sanos", new GraficaIndividual(datos_progresivos_de_la_enfermedad.getCantidad_de_curados(),3, arreglo_de_agentes.size()));
+        graficas.add("Grafica para sanos", new GraficaIndividual(datos_progresivos_de_la_enfermedad.getCantidad_de_sanos(),3, arreglo_de_agentes.size()));
 
         mapas.add("Costa Rica",  new GuiMapSingle(configuracion_enfermedad, arreglo_de_agentes, configuracion_mapa, datos_progresivos_de_la_enfermedad, frame));
 
