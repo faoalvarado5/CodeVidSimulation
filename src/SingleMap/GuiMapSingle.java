@@ -87,11 +87,14 @@ public class GuiMapSingle extends JPanel implements ActionListener {
             }
         }
 
-        // Dependiendo de la cantidad de días que una persona esté enferma se debe de sanar (Esto es una probabilidad, no es estático)
-        curar_enfermos();
+        if(contador%100 == 0){
+            // Dependiendo de la cantidad de días que una persona esté enferma se debe de sanar (Esto es una probabilidad, no es estático)
+            curar_enfermos();
+        }
 
         // Se aumentan los dias cada vez que se recorre el timer
         datos_progresivos_de_la_enfermedad.aumentar_dias_corriendo();
+
         // Esta es la condición de parada
         if(datos_progresivos_de_la_enfermedad.getDias() > configuracion_de_la_enfermedad.getDias_totales()*100) {
             t.stop();
@@ -256,16 +259,20 @@ public class GuiMapSingle extends JPanel implements ActionListener {
     }
 
     public void curar_enfermos(){
+
         for(int i = 0; i < arreglo_de_los_agentes.size();i++){
-            if(arreglo_de_los_agentes.get(i).getTiempo_enfermo() >= 180 && arreglo_de_los_agentes.get(i).getEstado().equals("e")){
+
+            double prob = Math.random()*100;
+
+            if(arreglo_de_los_agentes.get(i).getTiempo_enfermo() == configuracion_de_la_enfermedad.getDias_de_recuperacion() && arreglo_de_los_agentes.get(i).getEstado().equals("e")){
                 arreglo_de_los_agentes.get(i).setEstado("c");
                 arreglo_de_los_agentes.get(i).setTiempo_enfermo(0);
-            }else if(arreglo_de_los_agentes.get(i).getEstado().equals("e")){
-                arreglo_de_los_agentes.get(i).aumentar_dias_de_enfermos();
-
-                if(Math.random()*100 <= configuracion_de_la_enfermedad.getProbabilidad_muerte() && arreglo_de_los_agentes.get(i).getTiempo_enfermo() >= configuracion_de_la_enfermedad.getDias_de_muerte()){
+            }
+            else if(arreglo_de_los_agentes.get(i).getEstado().equals("e") && prob <= configuracion_de_la_enfermedad.getProbabilidad_muerte() && arreglo_de_los_agentes.get(i).getTiempo_enfermo() >= configuracion_de_la_enfermedad.getDias_de_muerte()){
                     arreglo_de_los_agentes.remove(i);
-                }
+            }
+            else{
+                arreglo_de_los_agentes.get(i).aumentar_dias_de_enfermos();
             }
         }
     }

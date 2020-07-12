@@ -84,7 +84,7 @@ public class Generador_latex {
             documento += "\"" + "includegraphics[scale=0.20]{" + i + "}" + "\n";
         }
 
-        if(agentes_viajeros.size() >= 1) {
+        if(agentes_viajeros!=null && agentes_viajeros.size() >= 1) {
 
             documento += "\"" + "newpage" + "\n";
             documento += "\"" + "section{Viajes}" + "\n";
