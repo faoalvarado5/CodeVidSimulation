@@ -42,6 +42,7 @@ public class GuiMapMulti extends JPanel implements ActionListener {
     Server server;
     int contador_imagenes = 1;
     LogicaDeLaConexion logica;
+    ArrayList<Integer> agentes_viajeros = new ArrayList<Integer>();
 
     public GuiMapMulti(enfermedad configuracion_de_la_enfermedad, ArrayList<agente> arreglo_de_los_agentes, mapa configuracion_del_mapa, DatosActuales datos_progresivos_de_la_enfermedad, Frame f, Server server){
         this.configuracion_de_la_enfermedad = configuracion_de_la_enfermedad;
@@ -101,15 +102,22 @@ public class GuiMapMulti extends JPanel implements ActionListener {
             }
         }
 
-        // Dependiendo de la cantidad de días que una persona esté enferma se debe de sanar (Esto es una probabilidad, no es estático)
-        curar_enfermos();
+        if(contador%100 == 0){
+            // Dependiendo de la cantidad de días que una persona esté enferma se debe de sanar (Esto es una probabilidad, no es estático)
+            curar_enfermos();
+        }
 
         // Esta es la condición de parada
-        if(datos_progresivos_de_la_enfermedad.getDias() > configuracion_de_la_enfermedad.getDias_totales()*100) {
-            t.stop();
+        if(datos_progresivos_de_la_enfermedad.getDias() > configuracion_de_la_enfermedad.getDias_totales()) {
 
-            ImageThread imageThread = new ImageThread(listaGrafico, arreglo_de_los_agentes,configuracion_de_la_enfermedad, null);
-            imageThread.start();
+            t.stop();
+            Generador_latex gl = new Generador_latex();
+            try {
+                gl.generarLatex(arreglo_de_los_agentes.size(), configuracion_de_la_enfermedad.getDias_totales(), listaGrafico, agentes_viajeros);
+                System.exit(0);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
         }else{
             if(contador%100 == 0){
@@ -117,14 +125,17 @@ public class GuiMapMulti extends JPanel implements ActionListener {
                     LatexThread latexThread = new LatexThread(f,contador_imagenes);
                     latexThread.start();
                     contador_imagenes++;
-                    listaGrafico.add(datos_progresivos_de_la_enfermedad.getDias()/100);
+                    listaGrafico.add(datos_progresivos_de_la_enfermedad.getDias());
                     listaGrafico.add(datos_progresivos_de_la_enfermedad.getCantidad_de_enfermos().get(datos_progresivos_de_la_enfermedad.getCantidad_de_enfermos().size()-1));
                     // Se aumentan los dias cada vez que se recorre el timer
                     datos_progresivos_de_la_enfermedad.aumentar_dias_corriendo();
-                    // Esta función actualiza los datos del día; esto es necesario para poder actualizar la gráfica en tiempo real
-                    actualizar_datos_progresivos();
                 }catch(Exception e){
                 }
+            }
+            if(contador%25==0){
+
+                // Esta función actualiza los datos del día; esto es necesario para poder actualizar la gráfica en tiempo real
+                actualizar_datos_progresivos();
             }
         }
 
@@ -151,17 +162,11 @@ public class GuiMapMulti extends JPanel implements ActionListener {
                             arreglo_de_los_agentes.get(i).setTiempo_de_viaje(server.getTiempo_de_agente_en_la_computadora());
                             outStream.writeObject(arreglo_de_los_agentes.get(i));
                             arreglo_de_los_agentes.remove(i);
-                            System.out.println("---------------------------------------");
                             System.out.println("Enviando");
-                            System.out.println(arreglo_de_los_agentes.get(i).toString());
-                            System.out.println("---------------------------------------");
+                            agentes_viajeros.add(datos_progresivos_de_la_enfermedad.getDias());
 
                         }catch (Exception exception){
-                            System.out.println("---------------------------------------");
                             System.out.println("Error para enviar");
-                            System.out.println(exception);
-                            System.out.println(server.getLista_de_puertos().get(j));
-                            System.out.println("---------------------------------------");
                         }
                     }
                 }
@@ -178,15 +183,20 @@ public class GuiMapMulti extends JPanel implements ActionListener {
     }
 
     public void curar_enfermos(){
+
         for(int i = 0; i < arreglo_de_los_agentes.size();i++){
-            if(arreglo_de_los_agentes.get(i).getTiempo_enfermo() >= 180 && arreglo_de_los_agentes.get(i).getEstado().equals("e")){
+
+            double prob = Math.random()*100;
+
+            if(arreglo_de_los_agentes.get(i).getTiempo_enfermo() == configuracion_de_la_enfermedad.getDias_de_recuperacion() && arreglo_de_los_agentes.get(i).getEstado().equals("e")){
                 arreglo_de_los_agentes.get(i).setEstado("c");
                 arreglo_de_los_agentes.get(i).setTiempo_enfermo(0);
-            }else if(arreglo_de_los_agentes.get(i).getEstado().equals("e")){
+            }
+            else if(arreglo_de_los_agentes.get(i).getEstado().equals("e") && prob <= configuracion_de_la_enfermedad.getProbabilidad_muerte() && arreglo_de_los_agentes.get(i).getTiempo_enfermo() >= configuracion_de_la_enfermedad.getDias_de_muerte()){
+                arreglo_de_los_agentes.remove(i);
+            }
+            else{
                 arreglo_de_los_agentes.get(i).aumentar_dias_de_enfermos();
-                if(Math.random()*100 <= configuracion_de_la_enfermedad.getProbabilidad_muerte() && arreglo_de_los_agentes.get(i).getTiempo_enfermo()%10 == 0){
-                    arreglo_de_los_agentes.remove(i);
-                }
             }
         }
     }
