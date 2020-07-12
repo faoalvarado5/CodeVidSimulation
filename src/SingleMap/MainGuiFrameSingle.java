@@ -49,17 +49,6 @@ public class MainGuiFrameSingle {
         panel_completo.add(graficas);
         frame.add(panel_completo);
 
-        /**
-        mapas.addMouseListener(new MouseAdapter() {
-            public void mouseClicked(MouseEvent e) {
-                int x = e.getX();
-                int y = e.getY();
-                System.out.println("X: "+x+" \t Y: "+y);
-
-            }
-        });
-        */
-
         frame.setLocation( 200, 200 );
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.setVisible( true );

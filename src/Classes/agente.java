@@ -82,7 +82,7 @@ public class agente implements Serializable {
     }
 
     public void aumentar_dias_de_enfermos(){
-        this.tiempo_enfermo = tiempo_enfermo + 0.10;
+        this.tiempo_enfermo = tiempo_enfermo + 1;
     }
 
     public void invertir_posicion_x() { this.velocidad_x = -this.velocidad_x; }

@@ -2,6 +2,7 @@ package Classes.Threads;
 
 import Classes.Server;
 import Classes.agente;
+import Classes.mapa;
 
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -13,8 +14,9 @@ public class LogicaDeLaConexion extends Thread{
     ArrayList<agente> arreglo_de_los_agentes;
     Server server;
     int contador;
+    mapa configuracion_del_mapa;
 
-    public LogicaDeLaConexion(ArrayList<agente> arreglo_de_agentes, Server servidores, int contador){
+    public LogicaDeLaConexion(ArrayList<agente> arreglo_de_agentes, Server servidores, int contador, mapa configuracion_del_mapa){
         this.arreglo_de_los_agentes = arreglo_de_agentes;
         this.server = servidores;
         this.contador = contador;
@@ -30,6 +32,15 @@ public class LogicaDeLaConexion extends Thread{
                     Socket socket = server.getServerSocket().accept();
                     ObjectInputStream inStream = new ObjectInputStream(socket.getInputStream());
                     agente recvPacket = (agente) inStream.readObject();
+
+                    if(recvPacket.getPosicion_en_eje_x() >= configuracion_del_mapa.getLargo()){
+                        recvPacket.setPosicion_en_eje_x(configuracion_del_mapa.getLargo()-recvPacket.getVelocidad_maxima());
+                    }
+
+                    if(recvPacket.getPosicion_en_eje_y() >= configuracion_del_mapa.getAncho()){
+                        recvPacket.setPosicion_en_eje_y(configuracion_del_mapa.getAncho()-recvPacket.getVelocidad_maxima());
+                    }
+
                     arreglo_de_los_agentes.add(recvPacket);
                 }catch(Exception exception){
                     System.out.println("---------------------------------------");

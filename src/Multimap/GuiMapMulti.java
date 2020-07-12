@@ -52,7 +52,7 @@ public class GuiMapMulti extends JPanel implements ActionListener {
         t = new Timer(30, this);
         this.f = f;
         this.server = server;
-        logica = new LogicaDeLaConexion(arreglo_de_los_agentes,server,contador);
+        logica = new LogicaDeLaConexion(arreglo_de_los_agentes,server,contador, configuracion_del_mapa);
         logica.start();
     }
 
@@ -220,7 +220,8 @@ public class GuiMapMulti extends JPanel implements ActionListener {
                 arreglo_de_los_agentes.get(i).setTiempo_enfermo(0);
             }else if(arreglo_de_los_agentes.get(i).getEstado().equals("e")){
                 arreglo_de_los_agentes.get(i).aumentar_dias_de_enfermos();
-                if(Math.random()*100 <= configuracion_de_la_enfermedad.getProbabilidad_muerte() && arreglo_de_los_agentes.get(i).getTiempo_enfermo()%10 == 0){
+
+                if(Math.random()*100 <= configuracion_de_la_enfermedad.getProbabilidad_muerte() && arreglo_de_los_agentes.get(i).getTiempo_enfermo() >= configuracion_de_la_enfermedad.getDias_de_muerte()){
                     arreglo_de_los_agentes.remove(i);
                 }
             }
