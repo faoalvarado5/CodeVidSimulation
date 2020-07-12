@@ -29,7 +29,6 @@ public class LogicaDeLaConexion extends Thread{
 
         while (true) {
                 try {
-                    System.out.println("recibiendo...");
                     Socket socket = server.getServerSocket().accept();
                     ObjectInputStream inStream = new ObjectInputStream(socket.getInputStream());
                     agente recvPacket = (agente) inStream.readObject();
@@ -42,12 +41,12 @@ public class LogicaDeLaConexion extends Thread{
                         recvPacket.setPosicion_en_eje_y(configuracion_del_mapa.getAncho()-recvPacket.getVelocidad_maxima());
                     }
 
+
                     arreglo_de_los_agentes.add(recvPacket);
                 }catch(Exception exception){
                     System.out.println("---------------------------------------");
                     System.out.println(exception);
                     System.out.println("Error recibiendo agente");
-                    System.out.println(server.getServerSocket().toString());
                     System.out.println("---------------------------------------");
                 }
             }

@@ -153,22 +153,53 @@ public class GuiMapMulti extends JPanel implements ActionListener {
 
             for (int i = 0; i < arreglo_de_los_agentes.size(); i++) {
                 for(int j = 0; j<server.getProbabilidad_de_visita().size(); j++) {
-                    if (Math.random() <= server.getProbabilidad_de_visita().get(j) && arreglo_de_los_agentes.get(i).getTipo() != 4) {
+                    if (Math.random() <= server.getProbabilidad_de_visita().get(j) && arreglo_de_los_agentes.get(i).getTipo() != 4 && arreglo_de_los_agentes.get(i).getPasaporte()==null) {
 
                         try {
                             Socket socket = new Socket(server.getLista_de_ips().get(j),server.getLista_de_puertos().get(j));
 
                             ObjectOutputStream outStream = new ObjectOutputStream(socket.getOutputStream());
                             arreglo_de_los_agentes.get(i).setTiempo_de_viaje(server.getTiempo_de_agente_en_la_computadora());
+
+                            ArrayList<Object> tmp = null;
+                            tmp = new ArrayList<Object>();
+                            tmp.add(server.getLista_de_ips().get(j)); // IP
+                            tmp.add(server.getLista_de_puertos().get(j)); //Puerto
+                            tmp.add(true); // Esta viajando?
+                            arreglo_de_los_agentes.get(i).setPasaporte(tmp);
+
                             outStream.writeObject(arreglo_de_los_agentes.get(i));
                             arreglo_de_los_agentes.remove(i);
-                            System.out.println("Enviando");
                             agentes_viajeros.add(datos_progresivos_de_la_enfermedad.getDias());
 
                         }catch (Exception exception){
+                            System.out.println("---------------------------------------");
                             System.out.println("Error para enviar");
+                            System.out.println(exception);
+                            System.out.println("---------------------------------------");
                         }
                     }
+                }
+            }
+        }
+
+        for(int i = 0; i < arreglo_de_los_agentes.size();i++){
+            if(arreglo_de_los_agentes.get(i).getTiempo_de_viaje()!=0) arreglo_de_los_agentes.get(i).setTiempo_de_viaje(arreglo_de_los_agentes.get(i).getTiempo_de_viaje()-100);
+
+            if(arreglo_de_los_agentes.get(i).getTiempo_de_viaje() == 0 && arreglo_de_los_agentes.get(i).getPasaporte()!=null && (Boolean) arreglo_de_los_agentes.get(i).getPasaporte().get(2)){
+                //devuelvo el agente a su lugar de origen
+                try {
+                    Socket socket = new Socket((String)arreglo_de_los_agentes.get(i).getPasaporte().get(0), (Integer) arreglo_de_los_agentes.get(i).getPasaporte().get(1));
+
+                    ObjectOutputStream outStream = new ObjectOutputStream(socket.getOutputStream());
+                    outStream.writeObject(arreglo_de_los_agentes.get(i));
+                    arreglo_de_los_agentes.remove(i);
+
+                }catch (Exception exception){
+                    System.out.println("---------------------------------------");
+                    System.out.println("Error para devolver");
+                    System.out.println(exception);
+                    System.out.println("---------------------------------------");
                 }
             }
         }
