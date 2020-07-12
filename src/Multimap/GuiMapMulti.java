@@ -158,6 +158,12 @@ public class GuiMapMulti extends JPanel implements ActionListener {
 
                             ObjectOutputStream outStream = new ObjectOutputStream(socket.getOutputStream());
                             arreglo_de_los_agentes.get(i).setTiempo_de_viaje(server.getTiempo_de_agente_en_la_computadora());
+                            ArrayList<Object> tmp = null;
+                            tmp = new ArrayList<Object>();
+                            tmp.add(server.getLista_de_ips().get(j)); // IP
+                            tmp.add(server.getLista_de_puertos().get(j)); //Puerto
+                            tmp.add(true); // Esta viajando?
+                            arreglo_de_los_agentes.get(i).setPasaporte(tmp);
                             outStream.writeObject(arreglo_de_los_agentes.get(i));
                             arreglo_de_los_agentes.remove(i);
                             System.out.println("---------------------------------------");
@@ -183,6 +189,26 @@ public class GuiMapMulti extends JPanel implements ActionListener {
             LogicaDeLosAgentes logicaDeLosAgentes = new LogicaDeLosAgentes(configuracion_del_mapa, arreglo_de_los_agentes.get(i));
             logicaDeLosAgentes.start();
             arreglo_de_los_agentes.set(i,logicaDeLosAgentes.getAgentes());
+            if((arreglo_de_los_agentes.get(i).getTiempo_de_viaje() == 0) && (arreglo_de_los_agentes.get(i).getPasaporte()!=null) && (arreglo_de_los_agentes.get(i).getPasaporte().get(2)).equals(true)){
+                //devuelvo el agente a su lugar de origen
+                try {
+                    Socket socket = new Socket((String)arreglo_de_los_agentes.get(i).getPasaporte().get(0), (Integer) arreglo_de_los_agentes.get(i).getPasaporte().get(1));
+
+                    ObjectOutputStream outStream = new ObjectOutputStream(socket.getOutputStream());
+                    outStream.writeObject(arreglo_de_los_agentes.get(i));
+                    arreglo_de_los_agentes.remove(i);
+                    System.out.println("---------------------------------------");
+                    System.out.println("Devolviendo");
+                    System.out.println(arreglo_de_los_agentes.get(i).toString());
+                    System.out.println("---------------------------------------");
+
+                }catch (Exception exception){
+                    System.out.println("---------------------------------------");
+                    System.out.println("Error para enviar");
+                    System.out.println(exception);
+                    System.out.println("---------------------------------------");
+                }
+            }
         }
         repaint();
     }
@@ -242,6 +268,7 @@ public class GuiMapMulti extends JPanel implements ActionListener {
         int cantidad_de_sanos = 0;
 
         for(int i = 0; i < arreglo_de_los_agentes.size(); i++){
+            if(arreglo_de_los_agentes.get(i).getTiempo_de_viaje()!=0)arreglo_de_los_agentes.get(i).setTiempo_de_viaje(arreglo_de_los_agentes.get(i).getTiempo_de_viaje()-1);
             if(arreglo_de_los_agentes.get(i).getEstado().equals("e")) cantidad_de_enfermos++;
             else if(arreglo_de_los_agentes.get(i).getEstado().equals("c")) cantidad_de_curados++;
             else cantidad_de_sanos++;

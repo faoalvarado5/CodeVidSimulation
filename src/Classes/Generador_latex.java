@@ -86,7 +86,6 @@ public class Generador_latex {
 
         if(agentes_viajeros.size() >= 1) {
 
-            System.out.println("agenteeeees" + agentes_viajeros.size());
             documento += "\"" + "newpage" + "\n";
             documento += "\"" + "section{Viajes}" + "\n";
             int actual = agentes_viajeros.get(0);
