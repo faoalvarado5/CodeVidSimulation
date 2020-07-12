@@ -42,7 +42,6 @@ public class GuiMapMulti extends JPanel implements ActionListener {
     Server server;
     int contador_imagenes = 1;
     LogicaDeLaConexion logica;
-    ArrayList<Integer> agentes_viajeros = new ArrayList<Integer>();
 
     public GuiMapMulti(enfermedad configuracion_de_la_enfermedad, ArrayList<agente> arreglo_de_los_agentes, mapa configuracion_del_mapa, DatosActuales datos_progresivos_de_la_enfermedad, Frame f, Server server){
         this.configuracion_de_la_enfermedad = configuracion_de_la_enfermedad;
@@ -52,8 +51,9 @@ public class GuiMapMulti extends JPanel implements ActionListener {
         t = new Timer(30, this);
         this.f = f;
         this.server = server;
-        logica = new LogicaDeLaConexion(arreglo_de_los_agentes,server,contador, configuracion_del_mapa);
+        logica = new LogicaDeLaConexion(arreglo_de_los_agentes,server,contador,configuracion_del_mapa);
         logica.start();
+
     }
 
     // Esta función está incluída dentro de JComponent y es necesaria para mostrar gráficos en java
@@ -75,18 +75,18 @@ public class GuiMapMulti extends JPanel implements ActionListener {
 
         for(int i = 0; i < arreglo_de_los_agentes.size(); i++){
             // Por cada personas que exista se van a crear los círculos que se pondrán en el mapa
-            persona[i] = new Ellipse2D.Double(arreglo_de_los_agentes.get(i).getPosicion_en_eje_x(),arreglo_de_los_agentes.get(i).getPosicion_en_eje_y(),10,10);
+             persona[i] = new Ellipse2D.Double(arreglo_de_los_agentes.get(i).getPosicion_en_eje_x(),arreglo_de_los_agentes.get(i).getPosicion_en_eje_y(),10,10);
 
-            // Debemos poner el color correspondiente de las personas según su estado
-            if(arreglo_de_los_agentes.get(i).getEstado().equals("e")){
-                mapa.setPaint(Color.RED);
-            }else if(arreglo_de_los_agentes.get(i).getEstado().equals("c")){
-                mapa.setPaint(Color.BLUE);
-            }else{
-                mapa.setPaint(Color.GREEN);
-            }
-            // Finalmente lo metemos en el mapa
-            mapa.fill(persona[i]);
+             // Debemos poner el color correspondiente de las personas según su estado
+             if(arreglo_de_los_agentes.get(i).getEstado().equals("e")){
+                 mapa.setPaint(Color.RED);
+             }else if(arreglo_de_los_agentes.get(i).getEstado().equals("c")){
+                 mapa.setPaint(Color.BLUE);
+             }else{
+                 mapa.setPaint(Color.GREEN);
+             }
+             // Finalmente lo metemos en el mapa
+             mapa.fill(persona[i]);
         }
 
         for(int i = 0; i < configuracion_del_mapa.getParedes().size(); i++){
@@ -104,17 +104,13 @@ public class GuiMapMulti extends JPanel implements ActionListener {
         // Dependiendo de la cantidad de días que una persona esté enferma se debe de sanar (Esto es una probabilidad, no es estático)
         curar_enfermos();
 
-        // Esta es la condición de parada
-        if(datos_progresivos_de_la_enfermedad.getDias() == configuracion_de_la_enfermedad.getDias_totales()) {
 
+        // Esta es la condición de parada
+        if(datos_progresivos_de_la_enfermedad.getDias() > configuracion_de_la_enfermedad.getDias_totales()*100) {
             t.stop();
-            Generador_latex gl = new Generador_latex();
-            try {
-                gl.generarLatex(arreglo_de_los_agentes.size(), configuracion_de_la_enfermedad.getDias_totales(), listaGrafico, agentes_viajeros);
-                System.exit(0);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+
+            ImageThread imageThread = new ImageThread(listaGrafico, arreglo_de_los_agentes,configuracion_de_la_enfermedad, null);
+            imageThread.start();
 
         }else{
             if(contador%100 == 0){
@@ -122,19 +118,15 @@ public class GuiMapMulti extends JPanel implements ActionListener {
                     LatexThread latexThread = new LatexThread(f,contador_imagenes);
                     latexThread.start();
                     contador_imagenes++;
-                    listaGrafico.add(datos_progresivos_de_la_enfermedad.getDias());
+                    listaGrafico.add(datos_progresivos_de_la_enfermedad.getDias()/100);
                     listaGrafico.add(datos_progresivos_de_la_enfermedad.getCantidad_de_enfermos().get(datos_progresivos_de_la_enfermedad.getCantidad_de_enfermos().size()-1));
                     // Se aumentan los dias cada vez que se recorre el timer
                     datos_progresivos_de_la_enfermedad.aumentar_dias_corriendo();
-
+                    // Esta función actualiza los datos del día; esto es necesario para poder actualizar la gráfica en tiempo real
+                    actualizar_datos_progresivos();
                 }catch(Exception e){
                 }
             }
-        }
-        if(contador%25==0){
-
-            // Esta función actualiza los datos del día; esto es necesario para poder actualizar la gráfica en tiempo real
-            actualizar_datos_progresivos();
         }
 
         // Se actualiza el frame cada vez que una persona se mueve y los datos de las gráficas cambian
@@ -158,19 +150,12 @@ public class GuiMapMulti extends JPanel implements ActionListener {
 
                             ObjectOutputStream outStream = new ObjectOutputStream(socket.getOutputStream());
                             arreglo_de_los_agentes.get(i).setTiempo_de_viaje(server.getTiempo_de_agente_en_la_computadora());
-                            ArrayList<Object> tmp = null;
-                            tmp = new ArrayList<Object>();
-                            tmp.add(server.getLista_de_ips().get(j)); // IP
-                            tmp.add(server.getLista_de_puertos().get(j)); //Puerto
-                            tmp.add(true); // Esta viajando?
-                            arreglo_de_los_agentes.get(i).setPasaporte(tmp);
                             outStream.writeObject(arreglo_de_los_agentes.get(i));
                             arreglo_de_los_agentes.remove(i);
                             System.out.println("---------------------------------------");
                             System.out.println("Enviando");
                             System.out.println(arreglo_de_los_agentes.get(i).toString());
                             System.out.println("---------------------------------------");
-                            agentes_viajeros.add(datos_progresivos_de_la_enfermedad.getDias());
 
                         }catch (Exception exception){
                             System.out.println("---------------------------------------");
@@ -189,27 +174,7 @@ public class GuiMapMulti extends JPanel implements ActionListener {
             LogicaDeLosAgentes logicaDeLosAgentes = new LogicaDeLosAgentes(configuracion_del_mapa, arreglo_de_los_agentes.get(i));
             logicaDeLosAgentes.start();
             arreglo_de_los_agentes.set(i,logicaDeLosAgentes.getAgentes());
-            if((arreglo_de_los_agentes.get(i).getTiempo_de_viaje() == 0) && (arreglo_de_los_agentes.get(i).getPasaporte()!=null) && (arreglo_de_los_agentes.get(i).getPasaporte().get(2)).equals(true)){
-                //devuelvo el agente a su lugar de origen
-                try {
-                    Socket socket = new Socket((String)arreglo_de_los_agentes.get(i).getPasaporte().get(0), (Integer) arreglo_de_los_agentes.get(i).getPasaporte().get(1));
-
-                    ObjectOutputStream outStream = new ObjectOutputStream(socket.getOutputStream());
-                    outStream.writeObject(arreglo_de_los_agentes.get(i));
-                    arreglo_de_los_agentes.remove(i);
-                    System.out.println("---------------------------------------");
-                    System.out.println("Devolviendo");
-                    System.out.println(arreglo_de_los_agentes.get(i).toString());
-                    System.out.println("---------------------------------------");
-
-                }catch (Exception exception){
-                    System.out.println("---------------------------------------");
-                    System.out.println("Error para enviar");
-                    System.out.println(exception);
-                    System.out.println("---------------------------------------");
-                }
-            }
-        }
+         }
         repaint();
     }
 
@@ -220,8 +185,7 @@ public class GuiMapMulti extends JPanel implements ActionListener {
                 arreglo_de_los_agentes.get(i).setTiempo_enfermo(0);
             }else if(arreglo_de_los_agentes.get(i).getEstado().equals("e")){
                 arreglo_de_los_agentes.get(i).aumentar_dias_de_enfermos();
-
-                if(Math.random()*100 <= configuracion_de_la_enfermedad.getProbabilidad_muerte() && arreglo_de_los_agentes.get(i).getTiempo_enfermo() >= configuracion_de_la_enfermedad.getDias_de_muerte()){
+                if(Math.random()*100 <= configuracion_de_la_enfermedad.getProbabilidad_muerte() && arreglo_de_los_agentes.get(i).getTiempo_enfermo()%10 == 0){
                     arreglo_de_los_agentes.remove(i);
                 }
             }
@@ -269,7 +233,6 @@ public class GuiMapMulti extends JPanel implements ActionListener {
         int cantidad_de_sanos = 0;
 
         for(int i = 0; i < arreglo_de_los_agentes.size(); i++){
-            if(arreglo_de_los_agentes.get(i).getTiempo_de_viaje()!=0)arreglo_de_los_agentes.get(i).setTiempo_de_viaje(arreglo_de_los_agentes.get(i).getTiempo_de_viaje()-1);
             if(arreglo_de_los_agentes.get(i).getEstado().equals("e")) cantidad_de_enfermos++;
             else if(arreglo_de_los_agentes.get(i).getEstado().equals("c")) cantidad_de_curados++;
             else cantidad_de_sanos++;

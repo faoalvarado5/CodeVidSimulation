@@ -20,6 +20,7 @@ public class LogicaDeLaConexion extends Thread{
         this.arreglo_de_los_agentes = arreglo_de_agentes;
         this.server = servidores;
         this.contador = contador;
+        this.configuracion_del_mapa = configuracion_del_mapa;
     }
 
     public void listeningConnections(){
